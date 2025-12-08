@@ -41,7 +41,7 @@ label {
     position: relative;
 }
 
-.login-container {
+.login-container, .register-form {
     margin: 0;
     padding: 0;
     font-optical-sizing: auto;
@@ -52,4 +52,15 @@ label {
     align-items: center;
     flex-direction: column;
     position: relative;
+}
+
+button {
+    color: white;
+    font-weight: 500;
+    background-color:#A4BF69;
+    border: 2px #A4BF69;
+    border-radius: 5px;
+    margin: 5;
+    padding: 5px;
+    width: 150;
 }
