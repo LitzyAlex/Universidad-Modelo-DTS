@@ -1,0 +1,160 @@
+body 
+{
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat", sans-serif;
+    background-color: #f7f7f7;
+}
+.top-bar
+{
+    background-color: #ffffff;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 12px 20px;
+    border-bottom: 1px solid #ddd;
+}
+.top-bar .right-icons span
+{
+    font-size: 22px;
+    margin-left: 15px;
+    cursor: pointer;
+}
+.catalog-screen
+{
+    width: 90%;
+    max-width: 1100px;
+    margin: 20px auto;
+}
+.catalog-screen h2
+{
+    font-size: 28px;
+    font-weight: 600;
+    color: #3a4a2e;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.search-bar
+{
+    position: relative;
+    width: 280px;
+    margin: 0 auto 30px auto;
+}
+.search-bar input
+{
+    width: 100%;
+    padding: 10px 35px;
+    border: 1px solid #c3c3c3;
+    border-radius: 25px;
+    font-size: 14px;
+    outline: none;
+}
+.search-bar .search-icon
+{
+    top: 50%;
+    padding-left: 40px;
+    transform: translateY(-50%);
+    font-size: 16px;
+}
+.contenedor-productos 
+{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;  
+    gap: 20px;
+    justify-items: center;
+    padding-bottom: 20px;
+}
+.product
+{
+    background-color: #ffffff;
+    width: 260px;           /* ancho fijo razonable */
+    padding: 15px;
+    border: 1px solid #e2e2e2;
+    border-radius: 8px;
+    /* eliminar margin:auto que rompía la grilla */
+    margin: 0;
+    text-align: center;
+    box-shadow: 0px 3px 6px rgba(0,0,0,0.06);
+    transition: transform 0.2s;
+}
+.product:hover
+{
+    transform: translateY(-4px);
+}
+.product img
+{
+    width: 180px;
+    height: auto;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.product h3
+{
+    font-size: 16px;
+    font-weight: 600;
+    margin: 8px 0 5px 0;
+}
+.product .brand
+{
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+.product .price
+{
+    font-size: 16px;
+    color: #3a4a2e;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+.btn-add
+{
+    background-color: #8dab64;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+.btn-add:hover
+{
+    background-color: #7c9a57;
+}
+.btn-disabled
+{
+    background-color: #b0b0b0;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: not-allowed;
+}
+.catalog-screen
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.catalog-screen .product
+{
+    display: inline-block;
+}
+
+@media (min-width: 700px)
+{
+    .contenedor-productos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1000px) 
+{
+    .contenedor-productos {
+        grid-template-columns: repeat(3, minmax(260px, 1fr));
+    }
+}
