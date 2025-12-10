@@ -21,6 +21,23 @@ body
     margin-left: 15px;
     cursor: pointer;
 }
+
+.top-bar .right-icons a.cart-icon
+{
+    font-size: 22px;
+    margin-left: 15px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.top-bar .right-icons a.cart-icon:hover
+{
+    transform: scale(1.2);
+}
 .catalog-screen
 {
     width: 90%;
@@ -44,18 +61,22 @@ body
 .search-bar input
 {
     width: 100%;
-    padding: 10px 35px;
+    padding: 10px 35px 10px 15px;
     border: 1px solid #c3c3c3;
     border-radius: 25px;
     font-size: 14px;
     outline: none;
+    box-sizing: border-box;
 }
 .search-bar .search-icon
 {
+    position: absolute;
+    right: 12px;
     top: 50%;
-    padding-left: 40px;
     transform: translateY(-50%);
     font-size: 16px;
+    cursor: pointer;
+    pointer-events: none;
 }
 .contenedor-productos 
 {
