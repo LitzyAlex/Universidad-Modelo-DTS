@@ -5,30 +5,98 @@
     <title>Configuración</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/configuracion.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <header>
+        <nav class="navbar">
+            <ul class="nav-links">
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="catalogo.html">Catálogo</a></li>
+                <li><a href="carrito.html">Carrito</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
 
+    <section class="settings-screen">
+        <div class="settings-container">
+            <div class="settings-header">
+                <h1>Configuración de Cuenta</h1>
+                <p class="subtitle">Administra tu perfil y preferencias</p>
+            </div>
 
-<section class="settings-screen">
+            <div class="settings-content">
+                <div class="settings-section">
+                    <h2 class="section-title">Perfil</h2>
+                    <ul class="settings-list">
+                        <li class="settings-item">
+                            <span class="item-text">Cambiar nombre de usuario</span>
+                            <a href="#" class="settings-link">→</a>
+                        </li>
+                        <li class="settings-item">
+                            <span class="item-text">Cambiar mail</span>
+                            <a href="#" class="settings-link">→</a>
+                        </li>
+                        <li class="settings-item">
+                            <span class="item-text">Cambiar contraseña</span>
+                            <a href="#" class="settings-link">→</a>
+                        </li>
+                    </ul>
+                </div>
 
-    <h2>CONFIGURACIÓN</h2>
+                <div class="settings-section">
+                    <h2 class="section-title">Mis Compras</h2>
+                    <ul class="settings-list">
+                        <li class="settings-item">
+                            <span class="item-text">Compras</span>
+                            <a href="#" class="settings-link">→</a>
+                        </li>
+                        <li class="settings-item">
+                            <span class="item-text">Comprar otra vez</span>
+                            <a href="#" class="settings-link">→</a>
+                        </li>
+                        <li class="settings-item">
+                            <span class="item-text">Historial</span>
+                            <a href="#" class="settings-link">→</a>
+                        </li>
+                    </ul>
+                </div>
 
-    <ul class="settings-list">
-        <li>Cambiar nombre de usuario</li>
-        <li>Cambiar mail</li>
-        <li>Compras</li>
-        <li>Favoritos</li>
-        <li>Comprar otra vez</li>
-        <li>Historial</li>
-        <li>Cuenta</li>
-        <li>Notificaciones</li>
-        <li>Cerrar sesión</li>
-    </ul>
+                <div class="settings-section">
+                    <h2 class="section-title">Preferencias</h2>
+                    <ul class="settings-list">
+                        <li class="settings-item">
+                            <span class="item-text">Favoritos</span>
+                            <a href="#" class="settings-link">→</a>
+                        </li>
+                        <li class="settings-item">
+                            <span class="item-text">Notificaciones</span>
+                            <a href="#" class="settings-link">→</a>
+                        </li>
+                        <li class="settings-item">
+                            <span class="item-text">Cuenta</span>
+                            <a href="#" class="settings-link">→</a>
+                        </li>
+                    </ul>
+                </div>
 
-</section>
+                <div class="settings-section danger-zone">
+                    <h2 class="section-title">Sesión</h2>
+                    <ul class="settings-list">
+                        <li class="settings-item">
+                            <span class="item-text">Cerrar sesión</span>
+                            <button class="btn-logout" onclick="cerrarSesion()">Salir</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <script src="../JS/configuracion.js"></script>
 </body>
 </html>
