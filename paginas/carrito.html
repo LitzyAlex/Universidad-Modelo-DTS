@@ -2,43 +2,83 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Carrito</title>
+    <title>Carrito de Compras</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/carrito.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <header>
+        <nav class="navbar">
+            <ul class="nav-links">
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="catalogo.html">Catálogo</a></li>
+                <li><a href="carrito.html">Carrito</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
 
+    <section class="cart-screen">
+        <div class="cart-container">
+            <div class="cart-header">
+                <h1>Carrito de Compras</h1>
+                <p class="cart-subtitle">Revisa y actualiza tus productos</p>
+            </div>
 
+            <div class="cart-content">
+                <div class="cart-items-section">
+                    <div id="cartItemsContainer" class="cart-items">
+                    </div>
+                    
+                    <div id="emptyCart" class="empty-cart" style="display: none;">
+                        <p>Tu carrito está vacío</p>
+                        <a href="catalogo.html" class="btn-secondary">Continuar Comprando</a>
+                    </div>
+                </div>
 
-<section class="cart-screen">
+                <div class="cart-summary">
+                    <h2>Resumen de Compra</h2>
+                    
+                    <div class="summary-item">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">$0.00</span>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span>Envío:</span>
+                        <span id="shipping">$0.00</span>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span>Impuestos:</span>
+                        <span id="taxes">$0.00</span>
+                    </div>
+                    
+                    <div class="summary-divider"></div>
+                    
+                    <div class="summary-total">
+                        <span>Total:</span>
+                        <span id="total">$0.00</span>
+                    </div>
 
-    <h2>Carrito</h2>
+                    <div class="summary-info">
+                        <p id="itemCount">0 artículos en el carrito</p>
+                    </div>
 
-    <div class="cart-item">
-        <div class="info">
-            <h3>Lip Divine Liquid Lipstick</h3>
-            <p>Moira</p>
-            <p>$80</p>
+                    <a href="entrega.html">
+                        <button class="btn-ready" id="checkoutBtn">Proceder al Pago</button>
+                    </a>
+                    
+                    <a href="catalogo.html" class="btn-secondary">Continuar Comprando</a>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <label>Cantidad</label>
-        <input type="number" value="1">
-    </div>
-
-    <div class="totals">
-        <p>Artículo: (1)</p>
-        <p>Envío: $0</p>
-        <p>Total: $180.00</p>
-    </div>
-
-    <a>
-    <a href="entrega.html">
-    <button class="btn-ready">¡Estoy lista!</button>
-    </a>
-</section>
-
+    <script src="../JS/carrito.js"></script>
 </body>
 </html>
