@@ -4,35 +4,81 @@
     <meta charset="UTF-8">
     <title>Pago</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/pago.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="container">
+        <form action="">
+            <div class="row">
+                <div class="column">
+                    <h3 class="title">Dirección de envio</h3>
+                    <div class="input-box">
+                        <span>Nombre completo</span>
+                        <input type="text" placeholder="Carlo Herrera">
+                    </div>
+                    <div class="input-box">
+                        <span>Email</span>
+                        <input type="email" placeholder="example@email.com">
+                    </div>
+                    <div class="input-box">
+                        <span>Dirección</span>
+                        <input type="text" placeholder="Calle - Localidad">
+                    </div>
+                    <div class="input-box">
+                        <span>Ciudad</span>
+                        <input type="text" placeholder="Mérida">
+                    </div>
 
-<section class="payment-screen">
+                    <div class="flex">
+                        <div class="input-box">
+                            <span>Estado</span>
+                            <input type="text" placeholder="Yucatan">
+                        </div>
+                        <div class="input-box">
+                            <span>Codigo postal</span>
+                        <input type="number" placeholder="123 456">
+                    </div>
+                    </div>
+                </div>
 
-    <h2>DATOS DE PAGO</h2>
+                <div class="column">
+                    <h3 class="title">Pago</h3>
+                    <div class="input-box">
+                        <span>Tarjetas que se aceptan</span>
+                        <img src="/img/Tarjetas.png" alt="">
+                    </div>
+                    <div class="input-box">
+                        <span>Nombre</span>
+                        <input type="text" placeholder="Mr. Carlos Herrera">
+                    </div>
+                    <div class="input-box">
+                        <span>Número de tarjeta</span>
+                        <input type="number" placeholder="1111 2222 3333 4444">
+                    </div>
+                    <div class="input-box">
+                        <span>Exp. Mes</span>
+                        <input type="text" placeholder="Agosto">
+                    </div>
 
-    <h3><label><input type="radio" name="metodo"> Efectivo:</label></h3>
+                    <div class="flex">
+                        <div class="input-box">
+                            <span>Exp. Año</span>
+                            <input type="number" placeholder="2000">
+                        </div>
+                        <div class="input-box">
+                            <span>CVV</span>
+                            <input type="number" placeholder="123">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    <label><input type="radio" name="efectivo"> Exacto</label>
-    <label><input type="radio" name="efectivo"> Necesito cambio</label>
-
-    <h3><label><input type="radio" name="metodo"> Pago en línea</label></h3>
-
-    <input type="text" placeholder="Número de tarjeta">
-    <input type="text" placeholder="Fecha de expiración (dd/mm/a)">
-    <input type="text" placeholder="Nombre">
-    <input type="text" placeholder="CVV">
-
-    <a>
-    <a href="gracias.html">
-    <button class="btn-pay">Confirmar</button>
-    </a>
-    
-</section>
+            <button type="button" class="btn" onclick="location.href='gracias.html'">Comprar</button>
+        </form>
+    </div>
 
 </body>
 </html>
