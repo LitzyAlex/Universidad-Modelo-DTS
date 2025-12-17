@@ -12,23 +12,9 @@ body {
     background-color: #f4f7ec;
     color: #333;
 }
-
-/* ----- TOP BAR ----- */
-.top-bar {
-    background-color: #f4f7ec;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    border-bottom: 1px solid #c5d6b4;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    width: 100%;
-}
-
-/* Logo centrado */
-.logo {
+.top-bar
+{
+    background-color: #ffffff;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -73,15 +59,9 @@ body {
 .menu-icon {
     font-size: 28px;
     cursor: pointer;
-    color: #4a5939;
-    user-select: none;
 }
-
-/* ----- BOTÓN FILTRO ----- */
-.filter-toggle-container {
-    display: flex;
-    justify-content: center;
-    margin: 15px auto 25px;
+.catalog-screen
+{
     width: 90%;
     max-width: 1100px;
 }
@@ -138,33 +118,21 @@ body {
 
 .search-bar input {
     width: 100%;
-    padding: 14px 20px 14px 50px;
-    border: 1px solid #b8c9a3;
-    border-radius: 30px;
-    font-size: 16px;
-    background-color: white;
-    color: #333;
+    padding: 10px 35px;
+    border: 1px solid #c3c3c3;
+    border-radius: 25px;
+    font-size: 14px;
     outline: none;
-    transition: border-color 0.3s;
-    font-family: 'Montserrat', sans-serif;
 }
-
-.search-bar input:focus {
-    border-color: #8dab64;
-    box-shadow: 0 0 0 2px rgba(141, 171, 100, 0.2);
-}
-
-.search-bar .search-icon {
-    position: absolute;
-    left: 18px;
+.search-bar .search-icon
+{
     top: 50%;
     transform: translateY(-50%);
-    font-size: 18px;
-    color: #7c9a57;
+    font-size: 16px;
 }
-
-/* Grid de productos */
-.contenedor-productos {
+.contenedor-productos 
+{
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr;
     gap: 25px;
