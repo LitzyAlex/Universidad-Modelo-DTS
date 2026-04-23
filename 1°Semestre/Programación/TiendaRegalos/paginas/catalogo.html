@@ -1,31 +1,183 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Catálogo</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/catalogo.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aokami - Catálogo</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/catalogo.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Botón hamburguesa -->
+    <div id="hamburger" class="hamburger">☰</div>
+
+    <!-- Overlay para cerrar menús -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- Menú lateral (Usuario) -->
+    <aside id="drawer" class="drawer">
+        <div class="drawer-header">
+            <div class="user-info">
+                <div class="user-avatar">U</div>
+                <div class="user-details">
+                    <h4>Usuario</h4>
+                    <p>ejemplo@gmail.com</p>
+                </div>
+            </div>
+            <button class="close-btn" id="closeDrawer">✕</button>
+        </div>
+        
+        <nav class="drawer-menu">
+            <a href="#" class="active">Inicio</a>
+            <a href="#">Catálogo</a>
+            <a href="#">Contacto</a>
+            <a href="#">Mis pedidos</a>
+            <a href="#">Favoritos</a>
+            <a href="#">Configuración</a>
+            <a href="#">Ayuda</a>
+            <a href="#">Cerrar sesión</a>
+        </nav>
+        
+        <div class="drawer-footer">
+            <p>Aokami © 2024</p>
+        </div>
+    </aside>
+
+    <!-- Panel de filtros -->
+    <aside id="filtersPanel" class="filters-panel">
+        <div class="filters-header">
+            <h3>Filtros</h3>
+            <button class="close-filters-btn" id="closeFilters">✕</button>
+        </div>
+        
+        <div class="filter-section">
+            <h4>Busca tu producto</h4>
+            <input type="text" placeholder="Buscar..." class="filter-search">
+        </div>
+        
+        <div class="filter-section">
+            <h4>Categorías</h4>
+            <div class="filter-options">
+                <div class="filter-option">
+                    <input type="checkbox" id="category1">
+                    <label for="category1">Rímel</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="category2">
+                    <label for="category2">Base</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="category3">
+                    <label for="category3">Sombras</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="category4">
+                    <label for="category4">Labiales</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="category5">
+                    <label for="category5">Corrector</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="category6">
+                    <label for="category6">Aretes</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="category7">
+                    <label for="category7">Collares</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="category8">
+                    <label for="category8">Brazaletes</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="filter-section">
+            <h4>Descuentos</h4>
+            <div class="filter-options">
+                <div class="filter-option">
+                    <input type="checkbox" id="discount1">
+                    <label for="discount1">10% o más</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="discount2">
+                    <label for="discount2">20% o más</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="discount3">
+                    <label for="discount3">30% o más</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="filter-section">
+            <h4>Precio</h4>
+            <input type="range" min="0" max="500" value="250" class="price-range" id="priceRange">
+            <div class="price-inputs">
+                <input type="number" id="minPrice" placeholder="Mín" value="0">
+                <input type="number" id="maxPrice" placeholder="Máx" value="500">
+            </div>
+        </div>
+        
+        <div class="filter-section">
+            <h4>Marca</h4>
+            <div class="filter-options">
+                <div class="filter-option">
+                    <input type="checkbox" id="brand1">
+                    <label for="brand1">Moira</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="brand2">
+                    <label for="brand2">e.l.f</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="brand3">
+                    <label for="brand3">Maybelline</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="brand4">
+                    <label for="brand4">L'Oréal</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="filter-section">
+            <h4>Color</h4>
+            <div class="color-options">
+                <div class="color-option" style="background-color: #ff6b6b;" title="Rojo"></div>
+                <div class="color-option" style="background-color: #4ecdc4;" title="Turquesa"></div>
+                <div class="color-option" style="background-color: #45b7d1;" title="Azul"></div>
+                <div class="color-option" style="background-color: #96ceb4;" title="Verde"></div>
+                <div class="color-option" style="background-color: #feca57;" title="Amarillo"></div>
+                <div class="color-option" style="background-color: #ff9ff3;" title="Rosa"></div>
+                <div class="color-option" style="background-color: #54a0ff;" title="Azul claro"></div>
+                <div class="color-option" style="background-color: #5f27cd;" title="Morado"></div>
+            </div>
+        </div>
+        
+        <div class="filter-actions">
+            <button class="btn-reset" id="resetFilters">Limpiar filtros</button>
+            <button class="btn-apply" id="applyFilters">Aplicar filtros</button>
+        </div>
+    </aside>
+
+    <!-- Barra superior -->
     <header class="top-bar">
       <div class="right-icons">
         <span class="menu-icon">☰</span>
-        <a href="carrito.html" class="cart-icon">🛒</a>
+        <span class="cart-icon">🛒</span>
       </div>
     </header>
 
     <section class="catalog-screen">
       <h2>Catálogo</h2>
       <div class="search-bar">
-        <input type="text" placeholder="Buscar..." />
         <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Buscar..." />
       </div>
 
       <div class = "contenedor-productos">
@@ -77,14 +229,16 @@
           <button class="btn-disabled">Agotado</button>
         </div>
 
-        <div class="product">
-          <img src="../img/7.jpg" alt="" width="200px" />
-          <h3>Baby Lips</h3>
-          <p class="brand">Maybelline New York</p>
-          <p class="price">$100</p>
-          <button class="btn-disabled">Agotado</button>
+            <div class="product" data-category="sombras" data-brand="elf" data-price="75">
+                <img src="../img/7.jpg" alt="Paleta de Sombras">
+                <h3>Paleta Earth & Ocean</h3>
+                <p class="brand">e.l.f</p>
+                <p class="price">$75</p>
+                <button class="btn-add">Agregar al carrito</button>
+            </div>
         </div>
-      </div>
-    </section>
-  </body>
+    </main>
+
+    <script src="../js/scripts.js"></script>
+</body>
 </html>
