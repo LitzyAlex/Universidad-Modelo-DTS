@@ -8,13 +8,16 @@ LIFE_CELL_HEAL  = 2      # vida que recupera una celda 'L'
 DAMAGE_CELLS    = {'P', 'M'}   # celdas que quitan vida al entrar
 LIFE_CELLS      = {'L'}        # celdas que dan vida
  
- 
+
+ #------------------------------------------------------------------------------------
+ # Esta funcion enuentra y se asegura de que haya solo 1 start y solo 1 exit.
 def find_start(maze):
     #Valida el inicio y final
     rows, cols = maze.shape
     start_pos  = None
     start_count = end_count = 0
- 
+
+    # No hay mucho pierde, recorre todo el arrelgo en busca del start (S) y del exit (E)
     for i in range(rows):
         for j in range(cols):
             cell = maze[i, j]
@@ -38,78 +41,104 @@ def find_start(maze):
         return -1, -1
  
     return start_pos
- 
+#-------------------------------------------------------------------------------------- 
  
 
-def maze_solver_impl(maze, original, row, col, lives, poisoned, poison_steps, steps, visited, solutions, last_row=-1, last_col=-1):
-    #El backtracking
+#--------------------------------------------------------------------------------------
+# Esta funcion es la encargada de resolver el maze
+# Ya explique lo que recibe mas abajo, solo que de principio usamos last_row y last_col =- 1. 
+def maze_solver_impl(maze, original, row, col, lives, poisoned, poison_steps, steps, visited, solutions, best_so_far, last_row =- 1, last_col =-1 ):
+    # El backtracking
  
-    #Primero comprobar si viene envenenado
+    # Primero comprobar si viene envenenado
     if poisoned:
         poison_steps += 1
         if poison_steps % POISON_INTERVAL == 0:
             lives -= 1
  
-    #Si ya no tiene vida la ruta no sirve
+    # Si ya no tiene vida la ruta no sirve
     if lives <= 0:
         return
  
-    steps += 1  #Avanzar si tiene vida aun
+    steps += 1  # Avanzar si tiene vida aun
+
+    # Si ya tenemos una solución perfecta y esta ruta ya es más larga, fuera.
+    if steps >= best_so_far['steps'] and lives <= best_so_far['lives']:
+        return
  
-    #Encontamos la meta
+    # Encontramos la meta
+    # Si en el maze[row del start, col del start] es == exit, agregamos a la lista de soluciones
     if original[row, col] == 'E':
         print(f"Solucion encontrada: pasos={steps}, vidas={lives}")
         solutions.append({'steps': steps, 'lives': lives})
+        
+        # Actualizar la mejor solución global para podar otras ramas
+        if lives > best_so_far['lives'] or (lives == best_so_far['lives'] and steps < best_so_far['steps']):
+            best_so_far['lives'] = lives
+            best_so_far['steps'] = steps
+        
+        if last_row != -1 and original[last_row, last_col] not in ('S', 'E'):
+            maze[last_row, last_col] = 'A'
+        yield maze
         return
  
-    #Aqui es para saber en que celda se encuentra y que hacer
-    original_cell = original[row, col]
+
+    # Aqui es para saber en que celda se encuentra y que hacer
+    actual_cell = original[row, col]
  
-    if original_cell == 'P':          #Los pinchos por eso P
+    if actual_cell == 'P':          # Los pinchos por eso P
         lives -= 1
-    elif original_cell == 'M':        #Veneno es M
+    elif actual_cell == 'M':        # Veneno es M (que toc XDXDXD)
         lives -= 1
         poisoned = True
         poison_steps = 0
-    elif original_cell == 'L':        #Vida es lives
+    elif actual_cell == 'L':        # Vida es lives
         lives = min(lives + LIFE_CELL_HEAL, INITIAL_LIVES)
-        poisoned = False          # la vida cura el veneno
+        poisoned = False            # la vida cura el veneno
         poison_steps = 0
  
-    if lives <= 0:    #Igual si en este momento donde esta se queda sin vida para que no siga
+    if lives <= 0:    # Igual si en este momento donde esta se queda sin vida para que no siga
         return
- 
-    # Solo seguir si tenemos mas vidas que antes en esa celda, igual depende de cuantos pasos y vidas tengamos en ese momento
-    prev = visited.get((row, col))
+    
+    # Solo seguir si la situación actual es mejor que la mejor vez que pasamos por aquí.
+    state_key = (row, col, poisoned)
+    prev = visited.get(state_key)
     if prev is not None:
-        prev_lives, prev_steps = prev
-        if prev_lives >= lives and prev_steps <= steps:
+        v_ant, p_ant = prev
+        if v_ant >= lives and p_ant <= steps:
             return
-    visited[(row, col)] = (lives, steps)
- 
-    #Sirve, no le muevan
+
+    visited[state_key] = (lives, steps)
+
     if last_row != -1 and original[last_row, last_col] not in ('S', 'E'):
         maze[last_row, last_col] = 'V'
-    if original_cell not in ('S', 'E'):
+    
+    if actual_cell not in ('S', 'E'):
         maze[row, col] = 'A'
+
     yield maze
  
-    #Tener las celdas vecinas guardadas
+    # Tener las celdas vecinas guardadas
     neighbors = [
         (row, col- 1),   # izquierda
-        (row,  col+ 1),   # derecha
+        (row,  col+ 1),  # derecha
         (row+ 1, col),   # abajo
         (row- 1, col),   # arriba
     ]
  
     life_moves   = []   # prioridad máxima
     safe_moves   = []
-    danger_moves = []   #tratar de no pasar aca
- 
+    danger_moves = []   # tratar de no pasar aca
+
+    # Aqui vamos a revisar a los vecinos para decidir a donde ir. 
     for r, c in neighbors:
+        # Que
         if not (0 <= r < maze.shape[0] and 0 <= c < maze.shape[1]):
             continue
-        orig = original[r, c]
+
+        # Excelente asignacion en el nombre de las vairables litzy, completamente comprensible. 
+        orig = original[r, c] # Son las coordenadas de los vecinos actuales
+
         if orig == 'W':
             continue
         if orig in LIFE_CELLS:
@@ -119,40 +148,60 @@ def maze_solver_impl(maze, original, row, col, lives, poisoned, poison_steps, st
         else:
             safe_moves.append((r, c))
  
-    #Aqui se suman para que se junten en uno mismo y ese sea el orden que seguira
+    # Aqui se suman para que se junten en uno mismo y ese sea el orden que seguira
     for r, c in life_moves + safe_moves + danger_moves:
-        yield from maze_solver_impl(maze, original, r, c, lives, poisoned, poison_steps, steps, visited, solutions, row, col)
- 
-    #Pone la celda de antes al retroceder
-    if last_row != -1 and original[last_row, last_col] not in ('S', 'E'):
-        maze[last_row, last_col] = 'V'
-    if original_cell not in ('S', 'E'):
-        maze[row, col] = original_cell
-        yield maze
- 
- 
+        # RECURSIVO GENTE
+        yield from maze_solver_impl(maze, original, r, c, lives, poisoned, poison_steps, steps, visited, solutions, best_so_far, row, col) 
+        # Estamos llamando a la funcion que resuelve el laverinto con las coordenadas actualizadas. 
 
+ 
+    # Al terminar de explorar esta rama, retrocedemos
+    if actual_cell not in ('S', 'E'):
+        maze[row, col] = actual_cell  # Restauramos la celda actual
+    
+    if last_row != -1 and original[last_row, last_col] not in ('S', 'E'):
+        maze[last_row, last_col] = 'A'  # El agente vuelve a la celda padre
+    yield maze
+#-------------------------------------------------------------------------------------------------------------------
+
+
+#-------------------------------------------------------------------------------------------------------------------
+# La funcion encargada de llamar a la funciones que resuelven el maze y guardar la mejor solucion
 def maze_solver(maze):
-    si, sj = find_start(maze)
-    if si == -1:
+    start_res = find_start(maze) # Guardamos la posicion del start
+
+    if start_res == (-1, -1):
         return
-    original = maze.copy() #Copiar el laberinto para saber como es
+    
+    si, sj = start_res # Guardamos los valores de la tupla de manera individual (creo que es para la interfaz)
+    original = maze.copy() # Copiar el laberinto original para saber como es
+    
     solutions = []
     visited = {} 
- 
-    yield from maze_solver_impl(maze, original, si, sj, lives= INITIAL_LIVES, poisoned= False, poison_steps = 0, steps = 0, visited= visited, solutions= solutions,)
+    best_so_far = {'lives': 0, 'steps': float('inf')} # Guarda la mejor solucion hasta ahora
+    # Antes de que me funes litzy (si es que te dignas a leer los comentarios) esto lo pongo porque mi teoria es que las vidas si pueden variar, sin embargo la cantidad de pasos
+    # de la mejor solucion final no puede ser mayor a la cantidad de pasos de la primera mejor solucion al menos que la supere en vidas, asi que aja, por eso. Asi nos ahorramos que revise
+    # rutas que nada q ver alv.
+
+    # Aqui se resuelve llamando a maze_solver, se usa yield from para pasarlo a la interfaz
+    # Le pasamos a maze_solver_impl(El maze original que recivimos en la funcion, una copia de este mismo ?? XDXDXD, 
+    # las coordenadas del start, las vidas actuales, si no encontramos envenenados, los pasos de veneno que ya recorrimos, el total de pasos que ya recorrimos,
+    # la lista que soluciones y la mejor solucion actual)
+    yield from maze_solver_impl(maze, original, si, sj, lives = INITIAL_LIVES, poisoned = False, poison_steps = 0, steps = 0, visited = visited, solutions = solutions, best_so_far = best_so_far)
  
     if not solutions:
-        print("\nNo se encontró ninguna solucion.")
+        print("\n No se encontró ninguna solucion.")
     else:
-        print(f"\nTotal de soluciones encontradas: {len(solutions)}")
+        print(f"\n Total de soluciones encontradas: {len(solutions)}")
         for s in solutions:
-            print(f" pasos={s['steps']}  vidas={s['lives']}")
+            print(f" pasos = {s['steps']}  vidas={s['lives']}")
  
-        best = max(solutions, key=lambda x: (x['lives'], -x['steps']))
-        print(f"\nMejor solucion: vidas={best['lives']}, pasos={best['steps']}")
+        best = max(solutions, key = lambda x: (x['lives'], -x['steps']))
+        print(f"\n Mejor solucion: vidas = {best['lives']}, pasos = {best['steps']}")
+#------------------------------------------------------------------------------------------------------------------
  
  
+#------------------------------------------------------------------------------------------------------------------
 maze_str = [
     "WWWWWWWWWWWWWWWWWWWW",   # row 0
     "WS  W     W   P   WW",   # row 1
