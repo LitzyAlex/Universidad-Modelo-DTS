@@ -1,20 +1,26 @@
 
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from matplotlib.animation import FuncAnimation
 
+# Aqui no hay mucho o nada que decir, nos o dio el profe y funciona, aparte esta facil de comprender.
 def animate_maze(maze_generator, interval=250):
+    # Obtener la ruta del directorio donde se encuentra este script
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Solo relacionamos las letras con las imagenes
     textures = {
-        'W': mpimg.imread('wall.png'),
-        ' ': mpimg.imread('path.png'),
-        'S': mpimg.imread('start.png'),
-        'E': mpimg.imread('end.png'),
-        'A': mpimg.imread('agent.png'),
-        'V': mpimg.imread('visited.png'),
-        'P': mpimg.imread('pinchos.png'),
-        'L': mpimg.imread('vida.png'),
-        'M': mpimg.imread('veneno.png')
+        'W': mpimg.imread(os.path.join(base_dir, 'wall.png')),
+        ' ': mpimg.imread(os.path.join(base_dir, 'path.png')),
+        'S': mpimg.imread(os.path.join(base_dir, 'start.png')),
+        'E': mpimg.imread(os.path.join(base_dir, 'end.png')),
+        'A': mpimg.imread(os.path.join(base_dir, 'agent.png')),
+        'V': mpimg.imread(os.path.join(base_dir, 'visited.png')),
+        'P': mpimg.imread(os.path.join(base_dir, 'pinchos.png')),
+        'L': mpimg.imread(os.path.join(base_dir, 'vida.png')),
+        'M': mpimg.imread(os.path.join(base_dir, 'veneno.png'))
     }
 
     # Obtener primer estado
