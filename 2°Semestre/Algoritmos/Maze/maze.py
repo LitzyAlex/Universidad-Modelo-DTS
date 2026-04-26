@@ -96,6 +96,8 @@ def maze_solver_impl(maze, original, row, col, lives, poisoned, poison_steps, st
     # Limpiar la celda anterior: si era S o E se restaura, si no se marca como visitada
     if last_row != -1 and original[last_row, last_col] not in ('S', 'E'):
         maze[last_row, last_col] = 'V'
+    if original[last_row, last_col] in ('S'):
+        maze[last_row, last_col] = 'S'
     if original_cell not in ('S', 'E'):
         maze[row, col] = 'A'
     yield maze, lives, steps
@@ -121,6 +123,10 @@ def maze_solver_impl(maze, original, row, col, lives, poisoned, poison_steps, st
         if not (0 <= r < maze.shape[0] and 0 <= c < maze.shape[1]):
             continue
         
+        # Si la celda está marcada como visitada ('V'), no la puede volver a visitar
+        if maze[r, c] == 'V':
+            continue
+
         # Excelente asignacion en el nombre de las vairables litzy, completamente comprensible. 
         orig = original[r, c] # Son las coordenadas de los vecinos actuales
 
@@ -207,4 +213,4 @@ maze_str = [
  
 maze = np.array([list(row) for row in maze_str])
  
-animate_maze(maze_solver(maze), interval=80)
+animate_maze(maze_solver(maze), interval=0.01)
