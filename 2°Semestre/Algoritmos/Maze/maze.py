@@ -1,7 +1,9 @@
 import numpy as np
+import random
 from animated_maze import animate_maze
  
 #Segun google tener constantes es buena practica, pero se puden cambiar si es necesario
+N               = 20     # <--- CAMBIA ESTE VALOR PARA EL TAMAÑO N x N
 INITIAL_LIVES   = 5      # vidas iniciales
 POISON_INTERVAL = 3      # cada cuantos movimientos hace daño el veneno
 LIFE_CELL_HEAL  = 2      # vida que recupera una celda 'L'
@@ -165,10 +167,6 @@ def maze_solver(maze):
     solutions = []
     visited = {} 
 
-    # Antes de que me funes litzy (si es que te dignas a leer los comentarios) esto lo pongo porque mi teoria es que las vidas si pueden variar, sin embargo la cantidad de pasos
-    # de la mejor solucion final no puede ser mayor a la cantidad de pasos de la primera mejor solucion al menos que la supere en vidas, asi que aja, por eso. Asi nos ahorramos que revise
-    # rutas que nada q ver alv.
-
     # Aqui se resuelve llamando a maze_solver, se usa yield from para pasarlo a la interfaz
     # Le pasamos a maze_solver_impl(El maze original que recivimos en la funcion, una copia de este mismo ?? XDXDXD, 
     # las coordenadas del start, las vidas actuales, si no encontramos envenenados, los pasos de veneno que ya recorrimos, el total de pasos que ya recorrimos,
@@ -186,31 +184,90 @@ def maze_solver(maze):
         print(f"\nMejor solucion: vidas={best['lives']}, pasos={best['steps']}")
 #------------------------------------------------------------------------------------------------------------------
  
+
+#------------------------------------------------------------------------------------------------------------------
+# Funcion para generar un laberinto aleatorio de n x n usando el Algoritmo de Prim Simplificado.
+def generate_random_maze(n=20):
+    # Inicializar todo con paredes ('W')
+    maze = [['W' for _ in range(n)] for _ in range(n)]
+    
+    # Lista de paredes candidatas (celda_dentro, celda_nueva)
+    walls = []
+    
+    # Empezar en (1, 1) y marcarlo como camino
+    start_r, start_c = 1, 1
+    maze[start_r][start_c] = ' '
+    
+    # Agregar paredes iniciales candidatas alrededor del inicio (saltando de 2 en 2)
+    for dr, dc in [(0, 2), (0, -2), (2, 0), (-2, 0)]:
+        nr, nc = start_r + dr, start_c + dc
+        if 1 <= nr < n-1 and 1 <= nc < n-1:
+            walls.append((start_r, start_c, nr, nc))
+            
+    # Algoritmo de Prim simplificado para conectar todas las celdas
+    while walls:
+        # Elegir una pared al azar para que el laberinto sea aleatorio
+        idx = random.randint(0, len(walls) - 1)
+        wr, wc, nr, nc = walls.pop(idx)
+        
+        if maze[nr][nc] == 'W':
+            # Conectar la celda nueva rompiendo la pared intermedia
+            maze[wr + (nr-wr)//2][wc + (nc-wc)//2] = ' '
+            maze[nr][nc] = ' '
+            
+            # Agregar nuevas paredes candidatas desde la celda recién "excavada"
+            for dr, dc in [(0, 2), (0, -2), (2, 0), (-2, 0)]:
+                nnr, nnc = nr + dr, nc + dc
+                if 1 <= nnr < n-1 and 1 <= nnc < n-1 and maze[nnr][nnc] == 'W':
+                    walls.append((nr, nc, nnr, nnc))
+
+    # Si N es par, el algoritmo no llega al borde.
+    if n % 2 == 0:
+        for i in range(1, n-1):
+            if maze[n-3][i] == ' ': maze[n-2][i] = ' ' # Conectar hacia abajo
+            if maze[i][n-3] == ' ': maze[i][n-2] = ' ' # Conectar hacia la derecha
+
+    # Rompemos algunas paredes extra para que existan multiples rutas posibles.
+    for _ in range(n // 2): 
+        r = random.randint(1, n-2)
+        c = random.randint(1, n-2)
+        if maze[r][c] == 'W':
+            # Solo si ayuda a conectar dos pasillos (evita espacios vacios grandes)
+            if (maze[r-1][c] == ' ' and maze[r+1][c] == ' ') or \
+               (maze[r][c-1] == ' ' and maze[r][c+1] == ' '):
+                maze[r][c] = ' '
+
+    # Colocar Inicio 'S' y buscar el Fin 'E' en la parte inferior/derecha
+    maze[1][1] = 'S'
+    found_e = False
+    for r in range(n-2, 0, -1):
+        for c in range(n-2, 0, -1):
+            if maze[r][c] == ' ':
+                maze[r][c] = 'E'
+                found_e = True
+                break
+        if found_e: break
+
+    # Agregar elementos aleatorios (Pinchos 'P', Veneno 'M', Vida 'L')
+    for r in range(1, n-1):
+        for c in range(1, n-1):
+            if maze[r][c] == ' ':
+                rand = random.random()
+                if rand < 0.05: maze[r][c] = 'P'
+                elif rand < 0.10: maze[r][c] = 'M'
+                elif rand < 0.15: maze[r][c] = 'L'
+
+    # Retornar como lista de strings (formato maze_str)
+    return ["".join(row) for row in maze]
+#------------------------------------------------------------------------------------------------------------------
+ 
  
 #------------------------------------------------------------------------------------------------------------------ 
-maze_str = [
-    "WWWWWWWWWWWWWWWWWWWW",   # row 0
-    "WS  W     W   P   WW",   # row 1
-    "W W W WWW W WWW W WW",   # row 2
-    "W W   W   W W   W  W",   # row 3
-    "W WWWWW W W W W WW W",   # row 4
-    "W W   W W   W W L  W",   # row 5
-    "W W W WWWWWWW WW WWW",   # row 6
-    "W W W   M   W W    W",   # row 7
-    "W W WWWWWWW W W WWWW",   # row 8
-    "W   W L   W W   P  W",   # row 9
-    "W WWW WWWWW W W WWWW",   # row 10
-    "W     W   W W W    W",   # row 11
-    "W WWWWW M W W WWW WW",   # row 12
-    "W W     W W W      W",   # row 13
-    "W W WWWWW W W WWWWWW",   # row 14
-    "W W W   M W W     MW",   # row 15
-    "W W W W W   W WWWW W",   # row 16
-    "W     W WWWWW W    W",   # row 17
-    "WWWWW W       W  E W",   # row 18
-    "WWWWWWWWWWWWWWWWWWWW",   # row 19
-]
+# 1. Generar laberinto aleatorio con el N configurado arriba
+maze_str_random = generate_random_maze(N)
  
-maze = np.array([list(row) for row in maze_str])
+# 2. Convertir a numpy array
+maze = np.array([list(row) for row in maze_str_random])
  
+# 3. Ejecutar la animación
 animate_maze(maze_solver(maze), interval=0.01)
