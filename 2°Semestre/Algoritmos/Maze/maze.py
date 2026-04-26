@@ -3,7 +3,7 @@ import random
 from animated_maze import animate_maze
  
 #Segun google tener constantes es buena practica, pero se puden cambiar si es necesario
-N               = 20     # <--- CAMBIA ESTE VALOR PARA EL TAMAÑO N x N
+N               = 20     # Cambiar el tamano del laberinto
 INITIAL_LIVES   = 5      # vidas iniciales
 POISON_INTERVAL = 3      # cada cuantos movimientos hace daño el veneno
 LIFE_CELL_HEAL  = 2      # vida que recupera una celda 'L'
