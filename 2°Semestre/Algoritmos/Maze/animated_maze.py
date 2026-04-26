@@ -1,5 +1,6 @@
 
 import os
+import time
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
@@ -24,10 +25,12 @@ def animate_maze(maze_generator, interval=250):
     }
 
     # Obtener primer estado
-    maze = next(maze_generator)
+    maze, lives, steps = next(maze_generator)
     rows, cols = maze.shape
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(10, 8))
+    fig.patch.set_facecolor('#2b2b2b')  # Fondo negro grisáceo
+    ax.set_facecolor('#2b2b2b')
 
     # Dibujar estado inicial
     ims = []
@@ -41,21 +44,35 @@ def animate_maze(maze_generator, interval=250):
             row_imgs.append(im)
         ims.append(row_imgs)
 
+    # Contadores en pantalla
+    text_color = '#ecf0f1'
+    # Colocamos el texto un poco arriba del laberinto
+    info_text = ax.text(cols / 2, rows + 0.5, '', color=text_color, 
+                        fontsize=12, fontweight='bold', ha='center', va='center')
+
     ax.set_xticks([])
     ax.set_yticks([])
     ax.set_xlim(0, cols)
-    ax.set_ylim(0, rows)
+    ax.set_ylim(0, rows + 1) # Espacio extra para el texto
     ax.set_aspect('equal')
+
+    # Tiempo real desde el inicio de la animación
+    start_time = time.time()
 
     # Función de actualización
     def update(frame):    
-        maze = frame
+        maze, current_lives, current_steps = frame
         for i in range(rows):
             for j in range(cols):
                 cell = maze[i, j]
                 img = textures.get(cell, textures[' '])
                 ims[i][j].set_data(img)
-        return []
+        
+        # El tiempo se calcula basado en el tiempo real del sistema
+        elapsed_time = time.time() - start_time
+        info_text.set_text(f"Vidas: {current_lives} | Pasos: {current_steps} | Tiempo: {elapsed_time:.2f}s")
+        
+        return [info_text]
 
     ani = FuncAnimation(
         fig,
@@ -66,4 +83,5 @@ def animate_maze(maze_generator, interval=250):
         cache_frame_data=False
     )
 
+    plt.tight_layout()
     plt.show()
