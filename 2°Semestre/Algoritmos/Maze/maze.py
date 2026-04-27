@@ -87,13 +87,9 @@ def maze_solver_impl(maze, original, row, col, lives, poisoned, poison_steps, st
     if lives <= 0:    #Igual si en este momento donde esta se queda sin vida para que no siga
         return
  
-    # Solo seguir si tenemos mas vidas que antes en esa celda, igual depende de cuantos pasos y vidas tengamos en ese momento
-    prev = visited.get((row, col))
-    if prev is not None:
-        prev_lives, prev_steps = prev
-        if prev_lives >= lives and prev_steps <= steps:
-            return
-    visited[(row, col)] = (lives, steps)
+    # Guarda los valores que tenia antes esta celda y los guarda 
+    prev_state = visited.get((row, col))
+    visited[(row, col)] = (lives, steps)   #Se registra los valores actuales sobreescribiendo los anteriores
  
     # Limpiar la celda anterior: si era S o E se restaura, si no se marca como visitada
     if last_row != -1 and original[last_row, last_col] not in ('S', 'E'):
@@ -134,6 +130,8 @@ def maze_solver_impl(maze, original, row, col, lives, poisoned, poison_steps, st
 
         if orig == 'W':
             continue
+        if orig == 'S':  # Agregar esto
+            continue
         if orig in LIFE_CELLS:
             life_moves.append((r, c))
         elif orig in DAMAGE_CELLS:
@@ -153,6 +151,13 @@ def maze_solver_impl(maze, original, row, col, lives, poisoned, poison_steps, st
     if original_cell not in ('S', 'E'):
         maze[row, col] = original_cell
         yield maze, lives, steps
+    if original_cell == 'S':
+        maze[row, col] = 'S'
+        yield maze, lives, steps
+    if prev_state is None:  #Si cuando llegamos aca no habia ningun registro previo, se borra del diccionario
+        visited.pop((row, col), None)
+    else:
+        visited[(row, col)] = prev_state #Si lo habia, al retroceder lo restaura como si en esa ruta no se hubiera pisado
 #-------------------------------------------------------------------------------------------------------------------
  
 #-------------------------------------------------------------------------------------------------------------------
