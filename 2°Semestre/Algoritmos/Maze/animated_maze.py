@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from matplotlib.animation import FuncAnimation
 
-# Aqui no hay mucho o nada que decir, nos o dio el profe y funciona, aparte esta facil de comprender.
+# Aqui no hay mucho o nada que decir, nos lo dio el profe y funciona, aparte esta facil de comprender.
 def animate_maze(maze_generator, interval=0.01 ):
     # Obtener la ruta del directorio donde se encuentra este script
     base_dir = os.path.dirname(os.path.abspath(__file__))
