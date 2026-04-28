@@ -201,70 +201,93 @@ def maze_solver(maze):
 
 #------------------------------------------------------------------------------------------------------------------
 # Funcion para generar un laberinto aleatorio de n x n usando el Algoritmo de Prim Simplificado.
-def generate_random_maze(n=20):
+def generate_random_maze(n = 15):
     # Inicializar todo con paredes ('W')
     maze = [['W' for _ in range(n)] for _ in range(n)]
     
     # Lista de paredes candidatas (celda_dentro, celda_nueva)
     walls = []
     
-    # Empezar en (1, 1) y marcarlo como camino
+    # Empezar en (1, 1) y marcarlo como start
     start_r, start_c = 1, 1
-    maze[start_r][start_c] = ' '
+    maze[start_r][start_c] = 'S'
     
     # Agregar paredes iniciales candidatas alrededor del inicio (saltando de 2 en 2)
-    for dr, dc in [(0, 2), (0, -2), (2, 0), (-2, 0)]:
-        nr, nc = start_r + dr, start_c + dc
-        if 1 <= nr < n-1 and 1 <= nc < n-1:
-            walls.append((start_r, start_c, nr, nc))
-            
-    # Algoritmo de Prim simplificado para conectar todas las celdas
+    # Las variables direccion guardan hacia donde nos vamos a dirigir de dos en dos (arriba, abajo, derecha e izquierda)
+    for direccion_row, direccion_col in [(0, 2), (0, -2), (2, 0), (-2, 0)]:
+        # d_row y d_col se suman a start_r y start_c (1,1)
+        # En la primera iteracion es:
+        # new_row, new_col = (1 + 0), (1 + 2)
+        # new_row, new_col = (1, 3) Siendo esto que nos dirigiremos a la derecha.
+        new_row, new_col = start_r + direccion_row, start_c + direccion_col
+
+        # Si new_row es => 1 Y 1 <= new_col < 14 (o cualquier numero -1 wque haya en n)
+        if 1 <= new_row < n - 1 and 1 <= new_col < n - 1:
+            # Se guardan unicamente las direcciones validas
+            # (1, 1, 1, 3)
+            walls.append((start_r, start_c, new_row, new_col))
+
+    # Mientras haya coordenadas en walls ejecutamos lo del bloque
     while walls:
         # Elegir una pared al azar para que el laberinto sea aleatorio
-        idx = random.randint(0, len(walls) - 1)
-        wr, wc, nr, nc = walls.pop(idx)
+        pared = random.randint(0, len(walls) - 1)
+        # En la primera iteracion seria:
+        # (1, 1, 1, 3)
+        wall_row, wall_col, new_row, new_col = walls.pop(pared)
         
-        if maze[nr][nc] == 'W':
+        # SOLO si la celda no ah sido "visitada". Como aqui todas las celdas se inicializan en walls (W) entonces
+        # la celda que todavia tenga 'W' se condiera como NO visitada
+        if maze[new_row][new_col] == 'W':
             # Conectar la celda nueva rompiendo la pared intermedia
-            maze[wr + (nr-wr)//2][wc + (nc-wc)//2] = ' '
-            maze[nr][nc] = ' '
+            # maze[1 + (1 - 1) // 2][1 + (3 - 1) // 2] = ' '
+            # maze[1][2] = ' ' Celda vacia que conectada con la otra celda para generar un pasillo
+            maze[wall_row + (new_row - wall_row) // 2][wall_col + (new_col - wall_col) // 2] = ' '
+            # maze[1][3] = ' ' Esta es para confirmar la posible coordenada que habiamos guardado
+            maze[new_row][new_col] = ' '
             
-            # Agregar nuevas paredes candidatas desde la celda recién "excavada"
-            for dr, dc in [(0, 2), (0, -2), (2, 0), (-2, 0)]:
-                nnr, nnc = nr + dr, nc + dc
-                if 1 <= nnr < n-1 and 1 <= nnc < n-1 and maze[nnr][nnc] == 'W':
-                    walls.append((nr, nc, nnr, nnc))
+            # Agregar nuevas paredes candidatas desde la celda recién excavada
+            for direccion_row, direccion_col in [(0, 2), (0, -2), (2, 0), (-2, 0)]:
+                # En la primera iteracion
+                # nn_row, nn_col = (1 + 0), (3 + 2)
+                # nn_row, nn_Col = (1, 5)
+                new_new_row, new_new_col = new_row + direccion_row, new_col + direccion_col
+
+                # Misma condicion que la de arriba solo que obviamente con las nuevas coordenadas.
+                if 1 <= new_new_row < n - 1 and 1 <= new_new_col < n - 1 and maze[new_new_row][new_new_col] == 'W':
+                    # Las agregamos a la lista de walls para que despues de considere su expansion
+                    walls.append((new_row, new_col, new_new_row, new_new_col))
 
     # Si N es par, el algoritmo no llega al borde.
     if n % 2 == 0:
-        for i in range(1, n-1):
-            if maze[n-3][i] == ' ': maze[n-2][i] = ' ' # Conectar hacia abajo
-            if maze[i][n-3] == ' ': maze[i][n-2] = ' ' # Conectar hacia la derecha
+        for i in range(1, n - 1):
+            if maze[n - 3][i] == ' ': 
+                maze[n - 2][i] = ' ' # Conectar hacia abajo
+            if maze[i][n - 3] == ' ': 
+                maze[i][n - 2] = ' ' # Conectar hacia la derecha
+
 
     # Rompemos algunas paredes extra para que existan multiples rutas posibles.
     for _ in range(n // 2): 
-        r = random.randint(1, n-2)
-        c = random.randint(1, n-2)
-        if maze[r][c] == 'W':
+        row = random.randint(1, n - 2)
+        col = random.randint(1, n - 2)
+        if maze[row][col] == 'W':
             # Solo si ayuda a conectar dos pasillos (evita espacios vacios grandes)
-            if (maze[r-1][c] == ' ' and maze[r+1][c] == ' ') or \
-               (maze[r][c-1] == ' ' and maze[r][c+1] == ' '):
-                maze[r][c] = ' '
+            if (maze[row - 1][col] == ' ' and maze[row + 1][col] == ' ') or (maze[row][col - 1] == ' ' and maze[row][col + 1] == ' '):
+                maze[row][col] = ' '
 
-    # Colocar Inicio 'S' y buscar el Fin 'E' en la parte inferior/derecha
-    maze[1][1] = 'S'
-    found_e = False
-    for r in range(n-2, 0, -1):
-        for c in range(n-2, 0, -1):
+    # Buscamos el Fin 'E' en la parte inferior/derecha
+    found_exit = False
+    for r in range(n - 2, 0, -1):
+        for c in range(n - 2, 0, -1):
             if maze[r][c] == ' ':
                 maze[r][c] = 'E'
-                found_e = True
+                found_exit = True
                 break
-        if found_e: break
+        if found_exit: break
 
     # Agregar elementos aleatorios (Pinchos 'P', Veneno 'M', Vida 'L')
-    for r in range(1, n-1):
-        for c in range(1, n-1):
+    for r in range(1, n - 1):
+        for c in range(1, n - 1):
             if maze[r][c] == ' ':
                 rand = random.random()
                 if rand < 0.05: maze[r][c] = 'P'
