@@ -21,7 +21,8 @@ def animate_maze(maze_generator, interval=0.01 ):
         'V': mpimg.imread(os.path.join(base_dir, 'visited.png')),
         'P': mpimg.imread(os.path.join(base_dir, 'pinchos.png')),
         'L': mpimg.imread(os.path.join(base_dir, 'vida.png')),
-        'M': mpimg.imread(os.path.join(base_dir, 'veneno.png'))
+        'M': mpimg.imread(os.path.join(base_dir, 'veneno.png')),
+        '*': mpimg.imread(os.path.join(base_dir, 'visited.png'))
     }
 
     # Obtener primer estado

@@ -3,7 +3,7 @@ import random
 from animated_maze import animate_maze
  
 #Segun google tener constantes es buena practica, pero se puden cambiar si es necesario
-N               = 20     # Cambiar el tamano del laberinto
+N               = 15     # Cambiar el tamano del laberinto
 INITIAL_LIVES   = 5      # vidas iniciales
 POISON_INTERVAL = 3      # cada cuantos movimientos hace daño el veneno
 LIFE_CELL_HEAL  = 2      # vida que recupera una celda 'L'
@@ -49,8 +49,11 @@ def find_start(maze):
 #--------------------------------------------------------------------------------------
 # Esta funcion es la encargada de resolver el maze
 # Ya explique lo que recibe mas abajo, solo que de principio usamos last_row y last_col =- 1. 
-def maze_solver_impl(maze, original, row, col, lives, poisoned, poison_steps, steps, visited, solutions, last_row=-1, last_col=-1):
+def maze_solver_impl(maze, original, row, col, lives, poisoned, poison_steps, steps, visited, solutions, last_row=-1, last_col=-1, path=None):
     #El backtracking
+    if path is None:
+        path = []  #Aqui es para limpiar el path
+    path = path + [(row, col)]  # copia nueva en cada rama, no modifica la anterior, crea una lista con la posición actual agregada
  
     #Primero comprobar si viene envenenado
     if poisoned:
@@ -68,7 +71,7 @@ def maze_solver_impl(maze, original, row, col, lives, poisoned, poison_steps, st
     # Si en el maze[row del start, col del start] es == exit, agregamos a la lista de soluciones
     if original[row, col] == 'E':
         print(f"Solucion encontrada: pasos={steps}, vidas={lives}")
-        solutions.append({'steps': steps, 'lives': lives})
+        solutions.append({'steps': steps, 'lives': lives, 'path':path})
         return
  
     #Aqui es para saber en que celda se encuentra y que hacer
@@ -142,7 +145,7 @@ def maze_solver_impl(maze, original, row, col, lives, poisoned, poison_steps, st
     #Aqui se suman para que se junten en uno mismo y ese sea el orden que seguira
     for r, c in life_moves + safe_moves + danger_moves:
         # RECURSIVO GENTE
-        yield from maze_solver_impl(maze, original, r, c, lives, poisoned, poison_steps, steps, visited, solutions, row, col)
+        yield from maze_solver_impl(maze, original, r, c, lives, poisoned, poison_steps, steps, visited, solutions, row, col, path)
         # Estamos llamando a la funcion que resuelve el laverinto con las coordenadas actualizadas.
  
     #Pone la celda de antes al retroceder
@@ -187,6 +190,12 @@ def maze_solver(maze):
  
         best = max(solutions, key=lambda x: (x['lives'], -x['steps']))
         print(f"\nMejor solucion: vidas={best['lives']}, pasos={best['steps']}")
+
+        # Dibujar la mejor solucion en el mapa
+        for r, c in best['path']:
+            if original[r, c] not in ('S', 'E', 'P', 'M', 'L'):
+                maze[r, c] = '*'   # marca el camino con asterisco
+        yield maze, best['lives'], best['steps']
 #------------------------------------------------------------------------------------------------------------------
  
 
