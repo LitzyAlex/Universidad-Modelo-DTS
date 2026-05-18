@@ -1,0 +1,6 @@
+{
+    "name": "usuario/php-app",
+    "description": "Aplicación PHP Hola Mundo con Docker",
+    "type": "project",
+    "require": {}
+}
