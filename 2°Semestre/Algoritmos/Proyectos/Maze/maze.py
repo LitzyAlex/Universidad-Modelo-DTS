@@ -70,7 +70,7 @@ def maze_solver_impl(maze, original, row, col, lives, poisoned, poison_steps, st
     # Encontramos la meta
     # Si en el maze[row del start, col del start] es == exit, agregamos a la lista de soluciones
     if original[row, col] == 'E':
-        print(f"Solucion encontrada: pasos={steps}, vidas={lives}")
+        print(f"Solucion encontrada: pasos = {steps}, vidas = {lives}")
         solutions.append({'steps': steps, 'lives': lives, 'path':path})
         return
  
@@ -186,10 +186,10 @@ def maze_solver(maze):
     else:
         print(f"\nTotal de soluciones encontradas: {len(solutions)}")
         for s in solutions:
-            print(f" pasos={s['steps']}  vidas={s['lives']}")
+            print(f" pasos = {s['steps']}  vidas = {s['lives']}")
  
         best = max(solutions, key=lambda x: (x['lives'], -x['steps']))
-        print(f"\nMejor solucion: vidas={best['lives']}, pasos={best['steps']}")
+        print(f"\nMejor solucion: vidas = {best['lives']}, pasos = {best['steps']}")
 
         # Dibujar la mejor solucion en el mapa
         for r, c in best['path']:
