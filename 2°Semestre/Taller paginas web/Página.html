@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi perfil web</title>
+    <!-- etiqueta paea vincular al archivo css -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=VT323">
+</head>
+<body>
+    <div class="card">
+        <img src="img/Tobias.webp" alt="Foto de perfil">
+        <h1 id="titulo">Litzy Alexandra García Richaud</h1>
+        <p id="descripcion">Estudiante de Ingenieria en Desarrollo de Tecnologias y Software de la Universidad Modelo</p>
+        <h3>Skills</h3>
+        <ul>
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+            <li>Python</li>
+        </ul>
+        <div class="botones">
+            <button onclick="cambiarTexto()">Cambiar texto</button>
+            <button onclick="modoOscuro()">Modo oscuro</button>
+            <button onclick="darLike()">Dar like</button>
+        </div>
+        <h2>Likes: <span id="likes">0 </span> </h2> 
+    </div>
+    <script src="script.js"> </script>
+</body>
+</html>
