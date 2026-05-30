@@ -5,15 +5,19 @@ def limpiar_pantalla():
     #Esto para que no pase lo de la otra vez porque no todos ocupamos linux(octavio)
     os.system('cls' if os.name == 'nt' else 'clear')
 
+def menu1():
+    print("\n --- Sistema de cambio :D --- \n")
+    print(" 1) Mostrar tabla")
+    print(" 2) Editar datos")
+    print(" 3) Cambio")
+    print(" 4) Salir")
 
 #El menu pues para elegir obviamente
-def menu():
-    print("\n --- Sistema de cambio minimo :D --- \n")
-    print(" 1) Mostrar tabla")
-    print(" 2) Agregar denominacion")
-    print(" 3) Eliminar denominacion")
-    print(" 4) Cambiar maximo de cambio")
-    print(" 5) Salir\n")
+def menu2():
+    print(" 1) Agregar denominacion")
+    print(" 2) Eliminar denominacion")
+    print(" 3) Cambiar maximo de cambio")
+    print(" 4) Volver\n")
 
 #Para mostrar la tabla ya hecha
 def mostrar_tabla():
@@ -31,14 +35,17 @@ def agregar_denominacion():
     #Muestra las denominaciones actuales ordenandolas con sorted para que se vean bien bonitas
     print(f" Denominaciones actuales: {sorted(config['denominaciones'])}\n")
     
+    
     #El int es para convertir el texto a numero   
     nueva = int(input(" Nueva denominacion: "))
+    cantidad = int(input(" Cantidad disponible: "))
     if nueva <= 0:
         print(" La denominacion debe ser mayor a 0.")
     elif nueva in config['denominaciones']:
         print(f" La denominacion {nueva} ya existe.")
     else:
         config['denominaciones'].append(nueva) #Se agrega si es correcta
+        config['cantidades'][str(nueva)] = cantidad
         guardar_config(config) #Guarda el json ya actualizado
         print(f" Denominacion {nueva} agregada.")
     
@@ -58,6 +65,7 @@ def eliminar_deniminacion():
         print(f" La denominacion {eli} no existe.")
     else:
         config['denominaciones'].remove(eli) #Se agrega si es correcta
+        del config['cantidades'][str(eli)]
         guardar_config(config) #Guarda el json ya actualizado
         print(f" Denominacion {eli} eliminada.")
     
@@ -84,19 +92,28 @@ def cambiar_max():
 #Para las opciones
 def seleccion():
     limpiar_pantalla()
-    menu()
+    menu1()
     opcion = input(" Selecciona una opcion: ")
 
     match opcion:
         case '1':
             mostrar_tabla()
         case '2':
-            agregar_denominacion()
+            limpiar_pantalla()
+            menu2()
+            opcion = input(" Selecciona una opcion: ")
+            match opcion:
+                case '1':
+                    agregar_denominacion()
+                case '2':
+                    eliminar_deniminacion()
+                case '3':
+                    cambiar_max()
+                case '4':
+                    seleccion()
         case '3':
-            eliminar_deniminacion()
+            print('En construccion')
         case '4':
-            cambiar_max()
-        case '5':
             limpiar_pantalla()
             print("\n Bye bye\n")
             exit()
