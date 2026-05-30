@@ -1,5 +1,5 @@
 import os
-from tabla import cargar_config, guardar_config, format_tabla_cambio
+from tabla import cargar_config, guardar_config, format_tabla_cambio, cambio_voraz, aplicar_cambio
 
 def limpiar_pantalla():
     #Esto para que no pase lo de la otra vez porque no todos ocupamos linux(octavio)
@@ -89,6 +89,21 @@ def cambiar_max():
 
     input("\nPresiona una tecla para continuar...")
 
+def dar_cambio():
+    limpiar_pantalla()
+    config = cargar_config()
+    cantidad = int(input("Cantidad de cambio: "))
+    resultado, restante = cambio_voraz(cantidad,config['denominaciones'],config['cantidades'])
+    print("\nMonedas utilizadas:\n")
+    for moneda, usadas in resultado.items():
+        print(f"{usadas} x {moneda}")
+    if restante == 0:
+        aplicar_cambio(config, resultado)
+        print("\nCambio entregado.")
+    else:
+        print(f"\nNo fue posible completar el cambio. Faltan {restante}")
+    input("\nPresiona una tecla para continuar...")
+
 #Para las opciones
 def seleccion():
     limpiar_pantalla()
@@ -112,7 +127,7 @@ def seleccion():
                 case '4':
                     seleccion()
         case '3':
-            print('En construccion')
+            dar_cambio()
         case '4':
             limpiar_pantalla()
             print("\n Bye bye\n")
