@@ -1,0 +1,9 @@
+{
+  "denominaciones": [
+    1,
+    2,
+    5,
+    10
+  ],
+  "max_cambio": 15
+}
