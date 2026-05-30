@@ -59,6 +59,29 @@ def construir_tabla(denominaciones, max_cambio):
 
     return denoms, matriz
 
+#Algoritmooooos
+#El voraz=
+def cambio_voraz(cantidad,denominaciones,cantidades):
+    denoms = sorted(denominaciones, reverse=True) #Para que este de mayor a menor
+    resultado = {}
+    restante = cantidad
+
+    for moneda in denoms:
+        disponibles = cantidades.get(str(moneda), 0)
+        necesarias = restante // moneda
+        usar = min(necesarias, disponibles)
+        if usar > 0:
+            resultado[moneda] = usar
+            restante -= usar * moneda
+    return resultado, restante
+
+def aplicar_cambio(config, resultado):
+    for moneda, usadas in resultado.items():
+        config['cantidades'][str(moneda)] -= usadas
+
+    guardar_config(config)
+
+#FORMATOS
 #Lo agarre de lo del horario
 def format_tabla_cambio(denominaciones, max_cambio):
     denoms, matriz = construir_tabla(denominaciones, max_cambio) #Llamando a la funcion de arriba
