@@ -1,5 +1,5 @@
 import os
-from tabla import cargar_config, guardar_config, format_tabla_cambio, cambio_voraz, aplicar_cambio
+from tabla import cargar_config, guardar_config, format_tabla_cambio, cambio_voraz, aplicar_cambio, cambio_backtracking, construir_tabla
 
 def limpiar_pantalla():
     #Esto para que no pase lo de la otra vez porque no todos ocupamos linux(octavio)
@@ -93,15 +93,36 @@ def dar_cambio():
     limpiar_pantalla()
     config = cargar_config()
     cantidad = int(input("Cantidad de cambio: "))
-    resultado, restante = cambio_voraz(cantidad,config['denominaciones'],config['cantidades'])
-    print("\nMonedas utilizadas:\n")
-    for moneda, usadas in resultado.items():
-        print(f"{usadas} x {moneda}")
-    if restante == 0:
-        aplicar_cambio(config, resultado)
-        print("\nCambio entregado.")
+    if cantidad > config['max_cambio']:
+        print(f"\nLa cantidad debe ser menor o igual al cambio maximo: {config['max_cambio']}")
+        input("\nPresiona una tecla para continuar...")
+        return
+    _, matriz = construir_tabla(config['denominaciones'],config['max_cambio'])
+    #voraz primero
+    print("\n**** Algoritmo voraz ****\n")
+    resultado_vo, restante_vo = cambio_voraz(cantidad,config['denominaciones'],config['cantidades'])
+    if resultado_vo:
+        for moneda, usadas in sorted(resultado_vo.items(),reverse=True):
+            print(f"{usadas} x {moneda}")
+
+    if restante_vo == 0:
+        print("\nCambio completado.")
     else:
-        print(f"\nNo fue posible completar el cambio. Faltan {restante}")
+        print(f"\nNo fue posible completar el cambio. \nFaltan {restante_vo} pesos.")
+
+    print("\n**** Backtraking ****\n")
+    resultado_bt, restante_bt = cambio_backtracking(cantidad,config['denominaciones'],config['cantidades'],matriz)
+    if resultado_bt:
+        print("\nSolucion encontrada:\n")
+        for moneda, usadas in sorted(resultado_bt.items(),reverse=True):
+            print(f"{usadas} x {moneda}")
+    
+    if restante_bt == 0:
+        print("\nCambio completado.")
+        aplicar_cambio(config, resultado_bt)
+    else:
+        print("\nNo existe solución valida.")
+
     input("\nPresiona una tecla para continuar...")
 
 #Para las opciones

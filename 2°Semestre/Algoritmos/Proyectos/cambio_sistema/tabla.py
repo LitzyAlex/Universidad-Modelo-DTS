@@ -75,6 +75,62 @@ def cambio_voraz(cantidad,denominaciones,cantidades):
             restante -= usar * moneda
     return resultado, restante
 
+def cambio_backtracking(cantidad, denominaciones, cantidades,matriz):
+    candidatos_por_columna = {}
+    for cambio in range(1, cantidad + 1):
+        candidatos = []
+        for i, moneda in enumerate(denominaciones):
+            if moneda > cambio:
+                continue
+
+            valor = matriz[i][cambio]
+            if valor == float('inf'):
+                continue
+
+            candidatos.append((valor, moneda))  
+
+        candidatos.sort(key=lambda x: x[0])
+        candidatos_por_columna[cambio] = [moneda for _, moneda in candidatos]
+
+    resultado = {}
+    def bt(restante):
+        # Caso base c:
+        if restante == 0:
+            return True
+        
+        print(f"\nCambio restante: {restante}")
+        candidatos = candidatos_por_columna.get(restante, [])
+        for moneda in candidatos:
+            disponibles = cantidades.get(str(moneda), 0)
+            usadas = resultado.get(moneda, 0)
+            print(f"Intentando {moneda}. Restante={restante}")
+
+            if usadas >= disponibles:
+                print(f"No hay suficientes monedas de {moneda}. Probando otra opcion.\n")
+                continue
+
+            resultado[moneda] = usadas + 1
+            nuevo_restante = restante - moneda
+            print(f"Tomo {moneda}. Nuevo restante = {nuevo_restante}")
+
+            if bt(nuevo_restante):
+                return True
+
+            print(f"Fallo la rama con {moneda} (restante={restante}). Hacia atraaas")
+ 
+            # Backtracking aquiiii
+            resultado[moneda] -= 1
+            if resultado[moneda] == 0:
+                del resultado[moneda]
+
+        return False
+    exito = bt(cantidad)
+    if exito:
+        return resultado, 0
+
+    return {}, cantidad
+
+
 def aplicar_cambio(config, resultado):
     for moneda, usadas in resultado.items():
         config['cantidades'][str(moneda)] -= usadas
@@ -84,42 +140,47 @@ def aplicar_cambio(config, resultado):
 #FORMATOS
 #Lo agarre de lo del horario
 def format_tabla_cambio(denominaciones, max_cambio):
-    denoms, matriz = construir_tabla(denominaciones, max_cambio) #Llamando a la funcion de arriba
-    columnas = list(range(1, max_cambio+1)) #Encabezados de las columnas
+    TAM_BLOQUE = 30 #Es que me di cuenta que si pongo cambio muy grande explota el cli
+    denoms, matriz = construir_tabla(denominaciones, max_cambio)
+    lineas = [] #Aqui se guarda la tabla
+    for inicio in range(1, max_cambio + 1, TAM_BLOQUE):
+         #Llamando a la funcion de arriba
+        fin = min(inicio + TAM_BLOQUE - 1, max_cambio)
+        columnas = list(range(inicio, fin + 1))
 
-    ANCHO_DENOM = max(len('Denominacion'), max(len(str(d)) for d in denoms)) #El ancho de la primera columna
-    ANCHO_COL = max(len(str(max_cambio)), 3) #Ancho de las demas columnas
-    ANCHO_MAX = len('Max. Cambio') #La comuna final
+        ANCHO_DENOM = max(len('Denominacion'), max(len(str(d)) for d in denoms)) #El ancho de la primera columna
+        ANCHO_COL = max(len(str(max_cambio)), 3) #Ancho de las demas columnas
+        ANCHO_MAX = len('Max. Cambio') #La comuna final
 
-    anchos = [ANCHO_DENOM] + [ANCHO_COL] * len(columnas) + [ANCHO_MAX] #Guarda todos los anchos en una lista
-    total = sum(anchos) + len(anchos) + 1  #Es el total de la tabla, su tamaño
-    separador = '+' + '+'.join('-' * a for a in anchos) + '+' #Hace el separador de los anchos
+        anchos = [ANCHO_DENOM] + [ANCHO_COL] * len(columnas) + [ANCHO_MAX] #Guarda todos los anchos en una lista
+        total = sum(anchos) + len(anchos) + 1  #Es el total de la tabla, su tamaño
+        separador = '+' + '+'.join('-' * a for a in anchos) + '+' #Hace el separador de los anchos
 
     #Solo es funcion para centrar el texto segun el ancho
-    def c(texto, ancho): 
-        return str(texto).center(ancho)
+        def c(texto, ancho): 
+            return str(texto).center(ancho)
 
-    lineas = [] #Aqui se guarda la tabla
-    lineas.append('=' * total)
-    lineas.append('TABLA DE CAMBIO MINIMO'.center(total))
-    lineas.append('=' * total)
+        
+        lineas.append('=' * total)
+        lineas.append('TABLA DE CAMBIO MINIMO'.center(total))
+        lineas.append('=' * total)
 
-    enc = [''] + [str(col) for col in columnas] + ['Max. Cambio'] #Crea los encabezados de las columnas
-    lineas.append('|' + '|'.join(c(e, a) for e, a in zip(enc, anchos)) + '|') #Las agrega con las lineas de separación
-    lineas.append(separador) #Y luego el separador
+        enc = [''] + [str(col) for col in columnas] + ['Max. Cambio'] #Crea los encabezados de las columnas
+        lineas.append('|' + '|'.join(c(e, a) for e, a in zip(enc, anchos)) + '|') #Las agrega con las lineas de separación
+        lineas.append(separador) #Y luego el separador
 
-    for i, denom in enumerate(denoms):  #Recorre cada fila de la matriz, i numero de fila, denom moneda actual
-        piezas = [c(denom, anchos[0])] #Se crea lista, se guarda el denom centrado
-        for j, col in enumerate(columnas): #Recorre las columnas
-            val = matriz[i][col] #Guarda el valor de esa celda
-            piezas.append(c(str(val) if val != float('inf') else '?', anchos[j + 1])) #Aqui solo checa si ek valor es infinito, y lo pone si no lo es, se agrega
-        #Complicado, recorre columnas y solo toma las validas, escoge la mayor
-        max_pos = max((col for col in columnas if matriz[i][col] != float('inf')), default=0)
-        #y agrega el valor máximo alcanzable de la fila 
-        piezas.append(c(max_pos, anchos[-1]))
-        lineas.append('|' + '|'.join(piezas) + '|') #Pone las paredes/separadores
+        for i, denom in enumerate(denoms):  #Recorre cada fila de la matriz, i numero de fila, denom moneda actual
+            piezas = [c(denom, anchos[0])] #Se crea lista, se guarda el denom centrado
+            for j, col in enumerate(columnas): #Recorre las columnas
+                val = matriz[i][col] #Guarda el valor de esa celda
+                piezas.append(c(str(val) if val != float('inf') else '?', anchos[j + 1])) #Aqui solo checa si ek valor es infinito, y lo pone si no lo es, se agrega
+            #Complicado, recorre columnas y solo toma las validas, escoge la mayor
+            max_pos = max((col for col in columnas if matriz[i][col] != float('inf')), default=0)
+            #y agrega el valor máximo alcanzable de la fila 
+            piezas.append(c(max_pos, anchos[-1]))
+            lineas.append('|' + '|'.join(piezas) + '|') #Pone las paredes/separadores
 
-    lineas.append(separador)
-    lineas.append('Denominacion'.center(anchos[0])) #Agrega el texto centrado al final, listoooo
+        lineas.append(separador)
+        lineas.append('Denominacion'.center(anchos[0])) #Agrega el texto centrado al final, listoooo
 
     return '\n'.join(lineas)
