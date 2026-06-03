@@ -61,81 +61,85 @@ def construir_tabla(denominaciones, max_cambio):
 
 #Algoritmooooos
 #El voraz=
+#Cantidad es el cambio que se quiere entregar, denominacion es lista, cantidad diccionario con cantidad de monedas que hay
 def cambio_voraz(cantidad,denominaciones,cantidades):
     denoms = sorted(denominaciones, reverse=True) #Para que este de mayor a menor
-    resultado = {}
-    restante = cantidad
+    resultado = {} #Diccionario vacio
+    restante = cantidad #guarda el dinero que falta
 
-    for moneda in denoms:
-        disponibles = cantidades.get(str(moneda), 0)
-        necesarias = restante // moneda
-        usar = min(necesarias, disponibles)
-        if usar > 0:
-            resultado[moneda] = usar
-            restante -= usar * moneda
+    for moneda in denoms: #Recorre cada denominacion
+        #El str convierte la moneda a texto
+        disponibles = cantidades.get(str(moneda), 0) #Obtiene cuantas monedas de ese valor existen
+        necesarias = restante // moneda #Calcula cuantas monedas de ese valor serían necesarias para cubrir el restante
+        usar = min(necesarias, disponibles) #Se toma el minimo entre las monedas que necesito y las que tengo
+        #De las necesarias solo puedo agarrar el minimo de las que tengo, si ocupo 2 y tengo 1 solo agarro 1
+        if usar > 0: #i hay algo que usar
+            resultado[moneda] = usar #Guarda las monedas de esa denominación que se utilizaron
+            restante -= usar * moneda #REsta del cambio pendiente lo que ya se utilizo para tener un nuevo restante
     return resultado, restante
 
 def cambio_backtracking(cantidad, denominaciones, cantidades,matriz):
-    candidatos_por_columna = {}
-    for cambio in range(1, cantidad + 1):
-        candidatos = []
-        for i, moneda in enumerate(denominaciones):
-            if moneda > cambio:
+    candidatos_por_columna = {} #crea un diccionario donde se guardan las mejores monedas para cada cantidad posible
+    #Algo como=   1:[1], 2:[2,1], 3:[2,1]
+    for cambio in range(1, cantidad + 1): #Recorrre todas las cantidades dependiendo de la cantidad que se solicite
+        candidatos = [] #Lista temporal para guardar los candidatos
+        for i, moneda in enumerate(denominaciones): #recorre las denominaciones
+            if moneda > cambio: #Si la moneda es mayor al cambio que ocupamos no nos sirve
                 continue
 
-            valor = matriz[i][cambio]
-            if valor == float('inf'):
+            valor = matriz[i][cambio] #Recupera el valor calculado (aca programacion dinamica)
+            if valor == float('inf'): #Si esta inf en la matriz se ignora ahi
                 continue
 
-            candidatos.append((valor, moneda))  
+            candidatos.append((valor, moneda))  #Guarda el candidato (cantidad_de_monedad,denominacion)
 
-        candidatos.sort(key=lambda x: x[0])
-        candidatos_por_columna[cambio] = [moneda for _, moneda in candidatos]
+        candidatos.sort(key=lambda x: x[0]) #Ordena los candidatos de menor a mayor segun el primer valor de la tupla
+        candidatos_por_columna[cambio] = [moneda for _, moneda in candidatos] #Guarda solo el valor de la moneda de candidatos
 
-    resultado = {}
+    resultado = {} #Se guarda la solución encontrada
+    #BACKTRACKING
     def bt(restante):
         # Caso base c:
-        if restante == 0:
+        if restante == 0: #Si ya no queda cambio
             return True
         
-        print(f"\nCambio restante: {restante}")
-        candidatos = candidatos_por_columna.get(restante, [])
-        for moneda in candidatos:
-            disponibles = cantidades.get(str(moneda), 0)
-            usadas = resultado.get(moneda, 0)
-            print(f"Intentando {moneda}. Restante={restante}")
+        print(f"\nCambio restante: {restante}") #Para decir cuanto cambio me queda
+        candidatos = candidatos_por_columna.get(restante, []) #Busca las mejores monedas para el valor restante
+        for moneda in candidatos: #Se intenta cada posibilidad
+            disponibles = cantidades.get(str(moneda), 0) #Obtiene cuantas monedas de esa existen
+            usadas = resultado.get(moneda, 0) #Cuantas de esta moneda ya se usaron en la rama
+            print(f"Intentando {moneda}. Restante={restante}") #Mostrar la moneda de ahora y el retsante de cambio que me falta
 
-            if usadas >= disponibles:
+            if usadas >= disponibles: #Si ya gaste todas las monedas de esa que existian
                 print(f"No hay suficientes monedas de {moneda}. Probando otra opcion.\n")
                 continue
 
-            resultado[moneda] = usadas + 1
-            nuevo_restante = restante - moneda
+            resultado[moneda] = usadas + 1 #Se agrega 1 moneda mas que es la que se va a ocupar agorita mismo
+            nuevo_restante = restante - moneda #Para saber cuanto me queda despues de ocupar la moneda
             print(f"Tomo {moneda}. Nuevo restante = {nuevo_restante}")
 
-            if bt(nuevo_restante):
+            if bt(nuevo_restante): #Volver a llamar a la funcion
                 return True
 
-            print(f"Fallo la rama con {moneda} (restante={restante}). Hacia atraaas")
+            print(f"Fallo la rama con {moneda}. Hacia atraaas") #Fallo, debe retroceder a la anterior "rama"
  
-            # Backtracking aquiiii
-            resultado[moneda] -= 1
-            if resultado[moneda] == 0:
+            # Retroceder
+            resultado[moneda] -= 1 #Quita la moneda que habia agregado
+            if resultado[moneda] == 0: #Si se queda en 0 eliminar ese resultado completamente
                 del resultado[moneda]
 
-        return False
-    exito = bt(cantidad)
+        return False #No funciono nada
+    exito = bt(cantidad) #Otra vez exito xd
     if exito:
         return resultado, 0
 
-    return {}, cantidad
+    return {}, cantidad #NO ENCONTRO UNA SOLUCION
 
-
+#config contiene la información actual, resultado indica las monedas que se usaron
 def aplicar_cambio(config, resultado):
-    for moneda, usadas in resultado.items():
-        config['cantidades'][str(moneda)] -= usadas
-
-    guardar_config(config)
+    for moneda, usadas in resultado.items(): #moneda ("5"), usada(cantidad)
+        config['cantidades'][str(moneda)] -= usadas   #Resta las usadas 
+    guardar_config(config) #Configura el json con las nuevas cantidades
 
 #FORMATOS
 #Lo agarre de lo del horario
@@ -150,9 +154,8 @@ def format_tabla_cambio(denominaciones, max_cambio):
 
         ANCHO_DENOM = max(len('Denominacion'), max(len(str(d)) for d in denoms)) #El ancho de la primera columna
         ANCHO_COL = max(len(str(max_cambio)), 3) #Ancho de las demas columnas
-        ANCHO_MAX = len('Max. Cambio') #La comuna final
 
-        anchos = [ANCHO_DENOM] + [ANCHO_COL] * len(columnas) + [ANCHO_MAX] #Guarda todos los anchos en una lista
+        anchos = [ANCHO_DENOM] + [ANCHO_COL] * len(columnas) #Guarda todos los anchos en una lista
         total = sum(anchos) + len(anchos) + 1  #Es el total de la tabla, su tamaño
         separador = '+' + '+'.join('-' * a for a in anchos) + '+' #Hace el separador de los anchos
 
@@ -173,11 +176,9 @@ def format_tabla_cambio(denominaciones, max_cambio):
             piezas = [c(denom, anchos[0])] #Se crea lista, se guarda el denom centrado
             for j, col in enumerate(columnas): #Recorre las columnas
                 val = matriz[i][col] #Guarda el valor de esa celda
-                piezas.append(c(str(val) if val != float('inf') else '?', anchos[j + 1])) #Aqui solo checa si ek valor es infinito, y lo pone si no lo es, se agrega
+                piezas.append(c(str(val) if val != float('inf') else '?', anchos[j + 1])) #Aqui solo checa si el valor es infinito, y lo pone si no lo es, se agrega
             #Complicado, recorre columnas y solo toma las validas, escoge la mayor
             max_pos = max((col for col in columnas if matriz[i][col] != float('inf')), default=0)
-            #y agrega el valor máximo alcanzable de la fila 
-            piezas.append(c(max_pos, anchos[-1]))
             lineas.append('|' + '|'.join(piezas) + '|') #Pone las paredes/separadores
 
         lineas.append(separador)

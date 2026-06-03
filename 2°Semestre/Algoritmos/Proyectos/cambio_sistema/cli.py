@@ -13,6 +13,7 @@ def menu1():
     print(" 4) Salir")
 
 #El menu pues para elegir obviamente
+#Hay dos menus porque el 2 ya lo tenia antes del 1 y no queria hacer todo otra vez
 def menu2():
     print(" 1) Agregar denominacion")
     print(" 2) Eliminar denominacion")
@@ -97,6 +98,7 @@ def dar_cambio():
         print(f"\nLa cantidad debe ser menor o igual al cambio maximo: {config['max_cambio']}")
         input("\nPresiona una tecla para continuar...")
         return
+    
     _, matriz = construir_tabla(config['denominaciones'],config['max_cambio'])
     #voraz primero
     print("\n**** Algoritmo voraz ****\n")
