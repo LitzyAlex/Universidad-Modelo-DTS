@@ -15,7 +15,7 @@ def menu1():
 #El menu pues para elegir obviamente
 #Hay dos menus porque el 2 ya lo tenia antes del 1 y no queria hacer todo otra vez
 def menu2():
-    print(" 1) Agregar denominacion")
+    print(" 1) Agregar/Modificar denominacion")
     print(" 2) Eliminar denominacion")
     print(" 3) Cambiar maximo de cambio")
     print(" 4) Volver\n")
@@ -32,7 +32,7 @@ def mostrar_tabla():
 def agregar_denominacion():
     limpiar_pantalla()
     config = cargar_config()
-    print("\n --- Agregar denominacion --- \n")
+    print("\n --- Agregar/Modificar denominacion --- \n")
     #Muestra las denominaciones actuales ordenandolas con sorted para que se vean bien bonitas
     print(f" Denominaciones actuales: {sorted(config['denominaciones'])}\n")
     
@@ -43,7 +43,10 @@ def agregar_denominacion():
     if nueva <= 0:
         print(" La denominacion debe ser mayor a 0.")
     elif nueva in config['denominaciones']:
-        print(f" La denominacion {nueva} ya existe.")
+        #print(f" La denominacion {nueva} ya existe.")
+        config['cantidades'][str(nueva)] = cantidad
+        guardar_config(config)
+        print(f" Cantidad {nueva} agregada.")
     else:
         config['denominaciones'].append(nueva) #Se agrega si es correcta
         config['cantidades'][str(nueva)] = cantidad
