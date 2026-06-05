@@ -93,6 +93,9 @@ def cambiar_max():
 def dar_cambio():
     limpiar_pantalla()
     config = cargar_config()
+    print("--- Monedas disponibles ---")
+    for moneda, cantidad in config["cantidades"].items():
+        print(f'- {moneda} -> {cantidad}')
     cantidad = int(input("Cantidad de cambio: "))
     if cantidad > config['max_cambio']:
         print(f"\nLa cantidad debe ser menor o igual al cambio maximo: {config['max_cambio']}")
