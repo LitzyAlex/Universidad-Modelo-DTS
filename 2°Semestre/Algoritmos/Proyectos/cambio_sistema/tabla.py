@@ -82,16 +82,16 @@ def cambio_backtracking(cantidad, denominaciones, cantidades,matriz):
     candidatos_por_columna = {} #crea un diccionario donde se guardan las mejores monedas para cada cantidad posible
     #Algo como=   1:[1], 2:[2,1], 3:[2,1]
     for cambio in range(1, cantidad + 1): #Recorrre todas las cantidades dependiendo de la cantidad que se solicite
-        candidatos = [] #Lista temporal para guardar los candidatos
+        candidatos = [] #Lista temporal para guardar los candidatos 
         for i, moneda in enumerate(denominaciones): #recorre las denominaciones
             if moneda > cambio: #Si la moneda es mayor al cambio que ocupamos no nos sirve
                 continue
 
-            valor = matriz[i][cambio] #Recupera el valor calculado (aca programacion dinamica)
+            valor = matriz[i][cambio] #Recupera el valor de la fila. fila=0 columna=1 : 1
             if valor == float('inf'): #Si esta inf en la matriz se ignora ahi
                 continue
 
-            candidatos.append((valor, moneda))  #Guarda el candidato (cantidad_de_monedad,denominacion)
+            candidatos.append((valor, moneda))  #Guarda el candidato (numero de monedas minima,denominacion)
 
         candidatos.sort(key=lambda x: x[0]) #Ordena los candidatos de menor a mayor segun el primer valor de la tupla
         candidatos_por_columna[cambio] = [moneda for _, moneda in candidatos] #Guarda solo el valor de la moneda de candidatos
