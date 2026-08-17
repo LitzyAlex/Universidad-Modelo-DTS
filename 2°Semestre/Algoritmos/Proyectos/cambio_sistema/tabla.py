@@ -79,6 +79,9 @@ def cambio_voraz(cantidad,denominaciones,cantidades):
     return resultado, restante
 
 def cambio_backtracking(cantidad, denominaciones, cantidades,matriz):
+
+
+
     candidatos_por_columna = {} #crea un diccionario donde se guardan las mejores monedas para cada cantidad posible
     #Algo como=   1:[1], 2:[2,1], 3:[2,1]
     for cambio in range(1, cantidad + 1): #Recorrre todas las cantidades dependiendo de la cantidad que se solicite
