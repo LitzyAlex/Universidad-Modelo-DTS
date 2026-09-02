@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\litzy\\OneDrive\\Desktop\\GitHub\\Estructura de datos\\Clase 1\\ValueOrReference\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5E621D07-F3E7-4972-975C-3925E0ED0747}|ValueOrReference.csproj|c:\\users\\litzy\\onedrive\\desktop\\github\\estructura de datos\\clase 1\\valueorreference\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E621D07-F3E7-4972-975C-3925E0ED0747}|ValueOrReference.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\litzy\\OneDrive\\Desktop\\GitHub\\Estructura de datos\\Clase 1\\ValueOrReference\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\litzy\\OneDrive\\Desktop\\GitHub\\Estructura de datos\\Clase 1\\ValueOrReference\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAswC8AAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-21T16:31:11.174Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

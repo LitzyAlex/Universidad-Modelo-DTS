@@ -1,0 +1,88 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\litzy\\OneDrive\\Desktop\\GitHub\\Estructura de datos\\Clase 1\\StackDev\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0E2F74AF-6E5C-4FF0-9781-63CCC3AC5B76}|StackDev.csproj|C:\\Users\\litzy\\OneDrive\\Desktop\\GitHub\\Estructura de datos\\Clase 1\\StackDev\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E2F74AF-6E5C-4FF0-9781-63CCC3AC5B76}|StackDev.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E2F74AF-6E5C-4FF0-9781-63CCC3AC5B76}|StackDev.csproj|c:\\users\\litzy\\onedrive\\desktop\\github\\estructura de datos\\clase 1\\stackdev\\arraystack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E2F74AF-6E5C-4FF0-9781-63CCC3AC5B76}|StackDev.csproj|solutionrelative:arraystack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E2F74AF-6E5C-4FF0-9781-63CCC3AC5B76}|StackDev.csproj|c:\\users\\litzy\\onedrive\\desktop\\github\\estructura de datos\\clase 1\\stackdev\\staticstack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E2F74AF-6E5C-4FF0-9781-63CCC3AC5B76}|StackDev.csproj|solutionrelative:staticstack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E2F74AF-6E5C-4FF0-9781-63CCC3AC5B76}|StackDev.csproj|C:\\Users\\litzy\\OneDrive\\Desktop\\GitHub\\Estructura de datos\\Clase 1\\StackDev\\istack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E2F74AF-6E5C-4FF0-9781-63CCC3AC5B76}|StackDev.csproj|solutionrelative:istack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ArrayStack.cs",
+              "DocumentMoniker": "C:\\Users\\litzy\\OneDrive\\Desktop\\GitHub\\Estructura de datos\\Clase 1\\StackDev\\ArrayStack.cs",
+              "RelativeDocumentMoniker": "ArrayStack.cs",
+              "ToolTip": "C:\\Users\\litzy\\OneDrive\\Desktop\\GitHub\\Estructura de datos\\Clase 1\\StackDev\\ArrayStack.cs",
+              "RelativeToolTip": "ArrayStack.cs",
+              "ViewState": "AgIAADIAAAAAAAAAAAAUwD0AAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-01T15:19:40.077Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "StaticStack.cs",
+              "DocumentMoniker": "C:\\Users\\litzy\\OneDrive\\Desktop\\GitHub\\Estructura de datos\\Clase 1\\StackDev\\StaticStack.cs",
+              "RelativeDocumentMoniker": "StaticStack.cs",
+              "ToolTip": "C:\\Users\\litzy\\OneDrive\\Desktop\\GitHub\\Estructura de datos\\Clase 1\\StackDev\\StaticStack.cs",
+              "RelativeToolTip": "StaticStack.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAwwDEAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-25T16:34:58.104Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IStack.cs",
+              "DocumentMoniker": "C:\\Users\\litzy\\OneDrive\\Desktop\\GitHub\\Estructura de datos\\Clase 1\\StackDev\\IStack.cs",
+              "RelativeDocumentMoniker": "IStack.cs",
+              "ToolTip": "C:\\Users\\litzy\\OneDrive\\Desktop\\GitHub\\Estructura de datos\\Clase 1\\StackDev\\IStack.cs",
+              "RelativeToolTip": "IStack.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABQAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-25T16:22:39.195Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\litzy\\OneDrive\\Desktop\\GitHub\\Estructura de datos\\Clase 1\\StackDev\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\litzy\\OneDrive\\Desktop\\GitHub\\Estructura de datos\\Clase 1\\StackDev\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAD0AAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-21T16:00:13.18Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

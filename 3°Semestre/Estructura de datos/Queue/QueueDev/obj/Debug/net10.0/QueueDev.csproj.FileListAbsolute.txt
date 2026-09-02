@@ -1,0 +1,14 @@
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Queue\QueueDev\obj\Debug\net10.0\QueueDev.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Queue\QueueDev\obj\Debug\net10.0\QueueDev.AssemblyInfoInputs.cache
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Queue\QueueDev\obj\Debug\net10.0\QueueDev.AssemblyInfo.cs
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Queue\QueueDev\obj\Debug\net10.0\QueueDev.csproj.CoreCompileInputs.cache
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Queue\QueueDev\bin\Debug\net10.0\QueueDev.exe
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Queue\QueueDev\bin\Debug\net10.0\QueueDev.deps.json
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Queue\QueueDev\bin\Debug\net10.0\QueueDev.runtimeconfig.json
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Queue\QueueDev\bin\Debug\net10.0\QueueDev.dll
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Queue\QueueDev\bin\Debug\net10.0\QueueDev.pdb
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Queue\QueueDev\obj\Debug\net10.0\QueueDev.dll
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Queue\QueueDev\obj\Debug\net10.0\refint\QueueDev.dll
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Queue\QueueDev\obj\Debug\net10.0\QueueDev.pdb
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Queue\QueueDev\obj\Debug\net10.0\QueueDev.genruntimeconfig.cache
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Queue\QueueDev\obj\Debug\net10.0\ref\QueueDev.dll

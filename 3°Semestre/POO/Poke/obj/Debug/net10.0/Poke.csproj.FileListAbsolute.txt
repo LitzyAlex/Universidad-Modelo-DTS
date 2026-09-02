@@ -1,0 +1,15 @@
+C:\Users\litzy\OneDrive\Desktop\GitHub\Universidad\Universidad-Modelo-DTS\3°Semestre\POO\Poke\obj\Debug\net10.0\Poke.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\litzy\OneDrive\Desktop\GitHub\Universidad\Universidad-Modelo-DTS\3°Semestre\POO\Poke\obj\Debug\net10.0\Poke.AssemblyInfoInputs.cache
+C:\Users\litzy\OneDrive\Desktop\GitHub\Universidad\Universidad-Modelo-DTS\3°Semestre\POO\Poke\obj\Debug\net10.0\Poke.AssemblyInfo.cs
+C:\Users\litzy\OneDrive\Desktop\GitHub\Universidad\Universidad-Modelo-DTS\3°Semestre\POO\Poke\obj\Debug\net10.0\Poke.csproj.CoreCompileInputs.cache
+C:\Users\litzy\OneDrive\Desktop\GitHub\Universidad\Universidad-Modelo-DTS\3°Semestre\POO\Poke\obj\Debug\net10.0\Poke.sourcelink.json
+C:\Users\litzy\OneDrive\Desktop\GitHub\Universidad\Universidad-Modelo-DTS\3°Semestre\POO\Poke\bin\Debug\net10.0\Poke.exe
+C:\Users\litzy\OneDrive\Desktop\GitHub\Universidad\Universidad-Modelo-DTS\3°Semestre\POO\Poke\bin\Debug\net10.0\Poke.deps.json
+C:\Users\litzy\OneDrive\Desktop\GitHub\Universidad\Universidad-Modelo-DTS\3°Semestre\POO\Poke\bin\Debug\net10.0\Poke.runtimeconfig.json
+C:\Users\litzy\OneDrive\Desktop\GitHub\Universidad\Universidad-Modelo-DTS\3°Semestre\POO\Poke\bin\Debug\net10.0\Poke.dll
+C:\Users\litzy\OneDrive\Desktop\GitHub\Universidad\Universidad-Modelo-DTS\3°Semestre\POO\Poke\bin\Debug\net10.0\Poke.pdb
+C:\Users\litzy\OneDrive\Desktop\GitHub\Universidad\Universidad-Modelo-DTS\3°Semestre\POO\Poke\obj\Debug\net10.0\Poke.dll
+C:\Users\litzy\OneDrive\Desktop\GitHub\Universidad\Universidad-Modelo-DTS\3°Semestre\POO\Poke\obj\Debug\net10.0\refint\Poke.dll
+C:\Users\litzy\OneDrive\Desktop\GitHub\Universidad\Universidad-Modelo-DTS\3°Semestre\POO\Poke\obj\Debug\net10.0\Poke.pdb
+C:\Users\litzy\OneDrive\Desktop\GitHub\Universidad\Universidad-Modelo-DTS\3°Semestre\POO\Poke\obj\Debug\net10.0\Poke.genruntimeconfig.cache
+C:\Users\litzy\OneDrive\Desktop\GitHub\Universidad\Universidad-Modelo-DTS\3°Semestre\POO\Poke\obj\Debug\net10.0\ref\Poke.dll

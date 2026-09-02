@@ -1,5 +1,31 @@
+using System;
+using System.Reflection.Metadata;
+
 class Program {
     static void Main() {
+        /*listas
+        List<int> numeros = new List<int>();
+        List<Jugador> jugadores = new List<Jugador>();
+        jugadores.Add(jugador1); //agregar a la lista
+
+
+        Dictionary<int, string> numeros1 = new Dictionary<int, string>();
+        Dictionary<int, Jugador> jugadores1 = new Dictionary<int, Jugador>();
+
+        Tuple<int,string> tuple1 = new Tuple<int, string>(1, "Alex");
+        tuple1.Item1;
+
+        (int daño, bool isCritic) CalcularDaño()
+        {
+            int daño=0;
+            bool isCritic = false;
+            return (daño, isCritic);
+        }
+
+        bool critico = CalcularDaño.Item2();
+        */
+
+
 
         Jugador jugador1 = new Jugador();
         jugador1.nombre= "Guerrero";
@@ -27,8 +53,8 @@ class Program {
         jugador2.Atacar(jugador1);
         jugador3.Atacar(jugador1);
 
-    }
 
+    }
 }
 
 
