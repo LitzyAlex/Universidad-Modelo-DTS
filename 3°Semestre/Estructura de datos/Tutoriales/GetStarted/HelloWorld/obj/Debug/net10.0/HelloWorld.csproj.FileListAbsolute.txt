@@ -1,0 +1,14 @@
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Tutoriales\GetStarted\HelloWorld\bin\Debug\net10.0\HelloWorld.exe
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Tutoriales\GetStarted\HelloWorld\bin\Debug\net10.0\HelloWorld.deps.json
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Tutoriales\GetStarted\HelloWorld\bin\Debug\net10.0\HelloWorld.runtimeconfig.json
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Tutoriales\GetStarted\HelloWorld\bin\Debug\net10.0\HelloWorld.dll
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Tutoriales\GetStarted\HelloWorld\bin\Debug\net10.0\HelloWorld.pdb
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Tutoriales\GetStarted\HelloWorld\obj\Debug\net10.0\HelloWorld.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Tutoriales\GetStarted\HelloWorld\obj\Debug\net10.0\HelloWorld.AssemblyInfoInputs.cache
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Tutoriales\GetStarted\HelloWorld\obj\Debug\net10.0\HelloWorld.AssemblyInfo.cs
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Tutoriales\GetStarted\HelloWorld\obj\Debug\net10.0\HelloWorld.csproj.CoreCompileInputs.cache
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Tutoriales\GetStarted\HelloWorld\obj\Debug\net10.0\HelloWorld.dll
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Tutoriales\GetStarted\HelloWorld\obj\Debug\net10.0\refint\HelloWorld.dll
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Tutoriales\GetStarted\HelloWorld\obj\Debug\net10.0\HelloWorld.pdb
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Tutoriales\GetStarted\HelloWorld\obj\Debug\net10.0\HelloWorld.genruntimeconfig.cache
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Tutoriales\GetStarted\HelloWorld\obj\Debug\net10.0\ref\HelloWorld.dll

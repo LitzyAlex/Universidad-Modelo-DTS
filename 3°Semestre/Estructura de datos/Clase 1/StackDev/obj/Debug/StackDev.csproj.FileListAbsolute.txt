@@ -1,0 +1,7 @@
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Clase 1\StackDev\bin\Debug\StackDev.exe.config
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Clase 1\StackDev\bin\Debug\StackDev.exe
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Clase 1\StackDev\bin\Debug\StackDev.pdb
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Clase 1\StackDev\obj\Debug\StackDev.csproj.AssemblyReference.cache
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Clase 1\StackDev\obj\Debug\StackDev.csproj.CoreCompileInputs.cache
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Clase 1\StackDev\obj\Debug\StackDev.exe
+C:\Users\litzy\OneDrive\Desktop\GitHub\Estructura de datos\Clase 1\StackDev\obj\Debug\StackDev.pdb
