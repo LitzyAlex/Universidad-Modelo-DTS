@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\litzy\\OneDrive\\Desktop\\GitHub\\Estructura de datos\\Queue\\QueueDev\\QueueDev.csproj": {}
+    "C:\\Users\\Tayde\\OneDrive\\Desktop\\aili\\sem3\\GitHub\\3°Semestre\\Estructura de datos\\Queue\\QueueDev\\QueueDev.csproj": {}
   },
   "projects": {
-    "C:\\Users\\litzy\\OneDrive\\Desktop\\GitHub\\Estructura de datos\\Queue\\QueueDev\\QueueDev.csproj": {
+    "C:\\Users\\Tayde\\OneDrive\\Desktop\\aili\\sem3\\GitHub\\3°Semestre\\Estructura de datos\\Queue\\QueueDev\\QueueDev.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\litzy\\OneDrive\\Desktop\\GitHub\\Estructura de datos\\Queue\\QueueDev\\QueueDev.csproj",
+        "projectUniqueName": "C:\\Users\\Tayde\\OneDrive\\Desktop\\aili\\sem3\\GitHub\\3°Semestre\\Estructura de datos\\Queue\\QueueDev\\QueueDev.csproj",
         "projectName": "QueueDev",
-        "projectPath": "C:\\Users\\litzy\\OneDrive\\Desktop\\GitHub\\Estructura de datos\\Queue\\QueueDev\\QueueDev.csproj",
-        "packagesPath": "C:\\Users\\litzy\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\litzy\\OneDrive\\Desktop\\GitHub\\Estructura de datos\\Queue\\QueueDev\\obj\\",
+        "projectPath": "C:\\Users\\Tayde\\OneDrive\\Desktop\\aili\\sem3\\GitHub\\3°Semestre\\Estructura de datos\\Queue\\QueueDev\\QueueDev.csproj",
+        "packagesPath": "C:\\Users\\Tayde\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Tayde\\OneDrive\\Desktop\\aili\\sem3\\GitHub\\3°Semestre\\Estructura de datos\\Queue\\QueueDev\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\litzy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Tayde\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
