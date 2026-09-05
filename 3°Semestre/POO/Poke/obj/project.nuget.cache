@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "rN3mJ9nRTJ0=",
+  "dgSpecHash": "AvpnQby6vIY=",
   "success": true,
-  "projectFilePath": "C:\\Users\\litzy\\OneDrive\\Desktop\\GitHub\\Universidad\\Universidad-Modelo-DTS\\3°Semestre\\POO\\Poke\\Poke.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/home/johnny_silverhand/Documents/GitHub/Litzy/Universidad-Modelo-DTS/3°Semestre/POO/Poke/Poke.csproj",
+  "expectedPackageFiles": [
+    "/home/johnny_silverhand/.nuget/packages/microsoft.aspnetcore.app.ref/10.0.11/microsoft.aspnetcore.app.ref.10.0.11.nupkg.sha512"
+  ],
   "logs": []
 }

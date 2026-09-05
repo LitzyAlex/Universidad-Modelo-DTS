@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 using System.Text;
 
 namespace QueueDev
@@ -7,7 +8,7 @@ namespace QueueDev
     internal class ArrayQueue<T> : IQueue<T>
     {
         //datos
-        private const int DefaultCapacity = 6;
+        private const int DefaultCapacity = 5;
         private T[] data;
         private int indexI;
         private int indexF;
@@ -19,6 +20,16 @@ namespace QueueDev
         public bool Empty => check == 0;
         public bool Full => check == Capacity;
 
+
+        // Constructores
+        public ArrayQueue()
+        {
+            Capacity = DefaultCapacity;
+            data = new T[Capacity];
+            indexF = -1;
+            indexI = 0;
+            check = 0;
+        }
         public ArrayQueue(int capacity) 
         {
             Capacity = capacity < DefaultCapacity ? DefaultCapacity : capacity;
@@ -28,6 +39,21 @@ namespace QueueDev
             check = 0;
         }
 
+        public ArrayQueue(ArrayQueue<T> data)  
+        {
+            Capacity = data.Capacity;           
+            this.data = new T[Capacity];       
+            indexF = data.indexF;               
+            indexI = data.indexI;               
+            check = data.check;             
+
+            for (int i = 0; i < data.Capacity; i++)
+            {
+                this.data[i] = data.data[i];
+            }
+        }   
+
+        // Metodos
         //expandir arreglo
         public T Enqueue(T e)
         {
@@ -37,7 +63,12 @@ namespace QueueDev
                 Console.WriteLine();
 
                 T[] newData = new T[Capacity * 2];
-                //corregir Array.Copy(data, newData, data.Length);
+                for (int i = 0; i < Capacity; i++)
+                {
+                    newData[i] = data[(indexI + i) % Capacity];
+                }
+                indexI = 0;
+                indexF = Capacity - 1;
                 Capacity *= 2;
                 data = newData;
             }
@@ -56,14 +87,20 @@ namespace QueueDev
             }
             if (Capacity / 2 >= DefaultCapacity && check == Capacity / 5)
             {
-                Console.WriteLine ("Reduciendo arreglo...");
+                Console.WriteLine("Reduciendo arreglo...");
                 Console.WriteLine();
 
                 T[] newData = new T[Capacity / 2];
-                //corregir Array.Copy(data, newData, Size);
+                for (int i = 0; i < check; i++)
+                {
+                    newData[i] = data[(indexI + i) % Capacity];
+                }
+                indexI = 0;
+                indexF = check - 1;
                 Capacity /= 2;
                 data = newData;
             }
+
             T e = data[indexI];
             indexI = (indexI + 1) % Capacity;
             check--;
