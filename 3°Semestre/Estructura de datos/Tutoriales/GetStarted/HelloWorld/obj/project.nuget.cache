@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "RZYJStQV9nA=",
+  "dgSpecHash": "/nVjqmjxiVQ=",
   "success": true,
-  "projectFilePath": "C:\\Users\\litzy\\OneDrive\\Desktop\\GitHub\\Estructura de datos\\Tutoriales\\GetStarted\\HelloWorld\\HelloWorld.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/home/johnny_silverhand/Documents/GitHub/Litzy/Universidad-Modelo-DTS/3°Semestre/Estructura de datos/Tutoriales/GetStarted/HelloWorld/HelloWorld.csproj",
+  "expectedPackageFiles": [
+    "/home/johnny_silverhand/.nuget/packages/microsoft.aspnetcore.app.ref/10.0.11/microsoft.aspnetcore.app.ref.10.0.11.nupkg.sha512"
+  ],
   "logs": []
 }
