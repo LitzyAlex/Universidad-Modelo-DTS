@@ -133,6 +133,7 @@ namespace QueueDev
             PrintQueueStatus(array_queue3);
 
             Console.WriteLine(array_queue3.Capacity);
+
         }
     }
 }
