@@ -1,6 +1,7 @@
 ﻿using System; 
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace StackDev
     internal class Program
     {
         //Diccionarios
-        Dictionary<char, int> operadores = new Dictionary<char, int>()
+        static Dictionary<char, int> operadores = new Dictionary<char, int>()
             {
                 { '+', 1 },
                 { '-', 1 },
@@ -21,24 +22,13 @@ namespace StackDev
                 { '^', 3 }
             };
 
-        Dictionary<char, double> variables = new Dictionary<char, double>()
-            {
-                {'a',0 },
-                {'b',0 },
-                {'c',0 },
-                {'d',0 },
-                {'e',0 },
-                {'f',0 },
-            };
+        Dictionary<char, double> variables = new Dictionary<char, double>(); //debe estar vacio al inicio
 
         static Dictionary<char, char> parejas = new Dictionary<char, char>()
             {
                 { ')', '(' },
                 { ']', '[' },
                 { '}', '{' },
-               // { '(', ')' },
-                //{ '[', ']' },
-                //{ '{', '}' },
             };
 
 
@@ -111,43 +101,94 @@ namespace StackDev
                 
         }
 
-        /*
-        string ConvertToRPM(string expression)
+
+        static List<string> ConvertToRPN(string expression)
         {
             IStack<char> stack = new ArrayStack<char>(10);
-           // string operadores = "+-*
-        /*    string texto = expression;
-            expression = texto.Replace(" ", "");
+            List<string> output = new List<string>();
 
             for (int i = 0; i < expression.Length; i++)
             {
-                string output;
                 char caracter = expression[i];
-                if (char.IsDigit(caracter))
+                if (char.IsLetterOrDigit(caracter))
                 {
-                    WriteLine(output += caracter);
-                }
-                else if(caracter == ')')
-                {
-                    stack.Pop();
-                }
-                else if(caracter == '(' || operadores.Contains(caracter))
-                {
-                    stack.Push(caracter);
+                    
+                    string numero = "";
+                    while (i < expression.Length && char.IsDigit(expression[i])) //verifica si estoy dentro de la expresion y si el caracter donde estoy es un numero y lo agrega
+                    {
+                        numero = numero + expression[i];
+                        i++;
+                    }
 
+                    output.Add(numero);
+
+                    i--;  //le restamos lo que agregamos en la ultima vuelta del while :)
+                    
+                }
+
+                else if (parejas.ContainsKey(caracter)) //si contiene los valores de key ")"
+                {
+                    char pop;
+                    bool end = false;
+                    do
+                    {
+                        if (stack.Empty) { break;}
+                        pop = stack.Pop();
+                        if (pop == parejas[caracter])
+                        {
+                            end = true;
+                        }
+                        else
+                        {
+                            output.Add(pop.ToString());
+                        }
+
+                    } while (end==false);
+
+                }
+                
+                else
+                {
+                    if (parejas.ContainsValue(caracter))
+                    {
+                        stack.Push(caracter);
+                    }
+                    else
+                    {
+                        while (stack.Empty == false && (operadores.ContainsKey(stack.Peek()) && operadores[stack.Peek()] >= operadores[caracter]))
+                        {
+                            {
+                                output.Add(stack.Pop().ToString());
+                            }
+
+                        }
+                        stack.Push(caracter);
+                    }
                 }
             }
+            while(stack.Empty == false)
+            {
+                output.Add(stack.Pop().ToString());
+            }
+            return output;
+
         }  
 
-        */
+
+      
 
 
         static void Main(string[] args)
         {
 
-            string expression1 = "((a+b) -y*(4+2))";
-            string papu = Normalize(expression1);
-            WriteLine(CheckParentesis(papu));
+            string expression1 = "(5+(8-2))^2 *10";
+            string normalize = Normalize(expression1);
+            WriteLine(CheckParentesis(normalize));
+            List<string> papu = ConvertToRPN(normalize);
+            foreach (string elemento in papu)
+            {
+                Write(elemento + " ");
+            }
 
 
         }
