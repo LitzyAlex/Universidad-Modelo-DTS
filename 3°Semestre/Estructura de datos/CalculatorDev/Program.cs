@@ -114,7 +114,7 @@ namespace StackDev
                 {
                     
                     string numero = "";
-                    while (i < expression.Length && char.IsDigit(expression[i])) //verifica si estoy dentro de la expresion y si el caracter donde estoy es un numero y lo agrega
+                    while (i < expression.Length && (char.IsDigit(expression[i]) || expression[i] == '.')) //verifica si estoy dentro de la expresion y si el caracter donde estoy es un numero y lo agrega
                     {
                         numero = numero + expression[i];
                         i++;
@@ -181,7 +181,7 @@ namespace StackDev
         static void Main(string[] args)
         {
 
-            string expression1 = "(5+(8-2))^2 *10";
+            string expression1 = "{5+(8-2)}^2 *10.5";
             string normalize = Normalize(expression1);
             WriteLine(CheckParentesis(normalize));
             List<string> papu = ConvertToRPN(normalize);
