@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{C6366343-6B10-CE39-8397-168D004DA15E}|QueueDev.csproj|solutionrelative:arrayqueue.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C6366343-6B10-CE39-8397-168D004DA15E}|QueueDev.csproj|c:\\users\\tayde\\onedrive\\desktop\\aili\\sem3\\github\\3\u00B0semestre\\estructura de datos\\queue\\queuedev\\statickqueue.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C6366343-6B10-CE39-8397-168D004DA15E}|QueueDev.csproj|solutionrelative:statickqueue.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C6366343-6B10-CE39-8397-168D004DA15E}|QueueDev.csproj|c:\\users\\tayde\\onedrive\\desktop\\aili\\sem3\\github\\3\u00B0semestre\\estructura de datos\\queue\\queuedev\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C6366343-6B10-CE39-8397-168D004DA15E}|QueueDev.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C6366343-6B10-CE39-8397-168D004DA15E}|QueueDev.csproj|c:\\users\\tayde\\onedrive\\desktop\\aili\\sem3\\github\\3\u00B0semestre\\estructura de datos\\queue\\queuedev\\statickqueue.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6366343-6B10-CE39-8397-168D004DA15E}|QueueDev.csproj|solutionrelative:statickqueue.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C6366343-6B10-CE39-8397-168D004DA15E}|QueueDev.csproj|c:\\users\\tayde\\onedrive\\desktop\\aili\\sem3\\github\\3\u00B0semestre\\estructura de datos\\queue\\queuedev\\iqueue.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -36,23 +36,22 @@
               "RelativeDocumentMoniker": "ArrayQueue.cs",
               "ToolTip": "C:\\Users\\Tayde\\OneDrive\\Desktop\\aili\\sem3\\GitHub\\3\u00B0Semestre\\Estructura de datos\\Queue\\QueueDev\\ArrayQueue.cs",
               "RelativeToolTip": "ArrayQueue.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAowBUAAAAoAAAAAAAAAA==",
+              "ViewState": "AgIAADwAAAAAAAAAAAAiwGEAAABKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-09-04T01:48:00.387Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "StatickQueue.cs",
               "DocumentMoniker": "C:\\Users\\Tayde\\OneDrive\\Desktop\\aili\\sem3\\GitHub\\3\u00B0Semestre\\Estructura de datos\\Queue\\QueueDev\\StatickQueue.cs",
               "RelativeDocumentMoniker": "StatickQueue.cs",
               "ToolTip": "C:\\Users\\Tayde\\OneDrive\\Desktop\\aili\\sem3\\GitHub\\3\u00B0Semestre\\Estructura de datos\\Queue\\QueueDev\\StatickQueue.cs",
               "RelativeToolTip": "StatickQueue.cs",
-              "ViewState": "AgIAAEMAAAAAAAAAAAAcwF0AAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAACMAAAAAAAAAAAAuwDwAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-31T20:26:21.018Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-31T20:26:21.018Z"
             },
             {
               "$type": "Document",
@@ -62,23 +61,21 @@
               "RelativeDocumentMoniker": "IQueue.cs",
               "ToolTip": "C:\\Users\\Tayde\\OneDrive\\Desktop\\aili\\sem3\\GitHub\\3\u00B0Semestre\\Estructura de datos\\Queue\\QueueDev\\IQueue.cs",
               "RelativeToolTip": "IQueue.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAhAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-31T20:24:25.363Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-31T20:24:25.363Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Tayde\\OneDrive\\Desktop\\aili\\sem3\\GitHub\\3\u00B0Semestre\\Estructura de datos\\Queue\\QueueDev\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\Tayde\\OneDrive\\Desktop\\aili\\sem3\\GitHub\\3\u00B0Semestre\\Estructura de datos\\Queue\\QueueDev\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAQwB4AAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAHEAAAAAAAAAAAAgwCEAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-31T20:21:16.159Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-31T20:21:16.159Z"
             }
           ]
         }
