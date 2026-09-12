@@ -172,9 +172,102 @@ namespace StackDev
             }
             return output;
 
-        }  
+        }
 
+        static List<double> ExecutorOp(List<string> papu)
+        {
+            List<double> stack3 = new List<double>(5);
 
+            foreach (string elemento in papu)
+            {
+                bool operador = Program.operadores.ContainsKey(elemento[0]);
+
+                if (operador == true)
+                {
+                    double total = 0;
+                    int i = (stack3.Count) - 1;
+
+                    char op = elemento[0];
+
+                    switch (op)
+                    {
+                        case '+':
+                            WriteLine();
+                            WriteLine("Elemento actual: " + op);
+
+                            total = stack3[i - 1] + stack3[i];
+                            stack3[i - 1] = total;
+                            stack3.RemoveAt(i);
+
+                            WriteLine("Resultado: " + total);
+                            Write(stack3[i - 1] + " ");
+                            WriteLine();
+
+                            break;
+                        case '-':
+                            total = stack3[i - 1] - stack3[i];
+                            stack3[i - 1] = total;
+                            stack3.RemoveAt(i);
+
+                            WriteLine("Resultado: " + total);
+                            Write(stack3[i - 1] + " ");
+                            WriteLine();
+
+                            break;
+
+                        case '*':
+                            WriteLine();
+                            WriteLine("Elemento actual: " + op);
+
+                            total = stack3[i - 1] * stack3[i];
+                            stack3[i - 1] = total;
+                            stack3.RemoveAt(i);
+
+                            WriteLine("Resultado: " + total);
+                            Write(stack3[i - 1] + " ");
+                            WriteLine();
+
+                            break;
+
+                        case '/':
+                            WriteLine();
+                            WriteLine("Elemento actual: " + op);
+
+                            total = stack3[i - 1] / stack3[i];
+                            stack3[i - 1] = total;
+                            stack3.RemoveAt(i);
+
+                            WriteLine("Resultado: " + total);
+                            Write(stack3[i - 1] + " ");
+                            WriteLine();
+
+                            break;
+
+                        case '^':
+                            WriteLine();
+                            WriteLine("Elemento actual: " + op);
+
+                            total = Math.Pow(stack3[i - 1], stack3[i]);
+                            stack3[i - 1] = total;
+                            stack3.RemoveAt(i);
+
+                            WriteLine("Resultado: " + total);
+                            Write(stack3[i - 1] + " ");
+                            WriteLine();
+
+                            break;
+                    }
+
+                } else
+                {
+                    double numero = double.Parse(elemento);
+                    stack3.Add(numero);
+                    Write(numero + " ");
+                }
+
+            }
+        return stack3;
+        }
       
 
 
@@ -190,9 +283,16 @@ namespace StackDev
                 Write(elemento + " ");
             }
 
+            WriteLine();
+            WriteLine();
+            WriteLine("Obteniendo resultado...");
+            WriteLine();
+            ExecutorOp(papu);
+
+
 
         }
 
-
+        
     }
 }
