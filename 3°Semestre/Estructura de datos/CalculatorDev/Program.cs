@@ -187,11 +187,11 @@ namespace StackDev
                     double total = 0;       //almacenar el total de la operación
                     int i = (stack3.Count) - 1; //posicionar el índice final del stack3
 
-                    if (stack3.Count < 2) //si el stack no tiene mínimo 2 números es Error
+                    if (stack3.Count < 2) //si el stack3 no tiene mínimo 2 números es Error
                     {
                         WriteLine("Error");
                     } else {
-                        char op = elemento[0];  //para guardar el operador encontrado de la biblioteca
+                        char op = elemento[0];  //guarda el operador encontrado de la biblioteca
 
                         //imprimir stack actual
                         WriteLine();
@@ -233,7 +233,7 @@ namespace StackDev
                                 break;
 
                             case '/':
-                                if (stack3[i] == 0)
+                                if (stack3[i] == 0) //validar división != 0
                                 {
                                     WriteLine("Error división entre 0");
                                 }
@@ -249,7 +249,7 @@ namespace StackDev
                                 break;
 
                             case '^':
-                                total = Math.Pow(stack3[i - 1], stack3[i]);
+                                total = Math.Pow(stack3[i - 1], stack3[i]); //calcular potencia = (base, exponente)
                                 stack3[i - 1] = total;
                                 stack3.RemoveAt(i);
 
@@ -261,13 +261,13 @@ namespace StackDev
 
                 } else
                 {
-                    double numero = double.Parse(elemento);
-                    stack3.Add(numero);
+                    double numero = double.Parse(elemento); //convierte el string a double
+                    stack3.Add(numero); //añade número al stack
                 }
 
             }
 
-        if (stack3.Count == 1)
+        if (stack3.Count == 1)  //validar que solo haya un resultado final
             {
                 return stack3;
             } else
