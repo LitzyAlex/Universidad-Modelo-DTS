@@ -176,97 +176,105 @@ namespace StackDev
 
         static List<double> ExecutorOp(List<string> papu)
         {
-            List<double> stack3 = new List<double>(5);
+            List<double> stack3 = new List<double>(5);  //crea stack3 de tamaño 5 para almacenar los números
 
-            foreach (string elemento in papu)
+            foreach (string elemento in papu)   //recorre los elementos de papu
             {
-                bool operador = Program.operadores.ContainsKey(elemento[0]);
+                bool operador = Program.operadores.ContainsKey(elemento[0]);    // el elemento es un operador?
 
                 if (operador == true)
                 {
-                    double total = 0;
-                    int i = (stack3.Count) - 1;
+                    double total = 0;       //almacenar el total de la operación
+                    int i = (stack3.Count) - 1; //posicionar el índice final del stack3
 
-                    char op = elemento[0];
-
-                    switch (op)
+                    if (stack3.Count < 2) //si el stack no tiene mínimo 2 números es Error
                     {
-                        case '+':
-                            WriteLine();
-                            WriteLine("Elemento actual: " + op);
+                        WriteLine("Error");
+                    } else {
+                        char op = elemento[0];  //para guardar el operador encontrado de la biblioteca
 
-                            total = stack3[i - 1] + stack3[i];
-                            stack3[i - 1] = total;
-                            stack3.RemoveAt(i);
+                        //imprimir stack actual
+                        WriteLine();
+                        foreach (double numero in stack3)
+                        {
+                            Write(numero + " ");
+                        }
+                        WriteLine();
+                        WriteLine("Elemento actual: " + op);
+                        //
 
-                            WriteLine("Resultado: " + total);
-                            Write(stack3[i - 1] + " ");
-                            WriteLine();
+                        switch (op)
+                        {
+                            case '+':
+                                total = stack3[i - 1] + stack3[i];
+                                stack3[i - 1] = total;
+                                stack3.RemoveAt(i);
 
-                            break;
-                        case '-':
-                            total = stack3[i - 1] - stack3[i];
-                            stack3[i - 1] = total;
-                            stack3.RemoveAt(i);
+                                WriteLine("Resultado: " + total);
 
-                            WriteLine("Resultado: " + total);
-                            Write(stack3[i - 1] + " ");
-                            WriteLine();
+                                break;
 
-                            break;
+                            case '-':
+                                total = stack3[i - 1] - stack3[i];
+                                stack3[i - 1] = total;
+                                stack3.RemoveAt(i);
 
-                        case '*':
-                            WriteLine();
-                            WriteLine("Elemento actual: " + op);
+                                WriteLine("Resultado: " + total);
 
-                            total = stack3[i - 1] * stack3[i];
-                            stack3[i - 1] = total;
-                            stack3.RemoveAt(i);
+                                break;
 
-                            WriteLine("Resultado: " + total);
-                            Write(stack3[i - 1] + " ");
-                            WriteLine();
+                            case '*':
+                                total = stack3[i - 1] * stack3[i];
+                                stack3[i - 1] = total;
+                                stack3.RemoveAt(i);
 
-                            break;
+                                WriteLine("Resultado: " + total);
 
-                        case '/':
-                            WriteLine();
-                            WriteLine("Elemento actual: " + op);
+                                break;
 
-                            total = stack3[i - 1] / stack3[i];
-                            stack3[i - 1] = total;
-                            stack3.RemoveAt(i);
+                            case '/':
+                                if (stack3[i] == 0)
+                                {
+                                    WriteLine("Error división entre 0");
+                                }
+                                else
+                                {
+                                    total = stack3[i - 1] / stack3[i];
+                                    stack3[i - 1] = total;
+                                    stack3.RemoveAt(i);
 
-                            WriteLine("Resultado: " + total);
-                            Write(stack3[i - 1] + " ");
-                            WriteLine();
+                                    WriteLine("Resultado: " + total);
+                                }
 
-                            break;
+                                break;
 
-                        case '^':
-                            WriteLine();
-                            WriteLine("Elemento actual: " + op);
+                            case '^':
+                                total = Math.Pow(stack3[i - 1], stack3[i]);
+                                stack3[i - 1] = total;
+                                stack3.RemoveAt(i);
 
-                            total = Math.Pow(stack3[i - 1], stack3[i]);
-                            stack3[i - 1] = total;
-                            stack3.RemoveAt(i);
+                                WriteLine("Resultado: " + total);
 
-                            WriteLine("Resultado: " + total);
-                            Write(stack3[i - 1] + " ");
-                            WriteLine();
-
-                            break;
+                                break;
+                        }
                     }
 
                 } else
                 {
                     double numero = double.Parse(elemento);
                     stack3.Add(numero);
-                    Write(numero + " ");
                 }
 
             }
-        return stack3;
+
+        if (stack3.Count == 1)
+            {
+                return stack3;
+            } else
+            {
+                WriteLine("Error al calcular el resultado");
+                return stack3;
+            }
         }
       
 
@@ -285,10 +293,11 @@ namespace StackDev
 
             WriteLine();
             WriteLine();
-            WriteLine("Obteniendo resultado...");
+            WriteLine("//////////// CALCULANDO RESULTADO ////////////");
             WriteLine();
-            ExecutorOp(papu);
-
+            List<double> resultado = ExecutorOp(papu);
+            WriteLine();
+            WriteLine("Resultado final: " + resultado[0]);
 
 
         }
