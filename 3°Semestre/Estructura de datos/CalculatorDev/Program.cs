@@ -185,18 +185,22 @@ namespace StackDev
             return output;
         }
 
+        //el método se puede usar desde el mismo proyecto sin tener que crear un objeto
+        //devuelve una lista de double, recibe el parámetro "papu" de strings
         internal static List<double> ExecutorOp(List<string> papu)
         {
             List<double> stack3 = new List<double>(5);  //crea stack3 de tamaño 5 para almacenar los números
 
             foreach (string elemento in papu)   //recorre los elementos de papu
             {
-                bool operador = elemento.Length == 1 && Program.operadores.ContainsKey(elemento[0]);    // el elemento es un operador? // Si (ver diccionario)
+                //el elemento es de un caracter? este caracter existe como llave en el diccionario? 
+                bool operador = elemento.Length == 1 && Program.operadores.ContainsKey(elemento[0]);
 
                 if (operador == true)
                 {
                     double total = 0;       //almacenar el total de la operación
-                    int i = (stack3.Count) - 1; //posicionar el índice final del stack3
+                    //.count = cuántos elementos hay en la lista
+                    int i = (stack3.Count) - 1; //el índice del último número del stack3
 
                     if (stack3.Count < 2) //si el stack3 no tiene mínimo 2 números es Error
                     {
@@ -204,7 +208,7 @@ namespace StackDev
                     } 
                     else 
                     {
-                        char op = elemento[0];  //guarda el operador encontrado de la biblioteca
+                        char op = elemento[0];  //guarda el primer caracter del elemento en op
 
                         //imprimir stack actual
                         WriteLine();
@@ -220,8 +224,8 @@ namespace StackDev
                         {
                             case '+':
                                 total = stack3[i - 1] + stack3[i];
-                                stack3[i - 1] = total;
-                                stack3.RemoveAt(i);
+                                stack3[i - 1] = total;  //reemplaza el penúltimo número por el total calculado
+                                stack3.RemoveAt(i);     //elimina el último número del stack
 
                                 WriteLine("Resultado: " + total);
 
@@ -262,6 +266,7 @@ namespace StackDev
                                 break;
 
                             case '^':
+                                //Math clase de C# con funciones matemáticas
                                 total = Math.Pow(stack3[i - 1], stack3[i]); //calcular potencia = (base, exponente)
                                 stack3[i - 1] = total;
                                 stack3.RemoveAt(i);
@@ -274,8 +279,8 @@ namespace StackDev
 
                 } else
                 {
-                    double numero = double.Parse(elemento); //convierte el string a double
-                    stack3.Add(numero); //añade número al stack
+                    double numero = double.Parse(elemento); //convierte el string a double y lo nombra "numero"
+                    stack3.Add(numero); //añade el numero al final del stack
                 }
 
             }
