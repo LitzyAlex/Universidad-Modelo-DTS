@@ -111,29 +111,44 @@ namespace StackDev
             for (int i = 0; i < expression.Length; i++)
             {
                 char caracter = expression[i];
-                if (char.IsLetterOrDigit(caracter))
+
+                // Es un negativo cuando:
+                // -- Es e primer caracter de la expresion.
+                // -- El caracter anterior es un operador (*-).
+                // -- El caracter anterior es un parentesis de apertura.
+                bool Negativo = caracter == '-' && (i == 0 || operadores.ContainsKey(expression[i - 1]) || parejas.ContainsValue(expression[i - 1]));
+
+                if (Negativo)
                 {
-                    
+                    string numero = "-";
+                    i++; // saltamos el '-' para empezar a leer los digitos
+                    while (i < expression.Length && (char.IsDigit(expression[i]) || expression[i] == '.'))
+                    {
+                        numero += expression[i];
+                        i++;
+                    }
+                    output.Add(numero);
+                    i--; // regresamos al -
+                }
+                else if (char.IsLetterOrDigit(caracter))
+                {
                     string numero = "";
-                    while (i < expression.Length && (char.IsDigit(expression[i]) || expression[i] == '.')) //verifica si estoy dentro de la expresion y si el caracter donde estoy es un numero y lo agrega
+                    while (i < expression.Length && (char.IsDigit(expression[i]) || expression[i] == '.'))
                     {
                         numero = numero + expression[i];
                         i++;
                     }
 
                     output.Add(numero);
-
-                    i--;  //le restamos lo que agregamos en la ultima vuelta del while :)
-                    
+                    i--;
                 }
-
-                else if (parejas.ContainsKey(caracter)) //si contiene los valores de key ")"
+                else if (parejas.ContainsKey(caracter))
                 {
                     char pop;
                     bool end = false;
                     do
                     {
-                        if (stack.Empty) { break;}
+                        if (stack.Empty) { break; }
                         pop = stack.Pop();
                         if (pop == parejas[caracter])
                         {
@@ -143,11 +158,8 @@ namespace StackDev
                         {
                             output.Add(pop.ToString());
                         }
-
-                    } while (end==false);
-
+                    } while (end == false);
                 }
-                
                 else
                 {
                     if (parejas.ContainsValue(caracter))
@@ -158,21 +170,19 @@ namespace StackDev
                     {
                         while (stack.Empty == false && (operadores.ContainsKey(stack.Peek()) && operadores[stack.Peek()] >= operadores[caracter]))
                         {
-                            {
-                                output.Add(stack.Pop().ToString());
-                            }
-
+                            output.Add(stack.Pop().ToString());
                         }
                         stack.Push(caracter);
                     }
                 }
             }
-            while(stack.Empty == false)
+
+            while (stack.Empty == false)
             {
                 output.Add(stack.Pop().ToString());
             }
-            return output;
 
+            return output;
         }
 
         internal static List<double> ExecutorOp(List<string> papu)
@@ -181,7 +191,7 @@ namespace StackDev
 
             foreach (string elemento in papu)   //recorre los elementos de papu
             {
-                bool operador = Program.operadores.ContainsKey(elemento[0]);    // el elemento es un operador? // Si (ver diccionario)
+                bool operador = elemento.Length == 1 && Program.operadores.ContainsKey(elemento[0]);    // el elemento es un operador? // Si (ver diccionario)
 
                 if (operador == true)
                 {
