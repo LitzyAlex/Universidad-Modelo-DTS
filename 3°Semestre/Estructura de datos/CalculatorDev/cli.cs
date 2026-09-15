@@ -34,8 +34,7 @@ namespace StackDev
             Console.WriteLine("//////// Actions ////////");
             Console.WriteLine();
             Console.WriteLine("To create/reassign a variable: '<name> = <value or expression>'");
-            Console.WriteLine("To evaluate an operation, just type the expression, e.g. '(2+3)*4'");
-            Console.WriteLine("Variables can be used inside expressions and inside other assignments.");
+            Console.WriteLine("To evaluate an operation, just type the expression");
             Console.WriteLine();
         }
 
@@ -58,7 +57,7 @@ namespace StackDev
 
             if (op)
             {
-                Evaluarinput(normalizado);
+                EvaluarExpresion(normalizado);
                 return;
             }
 
@@ -168,7 +167,7 @@ namespace StackDev
             string nombre = partes[0];
             string valorExpr = partes[1];
 
-            if (!Valid_id(nombre))
+            if (!Valid_Name(nombre))
             {
                 Console.WriteLine($"Error: '{nombre}' no es un nombre de variable valido.");
                 return;
@@ -195,7 +194,7 @@ namespace StackDev
         }
 
 
-        private static void Evaluarinput(string input)
+        private static void EvaluarExpresion(string input)
         {
             try
             {
@@ -231,8 +230,7 @@ namespace StackDev
 
         private static string ReplaceVariables(string input)
         {
-            // Que es un string builder.
-            StringBuilder resultado = new StringBuilder();
+            string resultado = "";
             int i = 0;
 
             while (i < input.Length)
@@ -253,19 +251,19 @@ namespace StackDev
                         throw new Exception($"La variable '{identificador}' no existe.");
                     }
 
-                    resultado.Append(variables[identificador].ToString(CultureInfo.InvariantCulture));
+                    resultado += variables[identificador].ToString(CultureInfo.InvariantCulture);
                 }
                 else
                 {
-                    resultado.Append(c);
+                    resultado += c;
                     i++;
                 }
             }
 
-            return resultado.ToString();
+            return resultado;
         }
 
-        private static bool Valid_id(string input)
+        private static bool Valid_Name(string input)
         {
             if (string.IsNullOrEmpty(input))
             {
@@ -274,7 +272,6 @@ namespace StackDev
 
             if (!char.IsLetter(input[0]) && input[0] != '_')
             {
-                // Entramos aca si el primer caracter de input 
                 return false;
             }
 
