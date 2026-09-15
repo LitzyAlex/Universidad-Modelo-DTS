@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ namespace StackDev
     internal class Program
     {
         //Diccionarios
-        static Dictionary<char, int> operadores = new Dictionary<char, int>()
+        internal static Dictionary<char, int> operadores = new Dictionary<char, int>()
             {
                 { '+', 1 },
                 { '-', 1 },
@@ -56,16 +57,16 @@ namespace StackDev
         //Aceptar mas parentesis
 
 
-        static string Normalize(string expression)
+        internal static string Normalize(string expression)
         {
             string texto = expression;
-            expression = texto.Replace(" ", "");
+            expression = texto.Replace(" ", "").ToLowerInvariant();
             return expression;
         }
 
 
 
-        static bool CheckParentesis(string expression)
+        internal static bool CheckParentesis(string expression)
         {
             IStack<char> stack = new ArrayStack<char>(10);
 
@@ -102,7 +103,7 @@ namespace StackDev
         }
 
 
-        static List<string> ConvertToRPN(string expression)
+        internal static List<string> ConvertToRPN(string expression)
         {
             IStack<char> stack = new ArrayStack<char>(10);
             List<string> output = new List<string>();
@@ -174,13 +175,13 @@ namespace StackDev
 
         }
 
-        static List<double> ExecutorOp(List<string> papu)
+        internal static List<double> ExecutorOp(List<string> papu)
         {
             List<double> stack3 = new List<double>(5);  //crea stack3 de tamaño 5 para almacenar los números
 
             foreach (string elemento in papu)   //recorre los elementos de papu
             {
-                bool operador = Program.operadores.ContainsKey(elemento[0]);    // el elemento es un operador?
+                bool operador = Program.operadores.ContainsKey(elemento[0]);    // el elemento es un operador? // Si (ver diccionario)
 
                 if (operador == true)
                 {
@@ -190,7 +191,9 @@ namespace StackDev
                     if (stack3.Count < 2) //si el stack3 no tiene mínimo 2 números es Error
                     {
                         WriteLine("Error");
-                    } else {
+                    } 
+                    else 
+                    {
                         char op = elemento[0];  //guarda el operador encontrado de la biblioteca
 
                         //imprimir stack actual
@@ -200,7 +203,7 @@ namespace StackDev
                             Write(numero + " ");
                         }
                         WriteLine();
-                        WriteLine("Elemento actual: " + op);
+                        WriteLine("Operador actual: " + op);
                         //
 
                         switch (op)
@@ -281,25 +284,19 @@ namespace StackDev
 
         static void Main(string[] args)
         {
-
-            string expression1 = "{5+(8-2)}^2 *10.5";
-            string normalize = Normalize(expression1);
-            WriteLine(CheckParentesis(normalize));
-            List<string> papu = ConvertToRPN(normalize);
-            foreach (string elemento in papu)
+            Cli.Help();
+            while (true)
             {
-                Write(elemento + " ");
+                Write("[Papu@papu]# ");
+                string input = Console.ReadLine();
+
+                if (input == null)
+                {
+                    break;
+                }
+
+                Cli.Verifica(input);
             }
-
-            WriteLine();
-            WriteLine();
-            WriteLine("//////////// CALCULANDO RESULTADO ////////////");
-            WriteLine();
-            List<double> resultado = ExecutorOp(papu);
-            WriteLine();
-            WriteLine("Resultado final: " + resultado[0]);
-
-
         }
 
         
