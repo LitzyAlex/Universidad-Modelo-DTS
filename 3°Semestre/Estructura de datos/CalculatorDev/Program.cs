@@ -83,7 +83,7 @@ namespace StackDev
                     }
                     else
                     {
-                        throw new Exception("No es pareja");
+                        throw new Exception("No es pareja"); //return false
                     }
                 }
                 else
