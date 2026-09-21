@@ -114,7 +114,7 @@ namespace StackDev    //Es el apellido de la variable
                 //No estoy contando cada movimiento individual
                 //Estoy contando los turnos de mi patron, porque cuando le toca al bloque, MoverTres
                 //realiza los siete movimientos necesarios por si solo
-                long totalPasos = (long)Math.Pow(2, discos - 2) - 1; ; //Estamos calculando los movimientos: 2^(n-2)-1
+                long totalPasos = (long)Math.Pow(2, discos - 2) - 1;  //Estamos calculando los movimientos: 2^(n-2)-1
 
 
                 for (long paso = 2; paso <= totalPasos; paso++) //Hara todos los movimientos
