@@ -3,8 +3,28 @@ class Pokemon
     //Atributos
     public string nombre ="";
     public List<string> tipos;
-    public int nivel;
-    public int vida;
+    public int nivel {
+        get{return _nivel; }
+        set
+        {
+            if(value < 0 || value > 100){throw new Exception("El nivel debe ser mayor a 0 menor a 100");}
+            else{_nivel = value;}
+        }
+        }
+    private int _nivel {get; set;}
+
+    public int vida {
+        get{return _vida; }
+        set
+        {
+            if(value<0){_vida=0;}
+            else
+            {
+                {_vida = value;}
+            }
+        }
+        }
+    private int _vida{get; set;}
     public int  ataque;
 
     //Métodos

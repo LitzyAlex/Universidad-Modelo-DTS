@@ -25,7 +25,19 @@ class Program {
         Pokemon Pokemon2 = new Pokemon("Papu", 100, 5);
         Pokemon2.MostrarInformacion();
         
-        Pokemon Pokemon3 = new Pokemon(datos[1]);
-        Pokemon3.MostrarInformacion();
+        Pokemon Ivysaur = new Pokemon(datos[1]);
+        Ivysaur.MostrarInformacion();
+
+        Console.WriteLine();
+        Console.WriteLine("Enfrentar");
+        Arena arena = new Arena();
+        arena.Enfrentar(Bulbasaur,Ivysaur);
+
+        Console.WriteLine();
+        Console.WriteLine("Capturar");
+        Entrenador Papu = new Entrenador("Papu");
+        Papu.Capturar(Ivysaur);
+        Papu.Capturar(Bulbasaur);
+
     }
 }
