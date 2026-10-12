@@ -83,6 +83,7 @@ namespace StackDev    //Es el apellido de la variable
             //solamente estoy usando variables que apuntan a estas tres torres
 
 
+
             // Si solamente hay 3 discos los movemos directamente
             if (discos == 3)
             {
