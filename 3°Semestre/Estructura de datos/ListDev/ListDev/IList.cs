@@ -41,5 +41,7 @@ namespace ListDev
         IList<T> FindAll(Predicate<T> match);
         // Performs the specified action on each element of the list.
         void ForEach(Action<T> action);
+
+        void Sort(Comparison<T> comparison);
     }
 }

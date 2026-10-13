@@ -7,6 +7,7 @@ namespace ListDev
 {
     internal class LinkedList<T> : IList<T>
     {
+        //clase Nodo
         private class Node
         {
             public T Element {get; set;}
@@ -34,7 +35,35 @@ namespace ListDev
             Size = 0;
         }
 
+        public LinkedList(IEnumerable<T> elements) : this()
+        {
+            foreach (var e in elements)
+            {
+                Add(e);
+            }
+        }
+
         //Metodos
+        public IEnumerator<T> GetEnumerator()
+        {
+            if (Size > 0)
+            {
+                Node current = first;
+               
+                do
+                {
+                    yield return current.Element;
+                    current = current.Next;
+                }
+                while(current != null);
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
         public void Add(T element)
         {
             if (Empty)
@@ -55,11 +84,11 @@ namespace ListDev
             }
         }
 
+        
+
+      
+
         public T this[int index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        
-
-        
 
         public void AddAll(T first, params T[] elements)
         {
@@ -111,10 +140,6 @@ namespace ListDev
             throw new NotImplementedException();
         }
 
-        public IEnumerator<T> GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
 
         public void Insert(int index, T element)
         {
@@ -131,9 +156,9 @@ namespace ListDev
             throw new NotImplementedException();
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        public void Sort(Comparison<T> comparison)
         {
-            return GetEnumerator();
+            throw new NotImplementedException();
         }
     }
 }

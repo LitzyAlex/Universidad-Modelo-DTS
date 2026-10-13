@@ -213,6 +213,23 @@ namespace ListDev
             }
             return newList;
         }
-        
+
+        public void Sort(Comparison<T> comparison)
+        {
+            for (int i=0;  i < Size-1;i++)
+            {
+                for (int j = 0; j < Size-1; j++)
+                {
+                    if (comparison(data[j], data[j+1]) > 0)
+                    {
+                        T aux = data[j];
+                        data[j] = data[j+1];
+                        data[j+1] = aux;
+                    }
+                }
+            }
+        }
+
+
     }
 }
