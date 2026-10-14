@@ -84,15 +84,18 @@ namespace ListDev
             }
         }
 
-        
-
-      
-
-        public T this[int index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public T this[int index] {
+            get => Get(index);
+            set => Set(index, value);
+        }
 
         public void AddAll(T first, params T[] elements)
         {
-            throw new NotImplementedException();
+            Add(first);
+            foreach (T e in elements)
+            {
+                Add(e);
+            }
         }
 
         public bool All(Predicate<T> condition)
@@ -112,7 +115,19 @@ namespace ListDev
 
         public bool Contains(T element)
         {
-            throw new NotImplementedException();
+            Node current = first;
+            while (current != null) 
+            {
+                //Se usa asi porque element es un tipo de dato T
+                //object.Equals(a,b) compara dos valores y devuelve true o false
+                //object es el tipo base del que derivan todos los tipos
+                if (object.Equals(current.Element,element)) 
+                {
+                    return true;
+                }
+                current = current.Next;
+            }
+            return false;
         }
 
         public int Count(Predicate<T> condition)
@@ -135,9 +150,16 @@ namespace ListDev
             throw new NotImplementedException();
         }
 
-        public T Get(int index)
+        public T Get(int index) //Perdon lo hice para el index ;u;
         {
-            throw new NotImplementedException();
+            Node current = first;
+
+            for (int i = 0; i < index; i++)
+            {
+                current = current.Next;
+            }
+
+            return current.Element;
         }
 
 
@@ -153,12 +175,49 @@ namespace ListDev
 
         public void Set(int index, T element)
         {
-            throw new NotImplementedException();
+            Node current = first; //comienza en el primer nodo
+            for (int i = 0; i < index; i++) //avanza hasta el indice dado
+            {
+                current = current.Next;
+            }
+            
+            current.Element = element;
         }
 
         public void Sort(Comparison<T> comparison)
         {
-            throw new NotImplementedException();
+            if (Empty)
+            {
+                return;
+            }
+            Node sorted = null; //inicio de el ordenamiento
+            Node current = first; //el primer nodo de nuestra lista
+
+            while (current != null)
+            {
+                Node next = current.Next; //guarda el siguiente antes de modificar
+                if(sorted == null || comparison(current.Element, sorted.Element) < 0)
+                {
+                    current.Next = sorted; //En la primera apunta a null
+                    sorted = current; 
+                }
+                else
+                {
+                    Node search = sorted;
+
+                    while (search.Next != null && comparison(search.Next.Element, current.Element) <= 0)
+                    {
+                        search = search.Next;
+                    }
+
+                    current.Next = search.Next;
+                    search.Next = current;
+                }
+
+                current = next;
+            }
+
+            first = sorted;
         }
     }
 }
