@@ -110,7 +110,8 @@ namespace ListDev
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            first = null;
+            Size = 0;
         }
 
         public bool Contains(T element)
