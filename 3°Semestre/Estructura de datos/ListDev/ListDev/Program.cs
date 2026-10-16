@@ -28,7 +28,7 @@ namespace ListDev
 
         static void Main(string[] args)
         {
-           WriteLine("******Lista inicial****");
+           WriteLine("\n******Lista inicial****");
            var list = new LinkedList<int>();
            list.Add(10);
            list.Add(-4);
@@ -36,12 +36,12 @@ namespace ListDev
            list.Add(27);
            list.Add(-36);
 
-           Write("\n[");
+           Write("[");
            foreach (int e in list)
            {
                Write($"{e} ");
            }
-           WriteLine("]");
+           WriteLine("]\n");
 
             WriteLine("\n******Prueba de Get, Set e index****");
             WriteLine($"Get indice 3: {list.Get(3)}");
@@ -93,6 +93,53 @@ namespace ListDev
             }
             WriteLine("]");
 
+            
+            WriteLine("\n******Prueba RemoveAt******");
+            WriteLine("Eliminar elemento en indice 2:");
+            list.RemoveAt(2);
+
+            Write("[");
+            foreach (int e in list)
+            {
+                Write($"{e} ");
+            }
+            WriteLine("]");
+
+
+            WriteLine("\n******Prueba Insert******");
+            WriteLine("Insertar 50 en indice 2:");
+            list.Insert(2, 50);
+
+            Write("[");
+            foreach (int e in list)
+            {
+                Write($"{e} ");
+            }
+            WriteLine("]");
+
+
+            WriteLine("\n******Prueba FindAll******");
+            WriteLine("Numeros negativos:");
+
+            var negativos = list.FindAll(x => x < 0);
+
+            Write("[");
+            foreach (int e in negativos)
+            {
+                Write($"{e} ");
+            }
+            WriteLine("]");
+
+
+            WriteLine("\n******Prueba Any******");
+            WriteLine($"Numeros negativos?: {list.Any(x => x < 0)}");
+            WriteLine($"Numeros pares?: {list.Any(x => x % 2 == 0)}");
+
+
+            WriteLine("\n******Prueba Count******");
+            WriteLine($"Cantidad de negativos: {list.Count(x => x < 0)}");
+            WriteLine($"Cantidad de positivos: {list.Count(x => x > 0)}");
+            WriteLine($"Cantidad de pares: {list.Count(x => x % 2 == 0)}");
 
             /*
             //************ArrayList**************
