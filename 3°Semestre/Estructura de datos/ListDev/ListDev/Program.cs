@@ -160,7 +160,7 @@ namespace ListDev
             WriteLine("\n******Prueba Clear******");
             list.Clear();
             Write("[");
-            foreach (int e in negativos)
+            foreach (int e in list)
             {
                 Write($"{e} ");
             }

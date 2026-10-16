@@ -265,7 +265,7 @@ namespace ListDev
                     return e.Element;
                 }
             }
-            return default T;
+            return default;
         }
 
         //13 FindAll -> Octavio
