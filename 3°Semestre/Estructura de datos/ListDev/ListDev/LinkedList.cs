@@ -46,7 +46,13 @@ namespace ListDev
             }
         }
 
-        //Metodos
+        //Métodos
+        public T this[int index]
+        {
+            get => Get(index);
+            set => Set(index, value);
+        }
+
         public IEnumerator<T> GetEnumerator()
         {
             if (Size > 0)
@@ -67,6 +73,32 @@ namespace ListDev
             return GetEnumerator();
         }
 
+        //1 Get -> Litzy
+        public T Get(int index)
+        {
+            Node current = first;
+
+            for (int i = 0; i < index; i++)
+            {
+                current = current.Next;
+            }
+
+            return current.Element;
+        }
+
+        //2 Set -> Litzy
+        public void Set(int index, T element)
+        {
+            Node current = first; //comienza en el primer nodo
+            for (int i = 0; i < index; i++) //avanza hasta el indice dado
+            {
+                current = current.Next;
+            }
+
+            current.Element = element;
+        }
+
+        //3 Add ->
         public void Add(T element)
         {
             if (Empty)
@@ -81,17 +113,13 @@ namespace ListDev
                 {
                     lastNode = lastNode.Next;
                 }
-                
+
                 lastNode.Next = new Node(element);
                 Size++;
             }
         }
 
-        public T this[int index] {
-            get => Get(index);
-            set => Set(index, value);
-        }
-
+        //4 AddAll -> Litzy
         public void AddAll(T first, params T[] elements)
         {
             Add(first);
@@ -101,105 +129,7 @@ namespace ListDev
             }
         }
 
-        public bool All(Predicate<T> condition)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        // Determines whether any element of a sequence satisfies a condition.
-        public bool Any(Predicate<T> condition)
-        {
-            for (var e = first; e != null; e = e.Next)
-            {
-                if (condition(e.Element))
-                {
-                    return true;
-                }
-            }
-            
-            return false;
-        }
-
-        public void Clear()
-        {
-            first = null;
-            Size = 0;
-        }
-
-        public bool Contains(T element)
-        {
-            Node current = first;
-            while (current != null) 
-            {
-                //Se usa asi porque element es un tipo de dato T
-                //object.Equals(a,b) compara dos valores y devuelve true o false
-                //object es el tipo base del que derivan todos los tipos
-                if (object.Equals(current.Element,element)) 
-                {
-                    return true;
-                }
-                current = current.Next;
-            }
-            return false;
-        }
-
-
-        // Returns a number that represents how many elements in the list
-        // satisfy a condition.
-        public int Count(Predicate<T> condition)
-        {
-            int matches = 0;
-            for (var e = first; e != null; e = e.Next)
-            {
-                if (condition(e.Element))
-                {
-                    matches++;
-                }
-            }
-            return matches;
-        }
-
-        public T Find(Predicate<T> match)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        // Retrieves all the elements that match the conditions defined
-        // by the specified predicate.
-        public IList<T> FindAll(Predicate<T> match)
-        {
-            LinkedList<T> matches = new LinkedList<T>();
-            for (var e = first; e != null; e = e.Next)
-            {
-                if (match(e.Element))
-                {
-                    matches.Add(e.Element);
-                }
-            }
-            return matches;
-        }
-
-        public void ForEach(Action<T> action)
-        {
-            throw new NotImplementedException();
-        }
-
-        public T Get(int index) //Perdon lo hice para el index ;u;
-        {
-            Node current = first;
-
-            for (int i = 0; i < index; i++)
-            {
-                current = current.Next;
-            }
-
-            return current.Element;
-        }
-
-
-        // void Insert(int index, T element);
+        //5 Insert -> Octavio
         public void Insert(int index, T element)
         {
             if (index < 0 || index >= Size)
@@ -228,7 +158,7 @@ namespace ListDev
             Size++;
         }
 
-        // void RemoveAt(int index);
+        //6 RemoveAt -> Octavio
         public void RemoveAt(int index)
         {
             if (index < 0 || index >= Size)
@@ -256,17 +186,112 @@ namespace ListDev
             return;
         }
 
-        public void Set(int index, T element)
+        //7 Clear -> Aili
+        public void Clear()
         {
-            Node current = first; //comienza en el primer nodo
-            for (int i = 0; i < index; i++) //avanza hasta el indice dado
-            {
-                current = current.Next;
-            }
-            
-            current.Element = element;
+            first = null;
+            Size = 0;
         }
 
+        //8 Contains -> Litzy
+        public bool Contains(T element)
+        {
+            Node current = first;
+            while (current != null)
+            {
+                //Se usa asi porque element es un tipo de dato T
+                //object.Equals(a,b) compara dos valores y devuelve true o false
+                //object es el tipo base del que derivan todos los tipos
+                if (object.Equals(current.Element, element))
+                {
+                    return true;
+                }
+                current = current.Next;
+            }
+            return false;
+        }
+
+        //9 All -> Aili
+        public bool All(Predicate<T> condition)
+        {
+            //empieza en first y avanza con next hasta el último (null)
+            for (var e = first; e != null; e = e.Next)
+            {
+                if (!condition(e.Element)) //si no cumple la condición:
+                {
+                    return false;
+                }
+            }
+
+            //si cumple todo o la lista está vacía:
+            return true;
+        }
+
+        //10 Any -> Octavio
+        public bool Any(Predicate<T> condition)
+        {
+            for (var e = first; e != null; e = e.Next)
+            {
+                if (condition(e.Element))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        //11 Count -> Octavio
+        public int Count(Predicate<T> condition)
+        {
+            int matches = 0;
+            for (var e = first; e != null; e = e.Next)
+            {
+                if (condition(e.Element))
+                {
+                    matches++;
+                }
+            }
+            return matches;
+        }
+
+        //12 Find -> Aili
+        public T Find(Predicate<T> match)
+        {
+            for (var e = first; e != null; e = e.Next)
+            {
+                if (match(e.Element))
+                {
+                    return e.Element;
+                }
+            }
+            return default T;
+        }
+
+        //13 FindAll -> Octavio
+        public IList<T> FindAll(Predicate<T> match)
+        {
+            LinkedList<T> matches = new LinkedList<T>();
+            for (var e = first; e != null; e = e.Next)
+            {
+                if (match(e.Element))
+                {
+                    matches.Add(e.Element);
+                }
+            }
+            return matches;
+        }
+
+        //14 ForEach -> Aili
+        public void ForEach(Action<T> action)
+        {
+            for (var e = first; e != null; e = e.Next)
+            {
+                action(e.Element);
+            }
+        }
+
+        //15 Sort -> Litzy
         public void Sort(Comparison<T> comparison)
         {
             if (Empty)
@@ -279,10 +304,10 @@ namespace ListDev
             while (current != null)
             {
                 Node next = current.Next; //guarda el siguiente antes de modificar
-                if(sorted == null || comparison(current.Element, sorted.Element) < 0)
+                if (sorted == null || comparison(current.Element, sorted.Element) < 0)
                 {
                     current.Next = sorted; //En la primera apunta a null
-                    sorted = current; 
+                    sorted = current;
                 }
                 else
                 {

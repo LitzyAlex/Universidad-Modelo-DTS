@@ -43,6 +43,8 @@ namespace ListDev
            }
            WriteLine("]\n");
 
+
+            //pruebas Litzy
             WriteLine("\n******Prueba de Get, Set e index****");
             WriteLine($"Get indice 3: {list.Get(3)}");
             WriteLine("Set indice (3,0): ");
@@ -93,19 +95,8 @@ namespace ListDev
             }
             WriteLine("]");
 
-            
-            WriteLine("\n******Prueba RemoveAt******");
-            WriteLine("Eliminar elemento en indice 2:");
-            list.RemoveAt(2);
 
-            Write("[");
-            foreach (int e in list)
-            {
-                Write($"{e} ");
-            }
-            WriteLine("]");
-
-
+            //pruebas Octavio
             WriteLine("\n******Prueba Insert******");
             WriteLine("Insertar 50 en indice 2:");
             list.Insert(2, 50);
@@ -117,6 +108,20 @@ namespace ListDev
             }
             WriteLine("]");
 
+            WriteLine("\n******Prueba Any******");
+            WriteLine($"Numeros negativos?: {list.Any(x => x < 0)}");
+            WriteLine($"Numeros pares?: {list.Any(x => x % 2 == 0)}");
+
+            WriteLine("\n******Prueba RemoveAt******");
+            WriteLine("Eliminar elemento en indice 2:");
+            list.RemoveAt(2);
+
+            Write("[");
+            foreach (int e in list)
+            {
+                Write($"{e} ");
+            }
+            WriteLine("]");
 
             WriteLine("\n******Prueba FindAll******");
             WriteLine("Numeros negativos:");
@@ -130,16 +135,36 @@ namespace ListDev
             }
             WriteLine("]");
 
-
-            WriteLine("\n******Prueba Any******");
-            WriteLine($"Numeros negativos?: {list.Any(x => x < 0)}");
-            WriteLine($"Numeros pares?: {list.Any(x => x % 2 == 0)}");
-
-
             WriteLine("\n******Prueba Count******");
             WriteLine($"Cantidad de negativos: {list.Count(x => x < 0)}");
             WriteLine($"Cantidad de positivos: {list.Count(x => x > 0)}");
             WriteLine($"Cantidad de pares: {list.Count(x => x % 2 == 0)}");
+
+            //pruebas Aili
+            WriteLine("\n******Prueba All******");
+            WriteLine($"Todos los negativos: {list.All(x => x < 0)}");
+            WriteLine($"Todos los pares: {list.All(x => x % 2 == 0)}");
+
+            WriteLine("\n******Prueba Find******");
+            WriteLine($"Mayor a 30: {list.Find(e => e >= 30)}");
+
+            WriteLine("\n******Prueba Foreach******");
+            Write("\nPositivos: [ ");
+            list.FindAll(e => e > 0).ForEach(e => Write($"{e} "));
+            WriteLine("]");
+
+            Write("\nNegativos: [ ");
+            list.FindAll(e => e < 0).ForEach(e => Write($"{e} "));
+            WriteLine("]");
+
+            WriteLine("\n******Prueba Clear******");
+            list.Clear();
+            Write("[");
+            foreach (int e in negativos)
+            {
+                Write($"{e} ");
+            }
+            WriteLine("]");
 
             /*
             //************ArrayList**************
