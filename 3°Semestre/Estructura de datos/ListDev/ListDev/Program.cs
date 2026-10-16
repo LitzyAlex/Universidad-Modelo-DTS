@@ -28,7 +28,7 @@ namespace ListDev
 
         static void Main(string[] args)
         {
-           WriteLine("\n******Lista inicial****");
+           WriteLine("\n///////// LISTA INICIAL /////////");
            var list = new LinkedList<int>();
            list.Add(10);
            list.Add(-4);
@@ -36,7 +36,7 @@ namespace ListDev
            list.Add(27);
            list.Add(-36);
 
-           Write("[");
+           Write("[ ");
            foreach (int e in list)
            {
                Write($"{e} ");
@@ -45,50 +45,53 @@ namespace ListDev
 
 
             //pruebas Litzy
-            WriteLine("\n******Prueba de Get, Set e index****");
-            WriteLine($"Get indice 3: {list.Get(3)}");
-            WriteLine("Set indice (3,0): ");
+            WriteLine("\n1) Prueba de Get, Set e Index");
+            WriteLine($"Get -> índice 3: {list.Get(3)}");
+            WriteLine("Set -> índice (3,0): ");
             list.Set(3, 0);
-
-            Write("\n[");
+            Write("[ ");
             foreach (int e in list)
             {
                 Write($"{e} ");
             }
             WriteLine("]");
 
-            WriteLine("\nlist[27] = 3");
+            WriteLine("\nIndex -> list[3] = 27");
             list[3] = 27;
 
-            Write("\n[");
+            WriteLine("\n///////// LISTA /////////");
+            Write("[ ");
             foreach (int e in list)
             {
                 Write($"{e} ");
             }
             WriteLine("]");
 
-            WriteLine("\n******Prueba AddAll****");
-            WriteLine("Añadir (100,2,56,34,-11): "); 
+            WriteLine("\n2) Prueba AddAll");
+            WriteLine("Añadir -> (100, 2, 56, 34, -11): "); 
             list.AddAll(100, 2, 56, 34, -11);
 
-            Write("\n[");
+            WriteLine("\n///////// LISTA ACTUALIZADA /////////");
+            Write("[ ");
             foreach (int e in list)
             {
                 Write($"{e} ");
             }
             WriteLine("]");
 
-            WriteLine("\n******Prueba Sort****");
+            WriteLine("\n3) Prueba Sort");
+            WriteLine("\n///////// LISTA ASCENDENTE /////////");
             list.Sort((x,y) => x.CompareTo(y));
-            Write("\n[");
+            Write("[ ");
             foreach (int e in list)
             {
                 Write($"{e} ");
             }
             WriteLine("]");
 
+            WriteLine("\n///////// LISTA DESCENDENTE /////////");
             list.Sort((x, y) => y.CompareTo(x));
-            Write("\n[");
+            Write("[ ");
             foreach (int e in list)
             {
                 Write($"{e} ");
@@ -97,67 +100,69 @@ namespace ListDev
 
 
             //pruebas Octavio
-            WriteLine("\n******Prueba Insert******");
-            WriteLine("Insertar 50 en indice 2:");
+            WriteLine("\n4) Prueba Insert");
+            WriteLine("Insertar -> 50 en índice 2:");
             list.Insert(2, 50);
 
-            Write("[");
+            WriteLine("\n///////// LISTA /////////");
+            Write("[ ");
             foreach (int e in list)
             {
                 Write($"{e} ");
             }
             WriteLine("]");
 
-            WriteLine("\n******Prueba Any******");
-            WriteLine($"Numeros negativos?: {list.Any(x => x < 0)}");
-            WriteLine($"Numeros pares?: {list.Any(x => x % 2 == 0)}");
+            WriteLine("\n5) Prueba Any");
+            WriteLine($"¿Hay números negativos?: {list.Any(x => x < 0)}");
+            WriteLine($"¿Hay números pares?: {list.Any(x => x % 2 == 0)}");
 
-            WriteLine("\n******Prueba RemoveAt******");
-            WriteLine("Eliminar elemento en indice 2:");
+            WriteLine("\n6) Prueba RemoveAt");
+            WriteLine("Eliminar -> elemento en índice 2:");
             list.RemoveAt(2);
 
-            Write("[");
+            WriteLine("\n///////// LISTA /////////");
+            Write("[ ");
             foreach (int e in list)
             {
                 Write($"{e} ");
             }
             WriteLine("]");
 
-            WriteLine("\n******Prueba FindAll******");
+            WriteLine("\n7) Prueba FindAll");
             WriteLine("Numeros negativos:");
 
             var negativos = list.FindAll(x => x < 0);
 
-            Write("[");
+            Write("[ ");
             foreach (int e in negativos)
             {
                 Write($"{e} ");
             }
             WriteLine("]");
 
-            WriteLine("\n******Prueba Count******");
+            WriteLine("\n8) Prueba Count");
             WriteLine($"Cantidad de negativos: {list.Count(x => x < 0)}");
             WriteLine($"Cantidad de positivos: {list.Count(x => x > 0)}");
             WriteLine($"Cantidad de pares: {list.Count(x => x % 2 == 0)}");
 
             //pruebas Aili
-            WriteLine("\n******Prueba All******");
+            WriteLine("\n9) Prueba All");
             WriteLine($"Todos los negativos: {list.All(x => x < 0)}");
             WriteLine($"Todos los pares: {list.All(x => x % 2 == 0)}");
 
-            WriteLine("\n******Prueba Find******");
+            WriteLine("\n10) Prueba Find");
             WriteLine($"Mayor a 30: {list.Find(e => e >= 30)}");
 
-            WriteLine("\n******Prueba Foreach******");
-            Write("\nPositivos: [ ");
+            WriteLine("\n11) Prueba Foreach");
+            Write("Positivos: [ ");
             list.FindAll(e => e > 0).ForEach(e => Write($"{e} "));
             WriteLine("]");
 
-            Write("\nNegativos: [ ");
+            Write("Negativos: [ ");
             list.FindAll(e => e < 0).ForEach(e => Write($"{e} "));
             WriteLine("]");
 
-            WriteLine("\n******Prueba Clear******");
+            WriteLine("\n12) Prueba Clear");
             list.Clear();
             Write("[");
             foreach (int e in list)
