@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
+using System.Transactions;
 
 namespace ListDev
 {
@@ -27,6 +29,7 @@ namespace ListDev
         public int Size {get; set;}
 
         public bool Empty => first == null;
+
 
         //Constructores
         public LinkedList()
@@ -103,9 +106,19 @@ namespace ListDev
             throw new NotImplementedException();
         }
 
+
+        // Determines whether any element of a sequence satisfies a condition.
         public bool Any(Predicate<T> condition)
         {
-            throw new NotImplementedException();
+            for (var e = first; e != null; e = e.Next)
+            {
+                if (condition(e.Element))
+                {
+                    return true;
+                }
+            }
+            
+            return false;
         }
 
         public void Clear()
@@ -131,9 +144,20 @@ namespace ListDev
             return false;
         }
 
+
+        // Returns a number that represents how many elements in the list
+        // satisfy a condition.
         public int Count(Predicate<T> condition)
         {
-            throw new NotImplementedException();
+            int matches = 0;
+            for (var e = first; e != null; e = e.Next)
+            {
+                if (condition(e.Element))
+                {
+                    matches++;
+                }
+            }
+            return matches;
         }
 
         public T Find(Predicate<T> match)
@@ -141,9 +165,20 @@ namespace ListDev
             throw new NotImplementedException();
         }
 
+
+        // Retrieves all the elements that match the conditions defined
+        // by the specified predicate.
         public IList<T> FindAll(Predicate<T> match)
         {
-            throw new NotImplementedException();
+            LinkedList<T> matches = new LinkedList<T>();
+            for (var e = first; e != null; e = e.Next)
+            {
+                if (match(e.Element))
+                {
+                    matches.Add(e.Element);
+                }
+            }
+            return matches;
         }
 
         public void ForEach(Action<T> action)
@@ -164,14 +199,61 @@ namespace ListDev
         }
 
 
+        // void Insert(int index, T element);
         public void Insert(int index, T element)
         {
-            throw new NotImplementedException();
+            if (index < 0 || index >= Size)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+
+            if (index == 0)
+            {
+                var Node_New = new Node(element);
+                Node_New.Next = first;
+                first = Node_New;
+                Size++;
+                return;
+            }
+
+            var current = first;
+            for (int i = 0; i < index - 1; i++)
+            {
+                current = current.Next;
+            }
+
+            var NewNode = new Node(element);
+            NewNode.Next = current.Next; // Igual a current arriba.
+            current.Next = NewNode; // Re referenciamos current. 
+            Size++;
         }
 
+        // void RemoveAt(int index);
         public void RemoveAt(int index)
         {
-            throw new NotImplementedException();
+            if (index < 0 || index >= Size)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+
+
+            if (index == 0)
+            {
+                first = first.Next;
+                Size--;
+                return;
+                // Pero el nodo sigue en memoria no ? 
+            }
+
+            var current = first;
+            for (int i = 0; i < index - 1; i++)
+            {
+                current = current.Next;
+            }
+
+            current.Next = current.Next.Next;
+            Size--;
+            return;
         }
 
         public void Set(int index, T element)
