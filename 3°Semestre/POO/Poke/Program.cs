@@ -1,43 +1,47 @@
 using System;
-using System.Reflection.Metadata;
 using System.Text.Json;
 using System.Collections.Generic;
 using System.IO;
 
+class Program
+{
+    static void Main()
+    {
+        // Leer el json
+        string json = File.ReadAllText("pokemon.json");
 
-class Program {
-    static void Main() {      
-      
-        string json = File.ReadAllText("pokemon.json");   //Lee un archivo, el json
-        List<PokemonJson> datos = JsonSerializer.Deserialize<List<PokemonJson>>(json) ?? new List<PokemonJson>();
+        List<PokemonJson> datos =JsonSerializer.Deserialize<List<PokemonJson>>(json) ?? new List<PokemonJson>();
 
-        Pokemon Bulbasaur = new Pokemon();
-        Bulbasaur.nombre = datos[0].Name;
-        Bulbasaur.tipos = datos[0].Type;
-        Bulbasaur.vida = datos[0].Hp;
-        Bulbasaur.ataque = datos[0].Attack;
-        Bulbasaur.nivel = 1;
-        Bulbasaur.MostrarInformacion();
-
-        Pokemon Default = new Pokemon();
-        Default.MostrarInformacion();
-
-        Pokemon Pokemon2 = new Pokemon("Papu", 100, 5);
-        Pokemon2.MostrarInformacion();
-        
+        // Crear Pokemon normales 
+        Pokemon Bulbasaur = new Pokemon(datos[0]);
         Pokemon Ivysaur = new Pokemon(datos[1]);
+
+        // Mostrar informacion
+        Bulbasaur.MostrarInformacion();
         Ivysaur.MostrarInformacion();
 
-        Console.WriteLine();
-        Console.WriteLine("Enfrentar");
-        Arena arena = new Arena();
-        arena.Enfrentar(Bulbasaur,Ivysaur);
+        // Crear Pokemon especiales
+        Pokemon Charmander = new PokemonFuego("Charmander", 100, 20);
+        Pokemon Squirtle = new PokemonAgua("Squirtle", 100, 15);
 
-        Console.WriteLine();
-        Console.WriteLine("Capturar");
+        Console.WriteLine("\n=== FUEGO ATACA A AGUA ===");
+
+        Arena arena = new Arena();
+        arena.Enfrentar(Charmander, Squirtle);
+
+        Console.WriteLine("\n=== AGUA ATACA A FUEGO ===");
+
+        arena.Enfrentar(Squirtle, Charmander);
+
+        Console.WriteLine("\n=== POKEMON NORMAL ===");
+
+        arena.Enfrentar(Bulbasaur, Charmander);
+
+        // Probar captura
+        Console.WriteLine("\n=== CAPTURAR ===");
+
         Entrenador Papu = new Entrenador("Papu");
         Papu.Capturar(Ivysaur);
         Papu.Capturar(Bulbasaur);
-
     }
 }
