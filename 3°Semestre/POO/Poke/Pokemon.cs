@@ -1,4 +1,4 @@
-class Pokemon
+public class Pokemon
 {
     //Atributos
     public string nombre ="";
@@ -13,56 +13,72 @@ class Pokemon
         }
     private int _nivel {get; set;}
 
-    public int vida {
-        get{return _vida; }
-        set
-        {
-            if(value<0){_vida=0;}
-            else
-            {
-                {_vida = value;}
-            }
-        }
-        }
-    private int _vida{get; set;}
-    public int  ataque;
+    public Estadisticas Stats;
+    public EstadoAlterado EstadoActual;
 
     //Métodos
     public void MostrarInformacion()
     {
         Console.WriteLine($"=== Pokemon: {nombre}, Nivel {nivel} ===");
         Console.WriteLine($"Tipos: {string.Join(", ", tipos)}");
-        Console.WriteLine($"Vida (HP): {vida}");
-        Console.WriteLine($"Ataque: {ataque}");
+        Console.WriteLine($"Vida: {Stats.VidaActual}/{Stats.VidaMax}");
+        Console.WriteLine($"Ataque: {Stats.Ataque}");
+        Console.WriteLine($"Defensa: {Stats.Defensa}");
+        Console.WriteLine($"Estado: {EstadoActual}");
         Console.WriteLine("====================================");
+    }
+
+    public virtual void Atacar(Pokemon defensor)
+    {
+        int daño = Stats.Ataque - defensor.Stats.Defensa; 
+        if (daño < 0)
+        {
+            daño = 0;
+        }
+
+        defensor.Stats.VidaActual -= daño;
+        if (defensor.Stats.VidaActual < 0)
+        {
+            defensor.Stats.VidaActual = 0;
+        }
+    }
+
+    public enum EstadoAlterado
+    {
+        Normal, 
+        Quemado, 
+        Paralizado, 
+        Dormido
     }
 
     //Constructores
     public Pokemon()
     {
         nombre = "Default";
-        vida = 1;
-        tipos= new List<string>();
+        tipos = new List<string> { "Normal" };
         nivel = 1;
-        ataque = 1;
+        Stats = new Estadisticas(1, 1, 1, 0);
+        EstadoActual = EstadoAlterado.Normal;
     }
 
-    public Pokemon(string nombre,  int vida, int ataque )
+    public Pokemon(string nombre, int vida, int ataque)
     {
         this.nombre = nombre;
-        this.tipos = new List<string>{"Normal"};
-        this.vida = vida;
-        this.nivel = 1;
-        this.ataque = ataque;
+        tipos = new List<string> { "Normal" };
+        nivel = 1;
+
+        Stats = new Estadisticas(vida, vida, ataque, 0);
+        EstadoActual = EstadoAlterado.Normal;
     }
 
     public Pokemon(PokemonJson data)
     {
-        this.nombre = data.Name;
-        this.vida = data.Hp;
-        this.tipos= data.Type;
-        this.ataque = data.Attack;
-        this.nivel = 1;
+        nombre = data.Name;
+        tipos = data.Type;
+        nivel = 1;
+
+        Stats = new Estadisticas(data.Hp, data.Hp, data.Attack, 0);
+        EstadoActual = EstadoAlterado.Normal;
     }
  
 
