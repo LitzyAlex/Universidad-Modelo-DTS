@@ -12,11 +12,12 @@ namespace ListDev
         //clase Nodo
         private class Node
         {
-            public T Element {get; set;}
-            public Node Next { get; set; }
+            public T Element {get; set;}    //el dato que desea guardar
+            public Node Next { get; set; }  //la referencia al siguiente nodo
 
-            public Node(T element) : this(element, null) { }
-            public Node(T element, Node next)
+            //constructores
+            public Node(T element) : this(element, null) { }    //1 nodo: recibe el elemento y la referencia es null
+            public Node(T element, Node next)                   //2 o +: recibe el elemento y la referencia al siguiente nodo
             {
                 Element = element;
                 Next = next;
@@ -31,13 +32,14 @@ namespace ListDev
         public bool Empty => first == null;
 
 
-        //Constructores
+        //Constructores -> lista vacía con tamaño 0
         public LinkedList()
         {
             first = null;
             Size = 0;
         }
 
+        //              -> recibe una colección de elementos, inicializa la lista this() y añade cada e
         public LinkedList(IEnumerable<T> elements) : this()
         {
             foreach (var e in elements)
@@ -53,16 +55,16 @@ namespace ListDev
             set => Set(index, value);
         }
 
-        public IEnumerator<T> GetEnumerator()
+        public IEnumerator<T> GetEnumerator() //para recorrer la lista con un foreach
         {
             if (Size > 0)
             {
-                Node current = first;
+                Node current = first;   //"explorador" que inicia como first
                
                 do
                 {
-                    yield return current.Element;
-                    current = current.Next;
+                    yield return current.Element; //entrega el elemento actual pero manteniendo el estado de current para la siguiente iteración
+                    current = current.Next;       //avanza al siguiente nodo
                 }
                 while(current != null);
             }
@@ -101,20 +103,20 @@ namespace ListDev
         //3 Add ->
         public void Add(T element)
         {
-            if (Empty)
+            if (Empty) //si la lista está vacía...
             {
-                first = new Node(element);
+                first = new Node(element);  //crea un nuevo nodo y lo asigna a first
                 Size++;
             }
             else
             {
-                Node lastNode = first;
-                while (lastNode.Next != null)
+                Node lastNode = first;          //empieza buscando en el primer nodo
+                while (lastNode.Next != null)   //mientras haya un siguiente nodo avanza
                 {
-                    lastNode = lastNode.Next;
+                    lastNode = lastNode.Next;   //pasa al siguiente nodo
                 }
 
-                lastNode.Next = new Node(element);
+                lastNode.Next = new Node(element);  //cuando llega a lo último conecta ahí el nodo nuevo
                 Size++;
             }
         }
@@ -188,8 +190,8 @@ namespace ListDev
 
         //7 Clear -> Aili
         public void Clear()
-        {
-            first = null;
+        {   
+            first = null; //solo borra la referencia al primer nodo
             Size = 0;
         }
 
@@ -260,9 +262,9 @@ namespace ListDev
         {
             for (var e = first; e != null; e = e.Next)
             {
-                if (match(e.Element))
+                if (match(e.Element))   //cuando encuentra el primer elemento que cumple la condición:
                 {
-                    return e.Element;
+                    return e.Element;   //lo devuelve y termina la búsqueda
                 }
             }
             return default;
@@ -287,7 +289,7 @@ namespace ListDev
         {
             for (var e = first; e != null; e = e.Next)
             {
-                action(e.Element);
+                action(e.Element);  //solo aplica la acción a cada elemento sin devolver nada
             }
         }
 
