@@ -40,9 +40,11 @@ namespace SimMarket
                 throw new ArgumentException("Debe haber al menos una caja");
             }
 
-            if (NumCajasRapidas < 0 || NumCajasRapidas > NumCajas)
+            //Una sola regla: 0 <= rapidas < cajas
+            //Siempre debe quedar al menos una caja normal, si no un cliente con muchos articulos (no Preference) no tendria donde formarse
+            if (NumCajasRapidas < 0 || NumCajasRapidas >= NumCajas)
             {
-                throw new ArgumentException("El numero de cajas rapidas no es valido");
+                throw new ArgumentException("Las cajas rapidas no pueden ser negativas y debe existir al menos una caja normal");
             }
 
             if (LimiteArticulosRapida < 0)
@@ -89,13 +91,34 @@ namespace SimMarket
             {
                 throw new ArgumentException("Debe haber al menos una iteracion de llegada de clientes");
             }
-
-            if (NumCajasRapidas >= NumCajas)
-            {
-                throw new ArgumentException("Debe existir al menos una caja normal");
-            }
         }
 
+        //Presets uwuwuwuwuwuwuwuwuwuwuwuwuwuwu
+        public static SimConfig TiendaChica() => new SimConfig
+        {
+            NumCajas = 3,
+            NumCajasRapidas = 1,
+            MaxClientesPorCaja = 4,
+            IteracionesLlegada = 10
+        };
+
+        public static SimConfig HoraPico() => new SimConfig
+        {
+            NumCajas = 5,
+            NumCajasRapidas = 2,
+            MaxClientesPorCaja = 3,
+            MaxLlegadasPorIteracion = 3,
+            IteracionesLlegada = 25
+        };
+
+        public static SimConfig Supermercado() => new SimConfig
+        {
+            NumCajas = 8,
+            NumCajasRapidas = 3,
+            MaxClientesPorCaja = 6,
+            MaxLlegadasPorIteracion = 3,
+            IteracionesLlegada = 30
+        };
 
 
     }
