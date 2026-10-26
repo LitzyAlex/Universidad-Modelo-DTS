@@ -27,7 +27,10 @@ Otros que igual existen ahi:
 | `SimConfig.cs` | La configuracion de todo: todos los numeros que se pueden cambiar (cuantas cajas, cuantos clientes llegan, etc) |
 | `ArrayList.cs` | Nuestra **lista** (la del proyecto anterior) |
 | `ArrayQueue.cs` | Nuestra **cola** (la de proyecto anterior igual) |
-| `Program.cs` | La version de **consola** para probar la logica sin Unity |
+| `Program.cs` | La version de **consola** para probar la logica sin Unity (solo arranca el menu y la sesion) |
+| `CLI/Menu.cs` | El menu inicial: valores por defecto, presets o personalizar la config |
+| `CLI/Stats.cs` | La sesion en consola: loop, teclas, eventos de cada iteracion y resumen final |
+| `CLI/Cli.cs` | Todo el dibujo en pantalla (colores, barras, cajas, filas) |
 | `MarketManager.cs` | El conector con **Unity** (ver seccion 10). Esta comentado con `/* ... */` |
 
 ### Como se usan entre si (con flechas de chat)
@@ -214,15 +217,32 @@ El archivo esta entre `/* ... */` para que el proyecto de consola compile sin te
 
 ## 10. Como probar en consola
 
-Ejecutar el proyecto (`Program.cs`). Despues de cada iteracion se imprime:
-- el resumen (iteracion, clientes en mercado / comprando / en filas, atendidos, abandonaron),
-- cada cliente que sigue comprando,
-- cada caja con su fila (`[atendiendo]` es el primero),
-- y mensajes de los eventos (`->` se formo, `<-` salio, `xx` abandono).
+Ejecutar el proyecto (`dotnet run`). Primero sale un **menu**:
 
-**Enter** = siguiente iteracion, **e** = salir.
+1. Valores por defecto
+2. Tienda chica / 3. Hora pico / 4. Supermercado (presets, viven en `SimConfig` como `SimConfig.TiendaChica()`, etc. asi que Unity tambien los puede usar)
+5. Personalizar: pregunta cada valor (Enter = dejar el que esta entre corchetes). Si algo no es valido, `SimConfig.Validar()` dice por que y se vuelve a preguntar.
 
-`Program.cs` usa `Semilla = 1`, asi que **siempre sale la misma simulacion** (sirve para pruebas). Para que cada vez sea distinta, quiten la semilla: `new SimConfig()`.
+Al final pide la **semilla**. Si se deja vacia se elige una al azar, pero siempre se muestra arriba en la pantalla, asi que si sale algo raro se puede repetir exactamente la misma simulacion escribiendo esa semilla.
+
+La pantalla se **redibuja en el mismo lugar** en cada iteracion y muestra:
+- arriba: iteracion (`7/10` mientras llegan clientes, "vaciando" despues), en tienda, comprando, listos, en filas, atendidos, abandonaron,
+- **CAJAS**: tipo (RAPIDA en verde, NORMAL en azul), capacidad, barra de ocupacion (roja si esta llena), espera estimada y su fila (`▶` es al que se esta cobrando, `(n)` los articulos que le faltan, PREF en amarillo),
+- **MERCADO**: cada cliente con una barra de cuantos articulos lleva,
+- **EVENTOS**: `+` entro, `→` se formo, `←` pago, `✗` abandono.
+
+| Tecla | Que hace |
+|---|---|
+| Enter / Espacio | siguiente iteracion |
+| `n` | avanzar N iteraciones de golpe |
+| `a` | modo automatico (`+`/`-` cambian la velocidad, cualquier otra tecla pausa) |
+| `f` | correr hasta el final |
+| `r` | reiniciar con la misma config y semilla |
+| `q` / Esc | salir (antes muestra el resumen, desde ahi `c` continua) |
+
+Al terminar sale un **resumen**: atendidos y abandonos (con %), tiempo promedio y maximo en tienda, y una tabla por caja.
+
+Tip: `dotnet run > salida.txt` guarda todo en un archivo sin colores (sirve para revisar una corrida completa).
 
 ---
 

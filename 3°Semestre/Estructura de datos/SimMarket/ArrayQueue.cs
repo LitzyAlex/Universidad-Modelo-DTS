@@ -68,9 +68,6 @@ namespace QueueDev
         {
             if (Full) //si está llena se expande el arreglo
             {
-                Console.WriteLine("Expandiendo arreglo...");
-                Console.WriteLine();
-
                 T[] newData = new T[Capacity * 2];  //duplica la capacidad = 10
                 for (int i = 0; i < Capacity; i++)
                 {
@@ -97,9 +94,6 @@ namespace QueueDev
             //si se puede reducir sin pasarse del Default y el tamaño actual es 1/5 se reduce a la mitad el arreglo
             if (Capacity / 2 >= DefaultCapacity && check == Capacity / 5) 
             {
-                Console.WriteLine("Reduciendo arreglo...");
-                Console.WriteLine();
-
                 T[] newData = new T[Capacity / 2];  //nuevo arreglo con espacios reducidos
                 for (int i = 0; i < check; i++)
                 {
