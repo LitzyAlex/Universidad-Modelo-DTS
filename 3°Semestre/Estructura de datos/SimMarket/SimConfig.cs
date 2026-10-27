@@ -2,100 +2,108 @@ using System;
 
 namespace SimMarket
 {
-    // Datos de la simulacion, todo lo que puede cambiar anda por aca
-    // En Unity se puede llenar desde el Inspector y pasarlo al Simulador
+    // panel de ajustes
     public class SimConfig
     {
-        // Cajas
-        public int NumCajas = 3;                 // total de cajas(rapidas + normales)
-        public int NumCajasRapidas = 2;          // cuantas de las anteriores son rapidas
-        public int LimiteArticulosRapida = 5;    // maximo de articulos para usar caja rapida
-        public int MinCapacidadCobro = 1;        // articulos que procesa una caja (minimo, el documento dice de 1 a CHECKOUT PRODUCTS)
-        public int MaxCapacidadCobro = 5;        // articulos que procesa una caja (maximo) = CHECKOUT PRODUCTS
-        public int MaxClientesPorCaja = 2;       // MAX CUSTOMERS PER CASHIER: maximo de clientes por caja incluyendo al que se atiende
+        // CAJAS
+        public int NumCajas = 3;                 // total de cajas
+        public int NumCajasRapidas = 2;          // cuántas son rápidas
+        public int LimiteArticulosRapida = 5;    // máx de artículos p/caja rápida
+        public int MinCapacidadCobro = 1;        // mín de artículos que una caja puede procesar (1 a CHECKOUT PRODUCTS)
+        public int MaxCapacidadCobro = 5;        // máx que una caja procesa (CHECKOUT PRODUCTS)
+        public int MaxClientesPorCaja = 2;       // máx de clientes por caja incluyendo al que se atiende (MAX CUSTOMERS PER CASHIER) 
 
-        // Clientes
-        public int MaxLlegadasPorIteracion = 2;  // cada iteracion llegan de 0 a este numero
-        public int MinArticulos = 1;
+        // CLIENTES
+        public int MaxLlegadasPorIteracion = 2;         // clientes máx que pueden llegar p/iteración
+        public int MinArticulos = 1;                    // rango de artículos que puede tener el cliente
         public int MaxArticulos = 20;
-        public int MinIteracionesPorRecoleccion = 1; // cada cuantas iteraciones agarra articulos
+        public int MinIteracionesPorRecoleccion = 1;    // cada cuántas iteraciones agarra articulos un cliente (tiempo)
         public int MaxIteracionesPorRecoleccion = 3;
-        public int MinArticulosPorRecoleccion = 1;   // cuantos agarra cada vez
+        public int MinArticulosPorRecoleccion = 1;      // cuántos artículos puede agarrar un cliente en cada iteración (cantidad)
         public int MaxArticulosPorRecoleccion = 4;
-        public double ProbPreference = 0.10;         // 10% de clientes Preference dice el documento
-        public int IteracionesLlegada = 10;          // CUSTOMER ARRIVAL ITERATIONS: iteraciones durante las que pueden entrar clientes nuevos
+        public double ProbPreference = 0.10;            // 10% de clientes Preference dice el documento
+        public int IteracionesLlegada = 10;             // cada cuántas iteraciones pueden entrar clientes nuevos (CUSTOMER ARRIVAL ITERATIONS)
 
-        // Aleatorio
-        //Expliacion
-        //Ese ? en int? permite que el valor sea null y Semilla controla los numeros aleatorios
-        //Usando una semilla fija se puede repetir una secuencia de numeros aleatorios(literalmente como en los juegos)
-        //Esto no funciona solito en realidad, atento a eso
-        public int? Semilla = null;              // poner un numero para resultados repetibles 
+        // SEMILLA
+        public int? Semilla = null;              // int?: permite que el valor sea null
+                                                 // Semilla: controla los números aleatorios
+                                                 // = null: se especifica un número para resultados repetibles 
 
-        //Para no validar todo de uno en uno(tecnicamente es de uno en uno tambien aca pero mas bonito, no se si falta alguna validacion)
+        // VALIDACIONES -> cajas
         public void Validar()
-        {
+        {   
+            // 1. existe mínimo una caja
             if (NumCajas <= 0)
             {
                 throw new ArgumentException("Debe haber al menos una caja");
             }
 
-            //Una sola regla: 0 <= rapidas < cajas
-            //Siempre debe quedar al menos una caja normal, si no un cliente con muchos articulos (no Preference) no tendria donde formarse
+            // 2. debe existir, al menos, una caja normal (0 <= rapidas < cajas)
             if (NumCajasRapidas < 0 || NumCajasRapidas >= NumCajas)
             {
                 throw new ArgumentException("Las cajas rapidas no pueden ser negativas y debe existir al menos una caja normal");
             }
 
+            // 3. el límite de artículos p/caja rápida no puede ser -
             if (LimiteArticulosRapida < 0)
             {
                 throw new ArgumentException("El limite de articulos no puede ser negativo");
             }
 
+            // 4. la capacidad mín no puede ser - ni superar la capacidad máx
             if (MinCapacidadCobro <= 0 || MinCapacidadCobro > MaxCapacidadCobro)
             {
                 throw new ArgumentException("El rango de capacidad de cobro no es valido");
             }
 
+
+        // VALIDACIONES -> clientes
+            // 5. el máx de llegadas no puede ser -
             if (MaxLlegadasPorIteracion < 0)
             {
                 throw new ArgumentException("Las llegadas maximas no pueden ser negativas");
             }
 
+            // 6. el mín debe ser + pero no superar el máx de artículos
             if (MinArticulos <= 0 || MinArticulos > MaxArticulos)
             {
                 throw new ArgumentException("El rango de articulos no es valido");
             }
 
+            // 7. respetar el intervalo de mín y máx de iteraciones
             if (MinIteracionesPorRecoleccion <= 0 || MinIteracionesPorRecoleccion > MaxIteracionesPorRecoleccion)
             {
                 throw new ArgumentException("El rango de iteraciones por recoleccion no es valido");
             }
 
+            // 8. respetar el rango de mín y máx de artículos p/iteración
             if (MinArticulosPorRecoleccion <= 0 || MinArticulosPorRecoleccion > MaxArticulosPorRecoleccion)
             {
                 throw new ArgumentException("El rango de articulos por recoleccion no es valido");
             }
 
+            // 9. probabilidad entre 0% y 100%
             if (ProbPreference < 0 || ProbPreference > 1)
             {
                 throw new ArgumentException("La probabilidad de Preference debe estar entre 0 y 1");
             }
 
+            // 10. cada caja debe poder tener mínimo un cliente
             if (MaxClientesPorCaja <= 0)
             {
                 throw new ArgumentException("Cada caja debe poder tener al menos un cliente");
             }
 
+            // 11. mínimo una iteración para el tiempo de llegada
             if (IteracionesLlegada <= 0)
             {
                 throw new ArgumentException("Debe haber al menos una iteracion de llegada de clientes");
             }
         }
 
-        //Presets uwuwuwuwuwuwuwuwuwuwuwuwuwuwu
-        public static SimConfig TiendaChica() => new SimConfig
-        {
+        // presets uwu
+        public static SimConfig TiendaChica() => new SimConfig  // static: llamar al método sin crear su objeto
+        {                                                       // => new SimConfig: devuelve objeto de tipo SimConfig con los valores asignados
             NumCajas = 3,
             NumCajasRapidas = 1,
             MaxClientesPorCaja = 4,
