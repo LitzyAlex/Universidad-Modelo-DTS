@@ -4,35 +4,34 @@ namespace SimMarket
 {
     public class Cliente
     {
-        //Atributos constantes
-        public int Id { get; }
-        public bool EsPreference { get; }
-        public int ArticulosTotales { get; }               // cuantos articulos va a recolectar
-        public int IteracionesPorRecoleccion { get; }      // cada cuantas iteraciones agarra articulos
-        public int ArticulosPorRecoleccion { get; }        // cuantos agarra cada vez
-        public int IteracionLlegada { get; }
+        // atributos CONSTANTES
+        public int Id { get; }                             // identificador del cliente
+        public bool EsPreference { get; }                  // preferente? true o false
+        public int ArticulosTotales { get; }               // total de artículos que recogerá
+        public int IteracionesPorRecoleccion { get; }      // cada cuántas iteraciones agarra artículos
+        public int ArticulosPorRecoleccion { get; }        // cuántos artículos agarra p/iteración
+        public int IteracionLlegada { get; }               // en qué iteración llegó al supermercado
 
-        // Atributos que van cambiando
-        public EstadoCliente Estado { get; private set; }
-        public int ArticulosRecolectados { get; private set; }
-        public int ArticulosPorCobrar { get; private set; } // lo que le falta pagar en caja
-        public int IteracionSalida { get; private set; }
+        // atributos VARIABLES
+        public EstadoCliente Estado { get; private set; }       
+        public int ArticulosRecolectados { get; private set; }  // cantidad actual de artículos recogidos
+        public int ArticulosPorCobrar { get; private set; }     // artículos pendientes en caja
+        public int IteracionSalida { get; private set; }        // en qué iteración salió del supermercado
+            
+        private int contadorEspera;                         // cuántas iteraciones pasaron desde la última recolección
 
-        private int contadorEspera;                         // iteraciones transcurridas desde la ultima recoleccion
-
-        //Esto se supone permite definir un conjunto de opciones con nombres(Estados/etapas del cliente)
-        public enum EstadoCliente
+        public enum EstadoCliente   // estados = etapas del cliente
         {
-            Comprando,        // recorriendo el mercado, recolectando articulos
-            ListoParaCaja,    // ya recolecto todo y se supone que se formara en la siguiente iteracion
-            EnFila,           // formado en la fila de una caja(La queue)
-            Terminado,        // ya pago y salio del mercado(lo matamos o asi)
-            Abandono          // todas las cajas elegibles estaban llenas, se fue sin comprar
+            Comprando,        // recolectando artículos
+            ListoParaCaja,    // terminó de recolectar, se forma en la siguiente iteración
+            EnFila,           // esperando a que le cobren (Queue)
+            Terminado,        // pagó y salió
+            Abandono          // cajas elegibles llenas, se fue sin comprar
         }
 
 
         
-        //Constructor
+        // constructor
         public Cliente(int id, int articulosTotales, int iteracionesPorRecoleccion,int articulosPorRecoleccion, bool esPreference, int iteracionLlegada)
         {
             Id = id;
@@ -48,73 +47,69 @@ namespace SimMarket
             contadorEspera = 0;
         }
 
-        // Avanza la recoleccion durante una iteracion
-        // Devuelve true si termino de recoger todos sus articulos(Min es para no pasarse)
-        public bool Recolectar()
+        public bool Recolectar() //true si termina de recoger todos sus artículos
         {
-            if (Estado != EstadoCliente.Comprando) //Saber si esta comprando
+            if (Estado != EstadoCliente.Comprando) // el cliente debe seguir comprando
             { 
                 return false; 
             }
             contadorEspera++;
 
-            if (contadorEspera < IteracionesPorRecoleccion) //Saber si en esa iteración debe agarrar articulos
+            if (contadorEspera < IteracionesPorRecoleccion) // en esa iteración debe agarrar artículos?
             { 
                 return false; 
             }
-            contadorEspera = 0;
+            contadorEspera = 0; // se reinicia cuando al fin agarra artículo
 
-            int restantes = ArticulosTotales - ArticulosRecolectados;
-            ArticulosRecolectados += Math.Min(ArticulosPorRecoleccion, restantes); //Aqui va a agarrar el numero menor entre estos dos para no pasarse
+            int restantes = ArticulosTotales - ArticulosRecolectados; 
+            ArticulosRecolectados += Math.Min(ArticulosPorRecoleccion, restantes); // elige el menor para agarrar la cantidad exacta de artículos
 
-            if (ArticulosRecolectados >= ArticulosTotales)
+            if (ArticulosRecolectados >= ArticulosTotales)  // ya recogió todos los artículos? sí:
             {
-                Estado = EstadoCliente.ListoParaCaja; //Ahora se va a la caja
+                Estado = EstadoCliente.ListoParaCaja;
                 return true;
             }
             return false;
         }
 
-        //Marca que el cliente ya esta formado en una caja
-        public void EntrarAFila()  //Creo que puede ponerse de forma bonita (lo de => )
+        public void EntrarAFila() 
         { 
-            Estado = EstadoCliente.EnFila; 
+            Estado = EstadoCliente.EnFila;
         }
 
-        // Registra cuantos articulos pudo cobrar la caja(ya que cobra cierta cantidad)
         public int Cobrar(int cantidad)
-        {
-            int cobrados = Math.Min(cantidad, ArticulosPorCobrar);
-            ArticulosPorCobrar -= cobrados;
-            return cobrados;
+        {                           // el menor entre la cantidad que puede cobrar la caja y los artículos pendientes
+            int cobrados = Math.Min(cantidad, ArticulosPorCobrar); 
+            ArticulosPorCobrar -= cobrados; // actualiza faltante por cobrar
+            return cobrados;    // int de artículos pagados
         }
 
-        // Indica si al cliente ya le terminaron de cobrar
+        // si ya no hay artículos por cobrar es true
         public bool TerminoDePagar => ArticulosPorCobrar == 0;
 
-        //Marca la salida del cliente
+        // marca la salida del cliente
         public void Salir(int iteracionActual)
         {
             Estado = EstadoCliente.Terminado;
             IteracionSalida = iteracionActual;
         }
 
-
-        //Marca que el cliente se fue sin pagar porque no habia cajas disponibles
+        // el cliente se fue sin pagar pq no habían cajas disponibles
         public void Abandonar(int iteracionActual)
         {
             Estado = EstadoCliente.Abandono;
             IteracionSalida = iteracionActual;
         }
 
-        //Este es un metodo que ya existe en los objetos en C#
-        //Es para obtener una representación en texto del objeto
-        //Cuando no se modifica al hacer WriteLine(cliente) solo sale el nombre del objeto
-        //Aqui lo sobreescribirmos para que funciona de esta manera:
+        // método que ya existe en los objetos en C#
+        // para obtener una representación en texto del objeto
+        // sino al hacer "WriteLine(cliente)" solo saldría el nombre del objeto
+        // aqui se sobreescribe para que imprima de esta manera:
         public override string ToString()
         {
-            string pref = EsPreference ? " [PREFERENCE]" : "";
+            string pref = EsPreference ? " [PREFERENCE]" : "";  // es preferente? sí: imprime la etiqueta, no:  
             return $"Cliente #{Id}{pref} | {Estado} | recolectados {ArticulosRecolectados}/{ArticulosTotales} |  Cada {IteracionesPorRecoleccion} iter. recoge {ArticulosPorRecoleccion} | por cobrar {ArticulosPorCobrar}";
+            // ej. Cliente #7 [PREFERENCE] | Comprando | recolectados 6/10 | Cada 2 iter. recoge 3 | por cobrar 10
         }
     }
 }
