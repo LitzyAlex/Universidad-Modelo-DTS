@@ -5,21 +5,21 @@ namespace SimMarket
 {
     public class Caja
     {
-        //Atributos fijos
-        public int Id { get; }
-        public bool EsRapida { get; }
-        public int CapacidadCobro { get; }          // articulos que procesa por iteracion 
-        public int LimiteArticulos { get; }         // solo aplica a rapidas
-        public int MaxClientes { get; }             // MAX CUSTOMERS PER CASHIER (incluye al que se atiende)
+        // atributos CONSTANTES
+        public int Id { get; }                      // identificador caja
+        public bool EsRapida { get; }               // es caja rápida? true o false
+        public int CapacidadCobro { get; }          // número de artículos que procesa p/iteración 
+        public int LimiteArticulos { get; }         // (solo aplica a rápidas)
+        public int MaxClientes { get; }             // máximo de clientes por caja incluyendo al que se atiende (MAX CUSTOMERS PER CASHIER)
 
-        private readonly ArrayQueue<Cliente> fila;
+        private readonly ArrayQueue<Cliente> fila; //readonly: la referencia no puede reasignarse una vez inicializado
 
-        //Atributos que cambian
-        public int ClientesAtendidos { get; private set; }
-        public int ArticulosProcesados { get; private set; }
+        // atributos VARIABLES
+        public int ClientesAtendidos { get; private set; }      // cuántos ya terminaron de pagar
+        public int ArticulosProcesados { get; private set; }    // total de artículos que la caja ya ha cobrado
 
-        //Constructor
 
+        // constructor
         public Caja(int id, bool esRapida, int capacidadCobro, int limiteArticulos, int maxClientes)
         {
             Id = id;
@@ -30,87 +30,82 @@ namespace SimMarket
             fila = new ArrayQueue<Cliente>(maxClientes); // capacidad exacta, nunca se expande
         }
 
-        //Propiedades
-
-        //Cuantos clientes hay formados (mas el actual)
+        // propiedades
+            // 1. cuántos clientes hay en la fila incluyendo al que es atendido
         public int ClientesEnEspera => fila.Size;
 
-        //Ya tiene el maximo de clientes asignados (no puede recibir mas)
+            // 2. si el total de clientes en espera ya es el máx no puede recibir más
         public bool Llena => fila.Size >= MaxClientes;
 
-        //Tiempo de espera estimado en iteraciones: suma de techo(articulos pendientes / capacidad)
-        //de cada cliente que ya esta en la fila (incluyendo el que se esta atendiendo)
-        //Es la formula pedida por el profe
+            // 3. cuánto tardaría la caja en cobrar TODOS los artículos: suma de techo(articulos pendientes / capacidad)
         public int TiempoEsperaEstimado
         {
             get
             {
-                int total = 0;
-                for (int i = 0; i < fila.Size; i++)
+                int total = 0;  // inicia acumulador
+                for (int i = 0; i < fila.Size; i++)     // recorre todos los clientes
                 {
-                    int pendientes = fila.ElementAt(i).ArticulosPorCobrar;
-                    total += (int)Math.Ceiling((double)pendientes / CapacidadCobro); // techo de la division
+                           // cliente en la posición i, cuántos artículos le falta por cobrar?
+                    int pendientes = fila.ElementAt(i).ArticulosPorCobrar;  
+                                // redondea hacia arriba
+                    total += (int)Math.Ceiling((double)pendientes / CapacidadCobro);
                 }
-                return total;
+                return total;   // tiempo total
             }
         }
 
-        //Cliente en la posicion indicada de la fila (0 = el que se atiende)
+            // 4. obtener a un cliente en cierta posición (0 = el que se atiende)
         public Cliente ClienteEnPosicion(int posicion) => fila.ElementAt(posicion);
 
-        //Caja desocupada
+            // 5. la cola está vacía? true
         public bool Desocupada => fila.Empty;
 
-        //Cliente al frente de la fila o nada si no hay
+            // 6. el primer cliente
         public Cliente ClienteAlFrente => fila.Empty ? null : fila.Head();
 
-        //Métodos
 
-        //Este cliente puede formarse aqui
-        //Normal: se      Rapida: si es Preference o no excede el limite de articulos
-        public bool PuedeAtender(Cliente c)
+        // método
+        public bool PuedeAtender(Cliente c) // -> valida
         {
-            if (!EsRapida)
+            if (!EsRapida)  // si es caja normal para cualquier cliente
             {
                 return true;
             }
 
+            // si es preferente o sus artículos no exceden el límite
             return c.EsPreference || c.ArticulosTotales <= LimiteArticulos;
         }
 
-        //Forma al cliente al final de la fila
-        public void Formar(Cliente c)
+        public void Formar(Cliente c) // -> ya se forma al final
         {
-            if (Llena)
+            if (Llena) 
             {
                 throw new InvalidOperationException($"La caja {Id} esta llena");
             }
-            c.EntrarAFila();
+            c.EntrarAFila(); // cambia el estado del cliente
             fila.Enqueue(c);
         }
 
-        // Procesa una iteracion de cobro solo se hace a el cliente que ests al frente
-        // Si termina de pagar se saca de la fila >:) y el simulador lo saca del mercado
-        public Cliente ProcesarIteracion()
+        public Cliente ProcesarIteracion() // -> cobra los artículos
         {
-            if (fila.Empty)
+            if (fila.Empty) // comprueba que hay clientes
             {
                 return null;
             }
 
-            Cliente actual = fila.Head();
-            ArticulosProcesados += actual.Cobrar(CapacidadCobro);
+            Cliente actual = fila.Head();   // el primer cliente de la fila
+            ArticulosProcesados += actual.Cobrar(CapacidadCobro);   // llama al método del cliente
 
             if (actual.TerminoDePagar)
             {
-                fila.Dequeue();
+                fila.Dequeue(); // lo borra de la fila y el simulador del mercado
                 ClientesAtendidos++;
                 return actual;
             }
             return null;
         }
 
-        //La otra fumada para sobreescribir
+        // sobreescribir x2
         public override string ToString()
         {
             string tipo = EsRapida ? $"RÁPIDA (max {LimiteArticulos})" : "NORMAL";

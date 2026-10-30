@@ -47,6 +47,7 @@ namespace SimMarket
             contadorEspera = 0;
         }
 
+        // métodos
         public bool Recolectar() //true si termina de recoger todos sus artículos
         {
             if (Estado != EstadoCliente.Comprando) // el cliente debe seguir comprando
