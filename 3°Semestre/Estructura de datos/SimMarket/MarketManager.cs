@@ -13,8 +13,6 @@ public class MarketManager : MonoBehaviour
         [SerializeField] private int numCajas = 5;
         [SerializeField] private int numCajasRapidas = 2;
         [SerializeField] private int limiteRapida = 5;
-        [SerializeField] private int maxClientesPorCaja = 6;
-        [SerializeField] private int iteracionesLlegada = 30;
         [SerializeField] private float segundosPorIteracion = 1f;
 
         [Header("Interfaz")]
@@ -22,18 +20,27 @@ public class MarketManager : MonoBehaviour
 
         [Header("Visuales de las cajas")]
         [SerializeField] private GameObject prefabCaja;
+        [SerializeField] private Sprite imagenCajaNormal;
+        [SerializeField] private Sprite imagenCajaRapida;
         [SerializeField] private float separacionVertical = 1.3f;
         [SerializeField] private float posicionX = -5f;
 
         [Header("Visuales de clientes")]
         [SerializeField] private GameObject prefabCliente;
+        [SerializeField] private Sprite[] imagenesClientesNormales;
+        [SerializeField] private Sprite imagenClientePreference;
         [SerializeField] private Vector2 posicionEntrada = new Vector2(-7f, 0f);
         [SerializeField] private float separacionClientes = 0.6f;
 
         [Header("Navegación")]
         [SerializeField] private NavegacionSupermercado navegacion;
 
+        // Punto donde termina la ruta A* y empieza el recorrido directo.
+        [SerializeField] private Vector2 puntoConexionCajas = new Vector2(-2.5f, 0f);
+
         private readonly HashSet<int> clientesYendoACaja = new();
+        // Clientes que están regresando a la salida para desaparecer.
+        private readonly HashSet<int> clientesAbandonando = new();
         // El índice 0 corresponde al lugar más cercano a la caja.
         private readonly Dictionary<int, List<int>> filasPorCaja = new();
 
@@ -48,22 +55,35 @@ public class MarketManager : MonoBehaviour
 
     private void Start()
         {
-            var config = new SimConfig
+
+        SimConfig config;
+
+        if (ConfiguracionCompartida.ConfiguracionElegida != null)
+        {
+            config = ConfiguracionCompartida.ConfiguracionElegida;
+        }
+        else
+        {
+            config = new SimConfig
             {
                 NumCajas = numCajas,
                 NumCajasRapidas = numCajasRapidas,
-                LimiteArticulosRapida = limiteRapida,
-                MaxClientesPorCaja = maxClientesPorCaja,
-                IteracionesLlegada = iteracionesLlegada
+                LimiteArticulosRapida = limiteRapida
             };
-            sim = new Simulador(config);
-            CrearCajasVisuales();
+        }
+
+        sim = new Simulador(config);
+        Debug.Log("Cajas configuradas: " + config.NumCajas);
+        Debug.Log("Cajas rápidas: " + config.NumCajasRapidas);
+        Debug.Log("Límite de artículos: " + config.LimiteArticulosRapida);
+
+        CrearCajasVisuales();
 
         //Conrola clientes
             sim.ClienteLlego += CrearClienteVisual;
             sim.ClienteSeFormo += FormarClienteVisual;
             sim.ClienteSalio += RetirarClienteVisual;
-            sim.ClienteAbandono += RetirarClienteAbandonoVisual;
+            sim.ClienteAbandono += RetirarClienteAbandonadoVisual;
     }
 
 
@@ -93,18 +113,20 @@ public class MarketManager : MonoBehaviour
 
     public void SiguienteIteracion()
     {
+        if (sim == null || sim.Terminada)
+        {
+            automatico = false;
+            return;
+        }
+
         // Evita avanzar mientras los clientes se están moviendo.
-        if (esperandoMovimiento || sim.Terminada)
+        if (esperandoMovimiento)
             return;
 
         esperandoMovimiento = true;
 
         sim.EjecutarIteracion();
         ActualizarPanel();
-
-        // Cuando la simulación termina se detiene el modo automático
-        if (sim.Terminada)
-            automatico = false;
 
         StartCoroutine(EsperarMovimiento());
     }
@@ -119,10 +141,9 @@ public class MarketManager : MonoBehaviour
             $"Iteración: {sim.Iteracion}\n" +
             $"Clientes en tienda: {sim.ClientesEnTienda}\n" +
             $"Clientes comprando: {sim.ClientesComprando}\n" +
-            $"Clientes en filas: {sim.ClientesEnFilas}\n" +
+            $"Clientes en fila: {sim.ClientesEnFilas}\n" +
             $"Clientes atendidos: {sim.TotalAtendidos}\n" +
-            $"Clientes que abandonaron: {sim.ClientesAbandonaron}" +
-            (sim.Terminada ? "\nSimulación terminada" : "");
+            $"Clientes que abandonaron: {sim.ClientesAbandonaron}";
 
         Debug.Log($"Iter {sim.Iteracion} | comprando {sim.ClientesComprando} | filas {sim.ClientesEnFilas} | atendidos {sim.TotalAtendidos}");
 
@@ -154,7 +175,7 @@ public class MarketManager : MonoBehaviour
             //Para el texto de las cajas
             GameObject etiqueta = new GameObject("Etiqueta");
             etiqueta.transform.SetParent(visual.transform, false);
-            etiqueta.transform.localPosition = Vector3.zero;
+            etiqueta.transform.localPosition = new Vector3(0f, -0.11f, 0f);
             etiqueta.transform.localScale = new Vector3(1f / visual.transform.localScale.x,1f / visual.transform.localScale.y,1f / visual.transform.localScale.z);
 
 
@@ -171,7 +192,17 @@ public class MarketManager : MonoBehaviour
 
             if (sprite != null)
             {
-                sprite.color = caja.EsRapida? new Color(0.3f, 0.8f, 0.5f): new Color(0.3f, 0.55f, 0.9f);
+                if (caja.EsRapida)
+                {
+                    sprite.sprite = imagenCajaRapida;
+                }
+                else
+                {
+                    sprite.sprite = imagenCajaNormal;
+                }
+
+                // Conservamos los colores originales de las imágenes.
+                sprite.color = Color.white;
             }
         }
     }
@@ -206,6 +237,17 @@ public class MarketManager : MonoBehaviour
     private void CrearClienteVisual(Cliente cliente)
     {
         GameObject visual = Instantiate(prefabCliente,new Vector3(posicionEntrada.x, posicionEntrada.y, 0f),Quaternion.identity);
+        // Añadimos el componente que permite seleccionar al cliente.
+        ClienteSeleccionable seleccionable =
+            visual.GetComponent<ClienteSeleccionable>();
+
+        if (seleccionable == null)
+        {
+            seleccionable = visual.AddComponent<ClienteSeleccionable>();
+        }
+
+        // Asociamos el objeto visual con su cliente real de SimMarket.
+        seleccionable.Configurar(cliente);
 
         visual.name = $"ClienteVisual_{cliente.Id}";
         clientesVisuales[cliente.Id] = visual;
@@ -217,12 +259,36 @@ public class MarketManager : MonoBehaviour
             movimiento.IniciarExploracion(navegacion);
         }
 
-        SpriteRenderer sprite = visual.GetComponent<SpriteRenderer>();
 
-        if (sprite != null && cliente.EsPreference)
+
+        SpriteRenderer sprite = visual.GetComponentInChildren<SpriteRenderer>();
+
+        if (sprite != null)
         {
-            sprite.color = Color.yellow;
+            if (cliente.EsPreference)
+            {
+                // Los clientes Preference siempre usan su imagen.
+                sprite.sprite = imagenClientePreference;
+            }
+            else
+            {
+                // Elegimos una imagen aleatoria para los clientes normales.
+                if (imagenesClientesNormales.Length > 0)
+                {
+                    int indiceAleatorio = Random.Range(
+                        0,
+                        imagenesClientesNormales.Length
+                    );
+
+                    sprite.sprite = imagenesClientesNormales[indiceAleatorio];
+                }
+            }
+
+            // Conservamos los colores originales de las imágenes.
+            sprite.color = Color.white;
         }
+
+
     }
 
 
@@ -251,13 +317,13 @@ public class MarketManager : MonoBehaviour
 
         Vector3 posicionCaja = visualesCajas[indiceCaja].position;
 
-        Vector2 destino = posicionCaja + new Vector3(1.7f + posicionEnFila * separacionClientes,0f,0f);
+        Vector2 destino = posicionCaja + new Vector3(3f + posicionEnFila * separacionClientes,-0.5f,0f);
 
         ClienteMovimiento movimiento = visual.GetComponent<ClienteMovimiento>();
 
         if (movimiento != null)
         {
-            movimiento.IrA(destino);
+            movimiento.IrACola(destino, puntoConexionCajas);
             clientesYendoACaja.Add(cliente.Id);
         }
     }
@@ -292,9 +358,9 @@ public class MarketManager : MonoBehaviour
                 continue;
 
             // Cada cliente avanza al lugar que le corresponde
-            Vector2 destino = posicionCaja + new Vector3(1.7f + i * separacionClientes,0f, 0f );
+            Vector2 destino = posicionCaja + new Vector3(3f + i * separacionClientes,-0.5f, 0f );
 
-            movimiento.IrA(destino);
+            movimiento.IrACola(destino, puntoConexionCajas);
             clientesYendoACaja.Add(idCliente);
         }
     }
@@ -324,37 +390,59 @@ public class MarketManager : MonoBehaviour
     }
 
 
-    private void RetirarClienteAbandonoVisual(Cliente cliente)
-    {
-        // El cliente se fue sin comprar: solo se quita su visual
-        if (clientesVisuales.TryGetValue(cliente.Id, out GameObject visual))
-        {
-            if (visual != null)
-                Destroy(visual);
-
-            clientesVisuales.Remove(cliente.Id);
-        }
-
-        clientesYendoACaja.Remove(cliente.Id);
-    }
-
 
     private void MoverClientesVisuales()
     {
+        // Guardamos los clientes que llegaron para eliminarlos
+        // después del recorrido del diccionario.
+        List<int> clientesQueLlegaron = new List<int>();
+
         foreach (var par in clientesVisuales)
         {
             if (par.Value == null)
+            {
+                if (clientesAbandonando.Contains(par.Key))
+                    clientesQueLlegaron.Add(par.Key);
+
                 continue;
+            }
 
             ClienteMovimiento movimiento =
                 par.Value.GetComponent<ClienteMovimiento>();
 
-            if (movimiento != null)
+            if (movimiento == null)
+                continue;
+
+            movimiento.ActualizarExploracion();
+
+            // Solo eliminamos a los clientes que abandonaron
+            // y terminaron de regresar a la salida.
+            if (clientesAbandonando.Contains(par.Key) &&
+                !movimiento.EstaMoviendose)
             {
-                movimiento.ActualizarExploracion();
+                clientesQueLlegaron.Add(par.Key);
             }
         }
+
+        // Eliminamos los objetos después del foreach para
+        // evitar modificar el diccionario mientras lo recorremos.
+        foreach (int id in clientesQueLlegaron)
+        {
+            if (clientesVisuales.TryGetValue(id, out GameObject visual))
+            {
+                if (visual != null)
+                    Destroy(visual);
+
+                clientesVisuales.Remove(id);
+            }
+
+            // Quitamos al cliente de los registros de movimiento
+            // cuando ya llegó a la salida.
+            clientesAbandonando.Remove(id);
+            clientesYendoACaja.Remove(id);
+        }
     }
+
 
     private IEnumerator EsperarMovimiento()
     {
@@ -365,6 +453,15 @@ public class MarketManager : MonoBehaviour
 
         clientesYendoACaja.Clear();
         esperandoMovimiento = false;
+
+        // Si ya no quedan clientes y terminaron las llegadas,
+        // detenemos la reproducción automática.
+        if (sim.Terminada)
+        {
+            automatico = false;
+            ActualizarPanel();
+            Debug.Log("La simulación terminó.");
+        }
     }
 
     private bool HayClientesEnMovimiento()
@@ -387,5 +484,51 @@ public class MarketManager : MonoBehaviour
     }
 
 
+    private void RetirarClienteAbandonadoVisual(Cliente cliente)
+    {
+        // Buscamos el objeto visual del cliente.
+        if (!clientesVisuales.TryGetValue(cliente.Id, out GameObject visual))
+            return;
+
+        if (visual == null)
+        {
+            clientesVisuales.Remove(cliente.Id);
+            return;
+        }
+
+        // Lo mantenemos registrado para que la simulación
+        // espere hasta que llegue a la salida.
+        clientesYendoACaja.Add(cliente.Id);
+
+        // Marcamos al cliente para eliminarlo cuando llegue a la salida.
+        clientesAbandonando.Add(cliente.Id);
+
+        ClienteMovimiento movimiento =
+            visual.GetComponent<ClienteMovimiento>();
+
+        if (movimiento != null)
+        {
+            if (navegacion != null)
+            {
+                movimiento.IrA(posicionEntrada);
+            }
+            else
+            {
+                movimiento.IrDirectoA(posicionEntrada);
+            }
+        }
+        else
+        {
+            // Si no tiene el componente de movimiento, lo eliminamos.
+            clientesAbandonando.Remove(cliente.Id);
+            clientesYendoACaja.Remove(cliente.Id);
+            clientesVisuales.Remove(cliente.Id);
+            Destroy(visual);
+        }
+    }
+
+
+
 }
+
 */
