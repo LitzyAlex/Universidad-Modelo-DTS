@@ -216,6 +216,11 @@ namespace ListDev
         //9 All -> Aili
         public bool All(Predicate<T> condition)
         {
+            if (Empty)
+            {
+                return false;
+            }
+
             //empieza en first y avanza con next hasta el último (null)
             for (var e = first; e != null; e = e.Next)
             {
