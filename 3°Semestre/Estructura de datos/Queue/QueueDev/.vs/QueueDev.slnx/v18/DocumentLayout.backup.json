@@ -36,7 +36,7 @@
               "RelativeDocumentMoniker": "ArrayQueue.cs",
               "ToolTip": "C:\\Users\\Tayde\\OneDrive\\Desktop\\aili\\sem3\\GitHub\\3\u00B0Semestre\\Estructura de datos\\Queue\\QueueDev\\ArrayQueue.cs",
               "RelativeToolTip": "ArrayQueue.cs",
-              "ViewState": "AgIAAFAAAAAAAAAAAAAmwHIAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAADwAAAAAAAAAAAAiwGEAAABKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-09-04T01:48:00.387Z",
               "EditorCaption": ""
@@ -51,8 +51,7 @@
               "RelativeToolTip": "StatickQueue.cs",
               "ViewState": "AgIAACMAAAAAAAAAAAAuwDwAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-31T20:26:21.018Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-31T20:26:21.018Z"
             },
             {
               "$type": "Document",
@@ -64,8 +63,7 @@
               "RelativeToolTip": "IQueue.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-31T20:24:25.363Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-31T20:24:25.363Z"
             },
             {
               "$type": "Document",
@@ -77,8 +75,7 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAHEAAAAAAAAAAAAgwCEAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-31T20:21:16.159Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-31T20:21:16.159Z"
             }
           ]
         }
