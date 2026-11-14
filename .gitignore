@@ -1,3 +1,23 @@
+
 .vs/
 bin/
 obj/
+
+# Unity - archivos generados
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[ Rr]ecordings/
+
+# IDEs
+.idea/
+.vscode/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
