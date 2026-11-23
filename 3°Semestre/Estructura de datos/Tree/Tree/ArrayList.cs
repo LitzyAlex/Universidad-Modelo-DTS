@@ -230,6 +230,23 @@ namespace ListDev
             }
         }
 
+        //Nueva implementacion
+        public void SetAt(int index, T element)
+        {
+            while (index >= Capacity)
+            {
+                Capacity *= 2;
+                Array.Resize(ref data, Capacity);
+            }
+
+            data[index] = element;
+
+            if (index > this.index)
+            {
+                this.index = index;
+            }
+        }
+
 
     }
 }

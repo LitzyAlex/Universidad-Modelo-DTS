@@ -8,10 +8,10 @@ class Program
     {
         LinkedBinaryTree<int> tree = new LinkedBinaryTree<int>();
 
-        WriteLine("Prueba del arbol binairo");
+        WriteLine("PRUEBAS DEL ÁRBOL BINARIO");
         WriteLine("\n**AddRoot**");
 
-        var root =tree.AddRoot(1);
+        var root = tree.AddRoot(1);
 
         WriteLine("Root: " + root.Element);
         WriteLine("Size: " + tree.Size);
@@ -47,7 +47,7 @@ class Program
         WriteLine("3 tiene izuierda?: " + tree.HasLeft(right));
         WriteLine("3 tiene derecha?: " + tree.HasRight(right));
 
-        WriteLine("\n**Countcgildren**");
+        WriteLine("\n**Countchildren**");
 
         WriteLine("Hijos de 1: " + tree.GetChildrenCount(root));
 
@@ -83,6 +83,7 @@ class Program
 
         WriteLine("El padre de 4 es ahora: " + tree.GetParent(leftLeft).Element);
 
+        /*
         WriteLine("\n**Eliminar raiz**");
 
         tree.Remove(right);
@@ -104,5 +105,36 @@ class Program
 
         WriteLine("Nueva raiz: " + newRoot.Element);
         WriteLine("Size: " + tree.Size);
+        */
+
+        WriteLine("\nPRUEBAS DE RECORRIDOS");
+
+        WriteLine($"¿El árbol está vacío? {tree.Empty}");
+        WriteLine($"Cantidad de nodos: {tree.Size}");
+        WriteLine($"Raíz: {tree.Root?.Element}");
+
+        WriteLine("\n****Preorder****");
+        tree.TraversalOrder = TreeTraversalOrder.Preorder;
+
+        foreach (var node in tree.GetNodes())
+        {
+            WriteLine(node.Element);
+        }
+
+        WriteLine("\n****Postorder****");
+        tree.TraversalOrder = TreeTraversalOrder.Postorder;
+
+        foreach (var node in tree.GetNodes())
+        {
+            WriteLine(node.Element);
+        }
+
+        WriteLine("\n****BreadthFirst****");
+        tree.TraversalOrder = TreeTraversalOrder.BreadthFirst;
+
+        foreach (var node in tree.GetNodes())
+        {
+            WriteLine(node.Element);
+        }
     }
 }

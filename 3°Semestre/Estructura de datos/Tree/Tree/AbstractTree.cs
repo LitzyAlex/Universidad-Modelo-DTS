@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ListDev;
 
 namespace DTSLib
 {
@@ -80,17 +82,60 @@ namespace DTSLib
 
         protected virtual IEnumerable<Node<T>> Preorder(Node<T> root)
         {
-            throw new NotImplementedException();
+            if (root == null)   // hay un nodo válido?
+            {
+                yield break;
+            }
+
+            yield return root;  // devuelve el nodo actual
+
+            foreach (var child in GetChildren(root))   // recursivo y devuelve todos los hijos
+            {
+                foreach (var child2 in Preorder(child)) // recorrde todos los hijos de cada hijo
+                {
+                    yield return child2;
+                }
+            }
         }
 
         protected virtual IEnumerable<Node<T>> Postorder(Node<T> root)
         {
-            throw new NotImplementedException();
+            if (root == null)
+            {
+                yield break;
+            }
+
+            foreach (var child in GetChildren(root))   // recursivo y devuelve todos los hijos
+            {
+                foreach (var child2 in Postorder(child)) // recorrde todos los hijos de cada hijo
+                {
+                    yield return child2;
+                }
+            }
+
+            yield return root;  // devuelve el nodo actual
         }
 
         protected virtual IEnumerable<Node<T>> BreadthFirst(Node<T> root)
         {
-            throw new NotImplementedException();
+            if (root == null)
+            {
+                yield break;
+            }
+
+            ArrayList<Node<T>> niveles = new ArrayList<Node<T>>();  // lista para guardar los nodos de cada nivel
+            niveles.Add(root);  // agrega la raíz a la lista
+
+            for (int i = 0; i < niveles.Size; i++) // mientras i sea menor a la cantidad de nodos en la lista
+            {
+                Node<T> current = niveles.Get(i);   // devuelve el nodo que se está procesando en la iteración
+                yield return current;
+
+                foreach (var child in GetChildren(current)) // recorre los hijos del nodo actual
+                {
+                    niveles.Add(child); // los añade a la lista
+                }
+            }
         }
 
         public void ForEach(Action<T> action)
