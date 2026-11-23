@@ -36,5 +36,29 @@ namespace DTSLib
                 yield return right;
             }
         }
+
+        // In-order
+        // Subarbol izquierdo, raiz, subarbol derecho
+        protected override IEnumerable<Node<T>> InOrder(Node<T> root)
+        {
+            if (root == null)
+            {
+                yield break; // Pues no hay nadota bro, go back.
+            }
+
+            // Por cada nodo izquierodo (marcando el actual como root) 
+            foreach (var node in InOrder(GetLeft(root)))
+            {
+                yield return node; // Regresamos cada nodo 
+            }
+
+            yield return root; // Cuando acabe retornamos el nodo root. (Regresamos)
+
+            // Por cada nodo dercho (marcando el actual como root)
+            foreach (var node in InOrder(GetRight(root)))
+            {
+                yield return node; // Regresamos cada nodo.
+            }
+        }
     }
 }

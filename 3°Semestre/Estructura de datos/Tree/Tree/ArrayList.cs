@@ -7,7 +7,7 @@ using System.Collections;
 
 namespace ListDev
 {
-	internal class ArrayList<T> : IList<T>
+	public class ArrayList<T> : IList<T>
     {
         //Atributos y propiedad
 		public const int INICIAL_CAPACITY = 10;

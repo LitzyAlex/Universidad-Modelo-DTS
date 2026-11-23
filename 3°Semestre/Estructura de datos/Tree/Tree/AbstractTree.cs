@@ -73,6 +73,10 @@ namespace DTSLib
                     foreach (var node in BreadthFirst(Root))
                         yield return node;
                     break;
+                case TreeTraversalOrder.InOrder:
+                    foreach (var node in InOrder(Root))
+                        yield return node;
+                    break;
 
                 default:
                     throw new NotSupportedException(
@@ -114,6 +118,12 @@ namespace DTSLib
             }
 
             yield return root;  // devuelve el nodo actual
+        }
+
+        // In-order solo tiene sentido en arboles binarios.
+        protected virtual IEnumerable<Node<T>> InOrder(Node<T> root)
+        {
+            throw new NotSupportedException("In-order solo aplica a arboles binarios.");
         }
 
         protected virtual IEnumerable<Node<T>> BreadthFirst(Node<T> root)

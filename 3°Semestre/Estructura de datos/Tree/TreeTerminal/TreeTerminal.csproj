@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <RootNamespace>TreeTerminal</RootNamespace>
+  </PropertyGroup>
+
+  <!-- Clases del curso (carpeta ../Tree), enlazadas sin copiarlas ni modificarlas -->
+  <ItemGroup>
+    <Compile Include="../Tree/AbstractTree.cs" Link="Original/AbstractTree.cs" />
+    <Compile Include="../Tree/AbstractBinaryTree.cs" Link="Original/AbstractBinaryTree.cs" />
+    <Compile Include="../Tree/IBinaryTree.cs" Link="Original/IBinaryTree.cs" />
+    <Compile Include="../Tree/ITree.cs" Link="Original/ITree.cs" />
+    <Compile Include="../Tree/LinkedBinaryTree.cs" Link="Original/LinkedBinaryTree.cs" />
+    <Compile Include="../Tree/Node.cs" Link="Original/Node.cs" />
+    <Compile Include="../Tree/TreeSort.cs" Link="Original/TreeSort.cs" />
+    <Compile Include="../Tree/TreeTraversalOrder.cs" Link="Original/TreeTraversalOrder.cs" />
+    <Compile Include="../Tree/ArrayList.cs" Link="Original/ArrayList.cs" />
+    <Compile Include="../Tree/IList.cs" Link="Original/IList.cs" />
+  </ItemGroup>
+
+</Project>
